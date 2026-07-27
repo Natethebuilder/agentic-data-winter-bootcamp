@@ -2,7 +2,7 @@ import { BottomBar, Editable, Slide } from '@deckio/deck-engine'
 import styles from './TimetableSlide.module.css'
 
 const WEEKS = [
-  { id: 'w1', week: 'Week 1', date: 'Jul 31' },
+  { id: 'w1', week: 'Week 1', date: 'Jul 31', full: true },
   { id: 'w2', week: 'Week 2', date: 'Aug 7' },
   { id: 'w3', week: 'Week 3', date: 'Aug 14' },
   { id: 'w4', week: 'Week 4', date: 'Aug 21' },
@@ -37,10 +37,11 @@ export default function TimetableSlide({ index, project }) {
 
         <div className={styles.calendar}>
           {WEEKS.map((w) => (
-            <div key={w.id} className={styles.day}>
+            <div key={w.id} className={`${styles.day} ${w.full ? styles.dayFull : ''}`}>
               <div className={styles.dayHead}>
                 <Editable as="span" id={`timetable.days.${w.id}.week`} className={styles.week}>{w.week}</Editable>
                 <Editable as="span" id={`timetable.days.${w.id}.date`} className={styles.date}>{w.date}</Editable>
+                {w.full && <span className={styles.fullBadge}>Full</span>}
               </div>
               <ul className={styles.sessions}>
                 {SESSIONS.map((s, i) => (
