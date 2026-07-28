@@ -38,7 +38,7 @@ export default function SetupSlide({ index, project }) {
             <span className={styles.icon}>☁️</span>
             <Editable as="h3" id="setup.items.envs.title">Environments</Editable>
             <Editable as="p" id="setup.items.envs.desc">
-              For Data &amp; Infra and Cloud &amp; SRE sessions you'll get GitHub Enterprise and/or Azure access. Details follow by email after registration.
+              Parts of the Data &amp; Infra and Cloud &amp; SRE sessions may use Azure environments. These will be presenter-led with no hands-on for attendees.
             </Editable>
           </div>
 
