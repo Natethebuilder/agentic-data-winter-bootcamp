@@ -22,7 +22,7 @@ export default function SetupSlide({ index, project }) {
             <span className={styles.icon}>🔑</span>
             <Editable as="h3" id="setup.items.licenses.title">Copilot licenses</Editable>
             <Editable as="p" id="setup.items.licenses.desc">
-              We provide GitHub Copilot licenses. They link only to a personal GitHub.com username — we collect it in the registration form. You can use your own license too, but for the Data &amp; Infra and Cloud &amp; SRE sessions you'll need to use ours.
+              We provide GitHub Copilot licenses. They link only to a personal GitHub.com username — we collect it in the registration form.
             </Editable>
           </div>
 
