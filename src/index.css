@@ -250,3 +250,26 @@ button[title="Back to home"] { top: 36px !important; }
 }
 
 [class*="exportGroup"] { top: 36px !important; }
+
+/* ── Deck on phones: portrait + short landscape ───────────────────────── */
+@media (max-width: 760px), (max-height: 500px) {
+  .deck { --content-gutter: 20px; }
+  .floating-copilot,
+  [class*="keyHint"],
+  [class*="exportGroup"],
+  button[title="Back to home"] { display: none !important; }
+  .deck-chrome { top: 34px; left: 12px; gap: 8px; opacity: 0.9; }
+  .deck-home-link { padding: 6px 12px; font-size: 12px; }
+  .deck-chrome .snow-toggle-label { display: none; }
+  [class*="_navBtn_"] {
+    top: auto !important;
+    bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+    transform: none !important;
+    width: 44px; height: 44px;
+    opacity: 0.85;
+    background: color-mix(in srgb, var(--card) 82%, transparent);
+  }
+  [class*="_prev_"] { left: 14px !important; }
+  [class*="_next_"] { right: 14px !important; }
+  .slide > [class^="_bar_"], .slide-overflow-warn { display: none; }
+}

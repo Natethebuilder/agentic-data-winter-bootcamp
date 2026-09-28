@@ -169,7 +169,7 @@ export function Gift({ session, i }) {
       </span>
       <span className={s.giftWrap} aria-hidden="true">
         <span className={`${s.paper} ${s.paperL} ${color}`}>
-          <span className={s.giftLabel}>Session {session.number}</span>
+          <span className={s.giftLabel}><span className={s.giftLabelWord}>Session </span>{session.number}</span>
         </span>
         <span className={`${s.paper} ${s.paperR} ${color}`}>
           <span className={s.giftHint}>Reveal topic</span>

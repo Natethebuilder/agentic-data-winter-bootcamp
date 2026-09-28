@@ -161,6 +161,20 @@
   .flowDetail { grid-template-columns: 1fr; gap: 12px; }
   .cdNum { font-size: 24px; }
 }
+@media (max-width: 600px) {
+  .countdown { padding: 14px 14px 12px; }
+  .cdHead { font-size: 11px; gap: 8px; }
+  .status { white-space: nowrap; font-size: 10px; letter-spacing: 0.6px; padding: 3px 8px; }
+  .cdDigits { gap: 6px; }
+  .cdNum { font-size: 22px; }
+  .terminal { font-size: 12px; }
+  .termBody { min-height: 250px; padding: 14px 14px 16px; }
+  .qCode { font-size: 12.5px; padding: 14px; }
+  .qGrid { font-size: 13px; }
+  .qGrid th, .qGrid td { padding: 9px 12px; }
+  .qGrid th:nth-child(2), .qGrid td:nth-child(2) { display: none; }
+  .qFoot { padding: 10px 14px; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .edge, .agentLineOn, .status i, .cdPending, .caret, .spinner, .qProgressOn::after { animation: none; }
