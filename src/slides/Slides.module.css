@@ -295,10 +295,6 @@
   15% { opacity: 1; }
   100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(var(--r)) scale(1); }
 }
-@media (prefers-reduced-motion: reduce) {
-  .giftContent, .paper, .ribbonV, .ribbonH, .lid, .giftWrap { transition: none !important; }
-  .giftOpen .giftWrap, .giftOpen .confetti i { animation: none; }
-}
 .tag {
   font-size: 11px;
   font-weight: 700;
@@ -460,7 +456,10 @@
 
 /* Gift boxes are shared with the website, so size them for narrow screens here */
 @media (max-width: 760px) {
-  .gift { min-height: 118px; }
+  .gift { min-height: 140px; }
+  .giftTitle { line-height: 1.25; }
+  .giftMeta { gap: 5px; }
+  .giftContent .tag { font-size: 10px; padding: 2px 7px; white-space: nowrap; }
   .giftHint { display: none; }
   .giftLabel { left: 10px; bottom: 10px; font-size: 11px; letter-spacing: 0.6px; white-space: nowrap; }
   .giftLabelWord { display: none; }
@@ -468,4 +467,15 @@
   .giftContent { padding: 12px 14px; gap: 6px; }
   .giftTitle { font-size: 15px; }
   .bow { width: 48px; }
+}
+
+/* Touch screens: press feedback instead of sticky hover */
+@media (hover: none) {
+  .card:hover { transform: none; border-color: var(--border); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35); }
+  .card:active { transform: translateY(-3px) scale(0.99); border-color: color-mix(in srgb, var(--ice) 55%, transparent); transition-duration: 0.1s; }
+  .gift { -webkit-tap-highlight-color: transparent; }
+  .gift:hover .giftWrap { transform: none; }
+  .gift:active .giftWrap { transform: scale(0.95) rotate(-1.5deg); transition-duration: 0.1s; }
+  .door:hover { transform: none; border-color: color-mix(in srgb, var(--ice) 35%, transparent); border-style: dashed; }
+  .door:active { transform: translateY(-3px) rotate(-1deg); border-color: var(--ice); border-style: solid; }
 }

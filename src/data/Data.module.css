@@ -176,7 +176,3 @@
   .qFoot { padding: 10px 14px; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .edge, .agentLineOn, .status i, .cdPending, .caret, .spinner, .qProgressOn::after { animation: none; }
-  .termLines li, .qGrid tbody tr { animation: none; }
-}

@@ -161,9 +161,6 @@ html[data-export-mode="capture"] .deck-lights { display: none; }
 }
 html[data-export-mode="capture"] .bulb,
 html[data-export-mode="capture"] .slide .bulb-new { animation: none !important; }
-@media (prefers-reduced-motion: reduce) {
-  .deck-lights .bulb-new, .deck-lights.lights-complete .bulb { animation: none; }
-}
 .deck ~ * [class*="progressTrack"], [class*="navWrapper"] > [class*="progressTrack"] { display: none; }
 
 /* ── Mascots with Santa hats ──────────────────────────────────────────── */
@@ -245,9 +242,6 @@ button[title="Back to home"] { top: 36px !important; }
 }
 .deck-home-link:hover { border-color: var(--ice); }
 
-@media (prefers-reduced-motion: reduce) {
-  .bulb, .floating-copilot { animation: none; }
-}
 
 [class*="exportGroup"] { top: 36px !important; }
 

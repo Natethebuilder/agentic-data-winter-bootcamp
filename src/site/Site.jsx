@@ -30,7 +30,19 @@ function useReveal(rootRef) {
       { root, threshold: 0.12 },
     )
     els.forEach((el) => io.observe(el))
-    return () => io.disconnect()
+
+    // Items pop in as they scroll into view; long single-column phone sections otherwise feel static
+    const items = root.querySelectorAll(`.${s.grid} > *, .${s.checkItem}, .${s.faqItem}, .${s.personaBox}, .${s.flow}`)
+    const itemIo = new IntersectionObserver((entries) => {
+      entries.filter((e) => e.isIntersecting).forEach((e, k) => {
+        e.target.style.setProperty('--i', k)
+        e.target.classList.add(s.popIn)
+        itemIo.unobserve(e.target)
+      })
+    }, { root, threshold: 0.15, rootMargin: '0px 0px -6% 0px' })
+    items.forEach((el) => { el.classList.add(s.pop); itemIo.observe(el) })
+
+    return () => { io.disconnect(); itemIo.disconnect() }
   }, [rootRef])
 }
 

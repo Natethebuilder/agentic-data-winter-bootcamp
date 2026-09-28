@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 
-const STORAGE_KEY = 'winter-bootcamp:snow'
+const STORAGE_KEY = 'winter-bootcamp:snow-v2'
 
 export function useSnowPreference() {
   const [enabled, setEnabled] = useState(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY)
       if (stored !== null) return stored === 'on'
-      return !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      return true
     } catch {
       return true
     }

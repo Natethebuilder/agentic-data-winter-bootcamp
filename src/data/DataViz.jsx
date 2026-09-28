@@ -4,10 +4,6 @@ import d from './Data.module.css'
 
 const BASE = import.meta.env.BASE_URL
 
-function prefersReducedMotion() {
-  return typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
-}
-
 /* ── Countdown to the first session, styled as a scheduled pipeline run ── */
 export function Countdown({ target, className = '' }) {
   const t = target ? new Date(target).getTime() : null
@@ -56,18 +52,16 @@ export function Countdown({ target, className = '' }) {
 /* ── Copilot CLI terminal that types a data engineering request ── */
 export function AgentTerminal({ className = '', children }) {
   const { prompt, lines } = TERMINAL_SCRIPT
-  const reduce = prefersReducedMotion()
-  const [chars, setChars] = useState(reduce ? prompt.length : 0)
-  const [shown, setShown] = useState(reduce ? lines.length : 0)
+  const [chars, setChars] = useState(0)
+  const [shown, setShown] = useState(0)
 
   useEffect(() => {
-    if (reduce) return undefined
     let id
     if (chars < prompt.length) id = setTimeout(() => setChars((c) => c + 1), 24)
     else if (shown < lines.length) id = setTimeout(() => setShown((n) => n + 1), shown === 0 ? 700 : 520)
     else id = setTimeout(() => { setChars(0); setShown(0) }, 5200)
     return () => clearTimeout(id)
-  }, [chars, shown, prompt.length, lines.length, reduce])
+  }, [chars, shown, prompt.length, lines.length])
 
   const typing = chars < prompt.length
   const working = !typing && shown < lines.length
@@ -116,7 +110,7 @@ export function MedallionFlow({ compact = false, className = '' }) {
   const [active, setActive] = useState(0)
   const [auto, setAuto] = useState(true)
   useEffect(() => {
-    if (!auto || prefersReducedMotion()) return undefined
+    if (!auto) return undefined
     const id = setInterval(() => setActive((a) => (a + 1) % PIPELINE.length), 3200)
     return () => clearInterval(id)
   }, [auto])
@@ -226,7 +220,7 @@ export function ScheduleQuery() {
       setLoading(false)
       setRun((r) => r + 1)
       setMs(18 + Math.floor(Math.random() * 40))
-    }, prefersReducedMotion() ? 0 : 650)
+    }, 650)
   }
 
   useEffect(() => {
