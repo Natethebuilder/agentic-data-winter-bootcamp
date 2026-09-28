@@ -7,7 +7,6 @@
   scroll-padding-top: 90px;
 }
 
-.lights { position: absolute; top: 0; left: 0; right: 0; z-index: 210; }
 
 /* ── Nav ── */
 .nav {
@@ -18,7 +17,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  padding: 30px clamp(20px, 4vw, 56px) 14px;
+  padding: 16px clamp(20px, 4vw, 56px) 14px;
   transition: background 0.3s, border-color 0.3s;
   border-bottom: 1px solid transparent;
 }

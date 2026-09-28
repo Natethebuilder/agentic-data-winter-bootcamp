@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { ChristmasLights, Logos, Mascot, Snowflake } from '../winter/Decor.jsx'
+import { Logos, Mascot, Snowflake } from '../winter/Decor.jsx'
 import { SnowToggle } from '../winter/Snowfall.jsx'
 import { Gift } from '../slides/WinterSlides.jsx'
 import { AgentTerminal, Countdown, ScheduleQuery } from '../data/DataViz.jsx'
@@ -153,7 +153,6 @@ export default function Site({ snow, onToggleSnow }) {
 
   return (
     <div className={s.site} ref={rootRef} onScroll={(e) => setScrolled(e.currentTarget.scrollTop > 40)}>
-      <ChristmasLights count={36} className={s.lights} />
 
       <header className={`${s.nav} ${scrolled ? s.navScrolled : ''}`}>
         <button type="button" className={s.brand} onClick={() => go('top')}>
