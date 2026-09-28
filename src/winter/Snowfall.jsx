@@ -51,11 +51,11 @@ export default function Snowfall({ enabled = true, density = 1 }) {
     const spawn = (anywhere) => ({
       x: Math.random() * width,
       y: anywhere ? Math.random() * height : -10,
-      r: 0.6 + Math.random() * 1.6,
-      vy: 0.25 + Math.random() * 0.7,
+      r: 0.7 + Math.random() * 2.2,
+      vy: 0.3 + Math.random() * 0.9,
       vx: -0.3 + Math.random() * 0.6,
       phase: Math.random() * Math.PI * 2,
-      alpha: 0.2 + Math.random() * 0.4,
+      alpha: 0.3 + Math.random() * 0.5,
     })
 
     const resize = () => {
@@ -67,7 +67,7 @@ export default function Snowfall({ enabled = true, density = 1 }) {
       canvas.style.width = `${width}px`
       canvas.style.height = `${height}px`
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
-      const count = Math.round(Math.min(70, (width * height) / 26000) * density)
+      const count = Math.round(Math.min(115, (width * height) / 16500) * density)
       flakes = Array.from({ length: count }, () => spawn(true))
     }
 

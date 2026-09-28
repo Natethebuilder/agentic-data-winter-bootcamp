@@ -158,8 +158,8 @@ export default function Site({ snow, onToggleSnow }) {
 
       <header className={`${s.nav} ${scrolled ? s.navScrolled : ''}`}>
         <button type="button" className={s.brand} onClick={() => go('top')}>
-          <Snowflake className={s.brandFlake} />
-          <span>Winter Bootcamp</span>
+          <span className={s.brandMark}><Snowflake className={s.brandFlake} /></span>
+          <span className={s.brandText}><small>Agentic Data</small><strong>Winter Bootcamp</strong></span>
         </button>
         <nav className={s.navLinks} aria-label="Sections">
           {NAV.map(([id, label]) => (
