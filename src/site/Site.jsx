@@ -16,6 +16,7 @@ const NAV = [
   ['toolbox', 'Toolbox'],
   ['prepare', 'Get ready'],
   ['faq', 'FAQ'],
+  ['join', 'Join'],
 ]
 
 const PREP_KEY = 'winter-bootcamp:prep'
@@ -34,17 +35,35 @@ function useReveal(rootRef) {
   }, [rootRef])
 }
 
+// Each section is a self-contained, full-height panel so it reads on its own.
 function Section({ id, idx, eyebrow, title, subtitle, children }) {
   return (
-    <section id={id} className={`${s.section} ${s.reveal}`}>
-      <div className={s.sectionHead}>
-        <p className={s.eyebrow}><span className={s.eyebrowIdx}>{idx}</span>{eyebrow}</p>
-        <h2>{title}</h2>
-        {subtitle && <p className={s.lead}>{subtitle}</p>}
+    <section id={id} className={s.panel} data-panel>
+      <div className={`${s.section} ${s.reveal}`}>
+        <div className={s.sectionHead}>
+          <p className={s.eyebrow}><span className={s.eyebrowIdx}>{idx}</span>{eyebrow}</p>
+          <h2>{title}</h2>
+          {subtitle && <p className={s.lead}>{subtitle}</p>}
+        </div>
+        {children}
       </div>
-      {children}
     </section>
   )
+}
+
+function useActiveSection(rootRef) {
+  const [active, setActive] = useState('top')
+  useEffect(() => {
+    const root = rootRef.current
+    if (!root) return undefined
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.isIntersecting && setActive(e.target.id)),
+      { root, rootMargin: '-45% 0px -50% 0px' },
+    )
+    root.querySelectorAll('[data-panel]').forEach((el) => io.observe(el))
+    return () => io.disconnect()
+  }, [rootRef])
+  return active
 }
 
 function PersonaPicker() {
@@ -129,6 +148,7 @@ export default function Site({ snow, onToggleSnow }) {
   const rootRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)
   useReveal(rootRef)
+  const active = useActiveSection(rootRef)
 
   const go = (id) => rootRef.current?.querySelector(`#${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 
@@ -143,7 +163,7 @@ export default function Site({ snow, onToggleSnow }) {
         </button>
         <nav className={s.navLinks} aria-label="Sections">
           {NAV.map(([id, label]) => (
-            <button key={id} type="button" onClick={() => go(id)}>{label}</button>
+            <button key={id} type="button" className={active === id ? s.navActive : ''} aria-current={active === id ? 'true' : undefined} onClick={() => go(id)}>{label}</button>
           ))}
         </nav>
         <div className={s.navActions}>
@@ -153,7 +173,8 @@ export default function Site({ snow, onToggleSnow }) {
       </header>
 
       <main>
-        <section id="top" className={s.hero}>
+        <section id="top" className={`${s.panel} ${s.heroPanel}`} data-panel>
+          <div className={s.hero}>
           <div className={s.heroText}>
             <span className={s.pill}>❄️ {BOOTCAMP.season} · Online · Free · For the data community</span>
             <h1>
@@ -174,6 +195,10 @@ export default function Site({ snow, onToggleSnow }) {
             </AgentTerminal>
             <Logos size="md" className={s.heroLogos} />
           </div>
+          </div>
+          <button type="button" className={s.scrollCue} onClick={() => go('why')} aria-label="Next section">
+            <span>scroll</span><i aria-hidden="true">↓</i>
+          </button>
         </section>
 
         <Section
@@ -271,28 +296,29 @@ export default function Site({ snow, onToggleSnow }) {
           </div>
         </Section>
 
-        <section className={`${s.register} ${s.reveal}`}>
-          <div>
-            <p className={s.eyebrow}>Ready to join?</p>
-            <h2>Registration opens soon</h2>
-            <ol className={s.steps}>
-              {REGISTER_STEPS.map((step, i) => (
-                <li key={step}><span>{i + 1}</span>{step}</li>
-              ))}
-            </ol>
+        <section id="join" className={`${s.panel} ${s.joinPanel}`} data-panel>
+          <div className={`${s.register} ${s.reveal}`}>
+            <div>
+              <p className={s.eyebrow}><span className={s.eyebrowIdx}>08</span>Ready to join?</p>
+              <h2>Registration opens soon</h2>
+              <ol className={s.steps}>
+                {REGISTER_STEPS.map((step, i) => (
+                  <li key={step}><span>{i + 1}</span>{step}</li>
+                ))}
+              </ol>
+            </div>
+            <Mascot kind="duck" className={s.registerDuck} />
           </div>
-          <Mascot kind="duck" className={s.registerDuck} />
+          <footer className={s.footer}>
+            <Logos size="sm" />
+            <p>
+              Educational workshop series delivered by Microsoft. Not a consulting engagement. Use sample or
+              synthetic data only. Workshop outputs are learning artifacts.
+            </p>
+            <p className={s.footerSmall}>Built with DECKIO</p>
+          </footer>
         </section>
       </main>
-
-      <footer className={s.footer}>
-        <Logos size="sm" />
-        <p>
-          Educational workshop series delivered by Microsoft. Not a consulting engagement. Use sample or
-          synthetic data only. Workshop outputs are learning artifacts.
-        </p>
-        <p className={s.footerSmall}>Built with DECKIO</p>
-      </footer>
     </div>
   )
 }

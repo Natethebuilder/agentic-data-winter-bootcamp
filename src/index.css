@@ -129,7 +129,10 @@ body {
   50% { opacity: 0.35; box-shadow: 0 0 2px 0 var(--c); }
 }
 
-.slide-lights { position: absolute; top: 0; left: 0; right: 0; z-index: 5; }
+.slide-lights { position: absolute; top: 0; left: 0; right: 0; z-index: 5; display: none; }
+.deck-lights { position: fixed; top: 0; left: 0; right: 0; z-index: 60; }
+html[data-export-mode="capture"] .slide-lights { display: block; }
+html[data-export-mode="capture"] .deck-lights { display: none; }
 
 /* Deck progress: dark bulbs ahead, new bulbs flicker on as the slide arrives */
 .bulb { transition: background .4s ease, box-shadow .4s ease, opacity .4s ease; }
@@ -139,7 +142,7 @@ body {
   animation: none;
   opacity: 0.8;
 }
-.slide.active .bulb-new {
+.deck-lights .bulb-new {
   animation:
     bulb-on 0.7s ease-out calc(0.25s + var(--k) * 0.14s) both,
     bulb-glow 1.8s ease-in-out calc(1s + var(--k) * 0.14s) infinite;
@@ -151,7 +154,7 @@ body {
   70% { background: var(--c); box-shadow: 0 0 18px 6px var(--c); opacity: 1; transform: scale(1.2); }
   100% { background: var(--c); box-shadow: 0 0 10px 2px var(--c); opacity: 1; transform: scale(1); }
 }
-.slide.active .lights-complete .bulb {
+.deck-lights.lights-complete .bulb {
   animation: bulb-chase 1.6s ease-in-out calc(0.9s + var(--n) * 0.05s) infinite;
 }
 @keyframes bulb-chase {
@@ -162,7 +165,7 @@ body {
 html[data-export-mode="capture"] .bulb,
 html[data-export-mode="capture"] .slide .bulb-new { animation: none !important; }
 @media (prefers-reduced-motion: reduce) {
-  .slide.active .bulb-new, .slide.active .lights-complete .bulb { animation: none; }
+  .deck-lights .bulb-new, .deck-lights.lights-complete .bulb { animation: none; }
 }
 .deck ~ * [class*="progressTrack"], [class*="navWrapper"] > [class*="progressTrack"] { display: none; }
 
