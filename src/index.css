@@ -129,6 +129,8 @@ body {
   50% { opacity: 0.35; box-shadow: 0 0 2px 0 var(--c); }
 }
 
+.slide-lights { position: absolute; top: 0; left: 0; right: 0; z-index: 5; }
+
 /* ── Mascots with Santa hats ──────────────────────────────────────────── */
 .mascot {
   position: relative;
@@ -179,10 +181,12 @@ body {
 }
 
 /* ── Deck-only chrome ─────────────────────────────────────────────────── */
+button[title="Back to home"] { top: 36px !important; }
+
 .deck-chrome {
   position: fixed;
-  top: 18px;
-  left: 20px;
+  top: 36px;
+  left: 72px;
   z-index: 9100;
   display: flex;
   gap: 10px;
@@ -209,3 +213,5 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .bulb, .floating-copilot { animation: none; }
 }
+
+[class*="exportGroup"] { top: 36px !important; }

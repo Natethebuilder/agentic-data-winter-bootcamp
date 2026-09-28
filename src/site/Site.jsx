@@ -1,14 +1,16 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ChristmasLights, Logos, Mascot, Snowflake } from '../winter/Decor.jsx'
 import { SnowToggle } from '../winter/Snowfall.jsx'
 import { Gift } from '../slides/WinterSlides.jsx'
+import { AgentTerminal, Countdown, MedallionFlow, ScheduleQuery } from '../data/DataViz.jsx'
 import {
-  BOOTCAMP, FAQ, PERSONAS, PILLARS, PREP, REGISTER_STEPS, SESSIONS, TOOLBOX, WEEKS,
+  BOOTCAMP, FAQ, PERSONAS, PILLARS, PREP, REGISTER_STEPS, SESSIONS, TOOLBOX,
 } from '../content.js'
 import s from './Site.module.css'
 
 const NAV = [
   ['why', 'Why join'],
+  ['journey', 'Data journey'],
   ['lineup', 'Lineup'],
   ['schedule', 'Schedule'],
   ['toolbox', 'Toolbox'],
@@ -17,13 +19,6 @@ const NAV = [
 ]
 
 const PREP_KEY = 'winter-bootcamp:prep'
-
-function daysUntilChristmas(now = new Date()) {
-  let xmas = new Date(now.getFullYear(), 11, 25)
-  if (now > new Date(now.getFullYear(), 11, 25, 23, 59, 59)) xmas = new Date(now.getFullYear() + 1, 11, 25)
-  const start = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-  return Math.round((xmas - start) / 86400000)
-}
 
 function useReveal(rootRef) {
   useEffect(() => {
@@ -39,16 +34,47 @@ function useReveal(rootRef) {
   }, [rootRef])
 }
 
-function Section({ id, eyebrow, title, subtitle, children }) {
+function Section({ id, idx, eyebrow, title, subtitle, children }) {
   return (
     <section id={id} className={`${s.section} ${s.reveal}`}>
       <div className={s.sectionHead}>
-        <p className={s.eyebrow}>{eyebrow}</p>
+        <p className={s.eyebrow}><span className={s.eyebrowIdx}>{idx}</span>{eyebrow}</p>
         <h2>{title}</h2>
         {subtitle && <p className={s.lead}>{subtitle}</p>}
       </div>
       {children}
     </section>
+  )
+}
+
+function PersonaPicker() {
+  const [sel, setSel] = useState(PERSONAS[0].id)
+  const p = PERSONAS.find((x) => x.id === sel)
+  return (
+    <div className={s.personaBox}>
+      <div className={s.personaTabs} role="tablist" aria-label="Pick your role">
+        <span className={s.personasLabel}>Made for</span>
+        {PERSONAS.map((x) => (
+          <button
+            key={x.id}
+            type="button"
+            role="tab"
+            aria-selected={x.id === sel}
+            className={`${s.persona} ${x.id === sel ? s.personaOn : ''}`}
+            onClick={() => setSel(x.id)}
+          >
+            {x.icon} {x.label}
+          </button>
+        ))}
+      </div>
+      <div className={s.personaPanel} role="tabpanel" key={sel}>
+        <p>{p.does}</p>
+        <div className={s.stack}>
+          <span className={s.stackLabel}>your stack</span>
+          {p.stack.map((t) => <span key={t} className={s.stackChip}>{t}</span>)}
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -62,14 +88,14 @@ function PrepChecklist() {
 
   const count = PREP.filter((p) => done[p.id]).length
   const pct = Math.round((count / PREP.length) * 100)
-  const nice = count === PREP.length
+  const all = count === PREP.length
 
   return (
     <div className={s.checklist}>
       <div className={s.checkHead}>
         <div>
           <span className={s.checkScore}>{count}/{PREP.length}</span>
-          <span className={s.checkLabel}>{nice ? "You're on the nice list 🎅" : 'Checking it twice…'}</span>
+          <span className={s.checkLabel}>{all ? 'All checks passed. You are ready.' : 'checks passed'}</span>
         </div>
         <div className={s.progress} role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100}>
           <span style={{ width: `${pct}%` }} />
@@ -86,10 +112,11 @@ function PrepChecklist() {
               />
               <span className={s.checkBox} aria-hidden="true">{done[p.id] ? '✓' : ''}</span>
               <span className={s.checkIcon} aria-hidden="true">{p.icon}</span>
-              <span>
+              <span className={s.checkText}>
                 <strong>{p.title}</strong>
                 <small>{p.desc}</small>
               </span>
+              <span className={`${s.badge} ${done[p.id] ? s.badgePass : ''}`}>{done[p.id] ? 'PASS' : 'PENDING'}</span>
             </label>
           </li>
         ))}
@@ -101,7 +128,6 @@ function PrepChecklist() {
 export default function Site({ snow, onToggleSnow }) {
   const rootRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)
-  const sleeps = useMemo(() => daysUntilChristmas(), [])
   useReveal(rootRef)
 
   const go = (id) => rootRef.current?.querySelector(`#${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -129,7 +155,7 @@ export default function Site({ snow, onToggleSnow }) {
       <main>
         <section id="top" className={s.hero}>
           <div className={s.heroText}>
-            <span className={s.pill}>❄️ {BOOTCAMP.season} · Online · Free</span>
+            <span className={s.pill}>❄️ {BOOTCAMP.season} · Online · Free · For the data community</span>
             <h1>
               Agentic Data Engineering <span className={s.highlight}>Winter Bootcamp</span>
             </h1>
@@ -138,29 +164,24 @@ export default function Site({ snow, onToggleSnow }) {
             </p>
             <div className={s.ctaRow}>
               <a className={s.btnPrimary} href="#/deck">▶ Present the deck</a>
-              <button type="button" className={s.btnGhost} onClick={() => go('prepare')}>🎒 Get ready</button>
+              <button type="button" className={s.btnGhost} onClick={() => go('journey')}>Explore the data journey</button>
             </div>
-            <div className={s.chips}>
-              <span className={s.chip}>🎄 <strong>{sleeps}</strong> sleeps until Christmas</span>
-              <span className={s.chip}>📅 Kick-off date announced soon</span>
-            </div>
+            <Countdown target={BOOTCAMP.kickoff} className={s.countdown} />
           </div>
           <div className={s.heroArt}>
-            <div className={s.globe}>
-              <Mascot className={s.heroMascot} />
-              <Snowflake className={`${s.orbitFlake} ${s.f1}`} />
-              <Snowflake className={`${s.orbitFlake} ${s.f2}`} />
-              <Snowflake className={`${s.orbitFlake} ${s.f3}`} />
-            </div>
+            <AgentTerminal className={s.terminal}>
+              <Mascot className={s.perched} />
+            </AgentTerminal>
             <Logos size="md" className={s.heroLogos} />
           </div>
         </section>
 
         <Section
           id="why"
+          idx="01"
           eyebrow="Why join"
-          title="Engineer data with agents. Unwrap your impact."
-          subtitle="A hands-on program that does for the data community what the Summer Bootcamp did for developers."
+          title="Engineer data with agents. Ship data products."
+          subtitle="A hands-on programme for the data community, following the Summer Bootcamp for developers."
         >
           <div className={`${s.grid} ${s.g3}`}>
             {PILLARS.map((p) => (
@@ -171,19 +192,25 @@ export default function Site({ snow, onToggleSnow }) {
               </article>
             ))}
           </div>
-          <div className={s.personas}>
-            <span className={s.personasLabel}>Made for</span>
-            {PERSONAS.map((p) => (
-              <span key={p.id} className={s.persona} title={p.desc}>{p.icon} {p.label}</span>
-            ))}
-          </div>
+          <PersonaPicker />
+        </Section>
+
+        <Section
+          id="journey"
+          idx="02"
+          eyebrow="The data journey"
+          title="Raw to gold, with an agent at every hop"
+          subtitle="Specs in, trusted data products out. Select a stage to see what you ask the agent and how quality is checked."
+        >
+          <MedallionFlow />
         </Section>
 
         <Section
           id="lineup"
+          idx="03"
           eyebrow="The lineup"
-          title="Six sessions, still being wrapped 🎁"
-          subtitle="Topics, levels and presenters are being finalised by the elves. Unwrap a gift to peek, and check back soon."
+          title="Six sessions, topics coming soon"
+          subtitle="Topics, levels and presenters are being finalised. Open a box to see the latest, and check back soon."
         >
           <div className={`${s.grid} ${s.g3} ${s.gifts}`}>
             {SESSIONS.map((session, i) => <Gift key={session.id} session={session} i={i} />)}
@@ -192,24 +219,18 @@ export default function Site({ snow, onToggleSnow }) {
 
         <Section
           id="schedule"
+          idx="04"
           eyebrow="Schedule"
           title="Winter Fridays, your way"
           subtitle="The same sessions run every week. Join one or many, whatever fits your calendar."
         >
-          <ol className={s.advent}>
-            {WEEKS.map((w, i) => (
-              <li key={w.id} className={s.door}>
-                <span className={s.doorNum}>{i + 1}</span>
-                <span className={s.doorWeek}>{w.week}</span>
-                <span className={s.doorDate}>Friday · {w.date}</span>
-              </li>
-            ))}
-          </ol>
+          <ScheduleQuery />
         </Section>
 
         <Section
           id="toolbox"
-          eyebrow="Santa's toolbox"
+          idx="05"
+          eyebrow="The toolbox"
           title="Fabric expertise, packaged for your agent"
           subtitle="The building blocks we use to turn GitHub Copilot into a Microsoft Fabric data engineer."
         >
@@ -231,14 +252,15 @@ export default function Site({ snow, onToggleSnow }) {
 
         <Section
           id="prepare"
+          idx="06"
           eyebrow="Get ready"
-          title="Make a list, check it twice"
-          subtitle="Tick off your prep. Your progress is saved in this browser only."
+          title="Pre-flight checks"
+          subtitle="Tick off your prep before day one. Your progress is saved in this browser only."
         >
           <PrepChecklist />
         </Section>
 
-        <Section id="faq" eyebrow="FAQ" title="Frosty questions">
+        <Section id="faq" idx="07" eyebrow="FAQ" title="Frequently asked questions">
           <div className={s.faq}>
             {FAQ.map((f) => (
               <details key={f.q} className={s.faqItem}>
@@ -269,7 +291,7 @@ export default function Site({ snow, onToggleSnow }) {
           Educational workshop series delivered by Microsoft. Not a consulting engagement. Use sample or
           synthetic data only. Workshop outputs are learning artifacts.
         </p>
-        <p className={s.footerSmall}>Built with DECKIO · Happy holidays ❄️</p>
+        <p className={s.footerSmall}>Built with DECKIO</p>
       </footer>
     </div>
   )

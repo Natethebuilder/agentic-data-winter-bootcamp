@@ -59,7 +59,7 @@
   background: radial-gradient(circle, rgba(255, 77, 97, 0.30), transparent 70%);
 }
 
-/* ── Cards with a snow cap ── */
+/* ── Cards ── */
 .grid { display: grid; gap: 18px; }
 .grid2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .grid3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -86,11 +86,11 @@
 .card::before {
   content: '';
   position: absolute;
-  left: 10px; right: 10px; top: -7px;
-  height: 14px;
-  background: radial-gradient(circle at 9px 9px, var(--frost) 8px, transparent 9px) 0 0 / 22px 14px repeat-x;
-  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.35));
-  opacity: 0.92;
+  left: 20px; right: 20px; top: -1px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--ice), color-mix(in srgb, var(--holly) 70%, transparent), transparent);
+  opacity: 0.8;
 }
 .card h3 { font-size: 18px; font-weight: 700; }
 .card p { font-size: 14px; line-height: 1.55; color: var(--muted-foreground); }
@@ -137,7 +137,8 @@
 .statValue { font-size: 22px; font-weight: 800; color: var(--frost); }
 .statLabel { font-size: 13px; color: var(--muted-foreground); line-height: 1.4; }
 
-/* ── Gift boxes (sessions) ── */
+/* ── Gift boxes (sessions) with unwrap animation ── */
+.gifts { row-gap: 34px; }
 .gift {
   appearance: none;
   position: relative;
@@ -149,63 +150,155 @@
   cursor: pointer;
   border-radius: 16px;
   min-height: 150px;
-  perspective: 900px;
   background: transparent;
 }
-.gift:focus-visible { outline: 2px solid var(--ice); outline-offset: 4px; }
-.giftInner {
+.gift:focus-visible { outline: 2px solid var(--ice); outline-offset: 6px; }
+
+.giftContent {
   position: absolute;
   inset: 0;
-  transform-style: preserve-3d;
-  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+  padding: 18px 20px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid color-mix(in srgb, var(--ice) 45%, transparent);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--card) 85%, var(--ice) 15%), var(--card));
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.35s ease, transform 0.35s ease;
 }
-.gift:hover .giftInner { transform: rotateZ(-1.5deg) translateY(-3px); }
-.giftOpen .giftInner, .giftOpen:hover .giftInner { transform: rotateY(180deg); }
-.giftFace, .giftBack {
+.giftTitle { font-size: 18px; font-weight: 700; color: var(--frost); }
+.giftMeta { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.giftWrap {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transition: transform 0.25s ease;
+}
+.gift:hover .giftWrap { transform: translateY(-3px) rotate(-1deg); }
+.giftOpen .giftWrap, .giftOpen:hover .giftWrap { animation: giftShake 0.45s ease; transform: none; }
+
+.paper {
   position: absolute;
   inset: 0;
   border-radius: 16px;
-  backface-visibility: hidden;
-  padding: 18px 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  overflow: hidden;
+  transition: transform 0.55s cubic-bezier(0.3, 0.7, 0.3, 1) 0.1s, opacity 0.4s ease 0.1s;
 }
-.giftFace {
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
-}
-.giftFace::before, .giftFace::after {
+.paper::before {
   content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.07) 0 8px, transparent 8px 20px);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+.paperL { clip-path: polygon(0 0, 50.5% 0, 49% 12%, 51% 25%, 49% 38%, 51% 50%, 49% 62%, 51% 75%, 49% 88%, 50.5% 100%, 0 100%); }
+.paperR { clip-path: polygon(50.5% 0, 100% 0, 100% 100%, 50.5% 100%, 49% 88%, 51% 75%, 49% 62%, 51% 50%, 49% 38%, 51% 25%, 49% 12%); }
+.giftRed { background-color: #b8233c; background-image: linear-gradient(135deg, #e23a4f, #9d1730); }
+.giftGreen { background-color: #147a49; background-image: linear-gradient(135deg, #1fa463, #0d5d38); }
+.giftBlue { background-color: #2a52a8; background-image: linear-gradient(135deg, #3c6fd8, #1b3478); }
+
+.ribbonV, .ribbonH, .lid::after {
   position: absolute;
   background: linear-gradient(180deg, #ffe39a, var(--gold));
   box-shadow: 0 0 10px rgba(255, 211, 107, 0.3);
 }
-.giftFace::before { top: 0; bottom: 0; left: 50%; width: 14px; transform: translateX(-50%); }
-.giftFace::after { left: 0; right: 0; top: 50%; height: 14px; transform: translateY(-50%); }
-.giftRed { background: linear-gradient(135deg, #e23a4f, #9d1730); }
-.giftGreen { background: linear-gradient(135deg, #1fa463, #0d5d38); }
-.giftBlue { background: linear-gradient(135deg, #3c6fd8, #1b3478); }
+.ribbonV {
+  top: 0; bottom: 0; left: 50%;
+  width: 14px;
+  transform: translateX(-50%);
+  transform-origin: bottom;
+  transition: transform 0.3s ease 0.3s, opacity 0.3s ease 0.3s;
+}
+.ribbonH {
+  left: 0; right: 0; top: 58%;
+  height: 14px;
+  transition: transform 0.3s ease 0.3s, opacity 0.3s ease 0.3s;
+}
+.lid {
+  position: absolute;
+  left: -6px; right: -6px; top: -2px;
+  height: 30%;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.35), inset 0 -2px 0 rgba(0, 0, 0, 0.18);
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.3, 1) 0.45s, opacity 0.35s ease 0.45s;
+}
+.lid::after { content: ''; top: 0; bottom: 0; left: 50%; width: 14px; transform: translateX(-50%); }
+.bow {
+  position: absolute;
+  left: 50%;
+  top: -20px;
+  width: 58px;
+  transform: translateX(-50%);
+  fill: var(--gold);
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.4));
+  z-index: 1;
+}
+.bow circle { fill: #ffe39a; }
+
 .giftLabel, .giftHint {
-  position: relative;
+  position: absolute;
+  bottom: 14px;
   z-index: 2;
   padding: 4px 10px;
   border-radius: 8px;
   background: rgba(5, 10, 21, 0.72);
   font-size: 12px;
 }
-.giftLabel { align-self: flex-start; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
-.giftHint { align-self: flex-end; color: var(--frost); }
-.giftBack {
-  transform: rotateY(180deg);
-  border: 1px solid color-mix(in srgb, var(--ice) 45%, transparent);
-  background: linear-gradient(180deg, color-mix(in srgb, var(--card) 85%, var(--ice) 15%), var(--card));
-  gap: 8px;
-  justify-content: center;
+.giftLabel { left: 16px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+.giftHint { right: 16px; color: var(--frost); }
+
+/* open sequence: shake → lid pops → ribbons untie → paper tears → content */
+.giftOpen .lid {
+  transform: translate(22%, -170%) rotate(24deg);
+  opacity: 0;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.3, 1) 0.35s, opacity 0.3s ease 0.6s;
 }
-.giftBack h3 { font-size: 18px; font-weight: 700; }
-.giftMeta { display: flex; gap: 8px; flex-wrap: wrap; }
+.giftOpen .ribbonV { transform: translateX(-50%) scaleY(0); opacity: 0; transition-delay: 0.5s; }
+.giftOpen .ribbonH { transform: scaleX(0); opacity: 0; transition-delay: 0.5s; }
+.giftOpen .paperL { transform: translate(-34%, 26px) rotate(-16deg); opacity: 0; transition-delay: 0.65s, 0.8s; }
+.giftOpen .paperR { transform: translate(34%, 26px) rotate(16deg); opacity: 0; transition-delay: 0.65s, 0.8s; }
+.giftOpen .giftContent {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.45s ease 0.8s, transform 0.5s cubic-bezier(0.2, 1.4, 0.4, 1) 0.8s;
+}
+
+.confetti { position: absolute; inset: 0; pointer-events: none; z-index: 3; }
+.confetti i {
+  position: absolute;
+  left: 50%; top: 45%;
+  font-style: normal;
+  font-family: ui-monospace, 'Cascadia Code', Consolas, monospace;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--ice);
+  opacity: 0;
+}
+.confetti i:nth-child(3n) { color: var(--gold); }
+.confetti i:nth-child(3n + 1) { color: var(--holly); }
+.giftOpen .confetti i { animation: burst 1s ease-out 0.55s both; }
+
+@keyframes giftShake {
+  0%, 100% { transform: none; }
+  20% { transform: rotate(-3deg); }
+  40% { transform: rotate(3deg); }
+  60% { transform: rotate(-2deg); }
+  80% { transform: rotate(1.5deg); }
+}
+@keyframes burst {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.4); }
+  15% { opacity: 1; }
+  100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(var(--r)) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .giftContent, .paper, .ribbonV, .ribbonH, .lid, .giftWrap { transition: none !important; }
+  .giftOpen .giftWrap, .giftOpen .confetti i { animation: none; }
+}
 .tag {
   font-size: 11px;
   font-weight: 700;

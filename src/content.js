@@ -4,10 +4,12 @@
 export const BOOTCAMP = {
   name: 'Agentic Data Engineering Winter Bootcamp',
   short: 'Winter Bootcamp',
-  tagline: 'Sleigh your data backlog.',
+  tagline: 'Clear your data backlog with agents.',
   subtitle:
-    'From vibe coding to spec-driven data engineering with GitHub Copilot and Microsoft Fabric.',
+    'Pipelines, lakehouses, semantic models and Power BI, built spec-first with GitHub Copilot in Microsoft Fabric.',
   season: 'Winter 2026',
+  // First session start (ISO 8601 with offset), e.g. '2026-11-06T10:00:00+01:00'. null = not announced yet.
+  kickoff: null,
   footer: 'Agentic Data Engineering Winter Bootcamp',
 }
 
@@ -26,32 +28,92 @@ export const WEEKS = Array.from({ length: 6 }, (_, i) => ({
 }))
 
 export const PERSONAS = [
-  { id: 'de', icon: '🛠️', label: 'Data engineers', desc: 'Pipelines, lakehouses and medallion architectures.' },
-  { id: 'ml', icon: '🧠', label: 'ML engineers', desc: 'Features, notebooks and model-ready data.' },
-  { id: 'da', icon: '📊', label: 'Data analysts', desc: 'SQL, semantic models and Power BI.' },
-  { id: 'ba', icon: '💼', label: 'Business analysts', desc: 'Describe the outcome in plain English.' },
+  {
+    id: 'de', icon: '🛠️', label: 'Data engineers',
+    desc: 'Pipelines, lakehouses and medallion architectures.',
+    does: 'Ingest, transform and orchestrate while Copilot writes the PySpark, SQL and pipeline code from your spec.',
+    stack: ['Lakehouse', 'Notebooks', 'Pipelines', 'Fabric CLI'],
+  },
+  {
+    id: 'da', icon: '📊', label: 'Data analysts',
+    desc: 'SQL, semantic models and Power BI.',
+    does: 'Query, model and visualise with an agent that drafts the SQL, measures and report pages for you to review.',
+    stack: ['Warehouse', 'SQL', 'Semantic models', 'Power BI'],
+  },
+  {
+    id: 'ba', icon: '💼', label: 'Business analysts',
+    desc: 'Describe the outcome in plain English.',
+    does: 'Describe the question you need answered and turn it into a spec that an agent can build from.',
+    stack: ['Specs', 'Semantic models', 'Power BI'],
+  },
 ]
 
 export const PILLARS = [
   {
     id: 'handson',
-    icon: '🧤',
-    title: 'Hands-on, not theory',
-    desc: 'Build in Microsoft Fabric with GitHub Copilot at the wheel. We bring the materials.',
+    icon: '🧪',
+    title: 'Raw to gold, hands-on',
+    desc: 'Build real lakehouses, pipelines and reports in Microsoft Fabric with GitHub Copilot at the wheel.',
   },
   {
     id: 'spec',
-    icon: '📜',
-    title: 'Spec before code',
-    desc: 'Move from vibe coding to spec-driven, reviewable, governed data engineering.',
+    icon: '📐',
+    title: 'Spec-driven data products',
+    desc: 'Define schemas, contracts and quality checks first, then let the agent build to spec.',
   },
   {
     id: 'agentic',
-    icon: '🦌',
-    title: 'Agentic by design',
-    desc: 'Skills, agents and MCP servers that know Fabric, from first prompt to a full squad.',
+    icon: '🤖',
+    title: 'Agents that speak Fabric',
+    desc: 'Skills, MCP servers and the Fabric CLI give your agent real data platform know-how.',
   },
 ]
+
+export const PIPELINE = [
+  {
+    id: 'src', label: 'Sources', sub: 'csv · api · sql', color: '#8fd8ff',
+    what: 'Files, APIs and operational databases, as they are.',
+    prompt: 'Profile the retail_sales feed and capture its schema in the spec.',
+    gate: 'Schema captured',
+  },
+  {
+    id: 'bronze', label: 'Bronze', sub: 'raw', color: '#d98c4a',
+    what: 'Land data in OneLake exactly as it arrives. Append-only and fully traceable.',
+    prompt: 'Ingest retail_sales.csv into the bronze lakehouse.',
+    gate: 'Row counts reconciled',
+  },
+  {
+    id: 'silver', label: 'Silver', sub: 'clean', color: '#c9d4e3',
+    what: 'Deduplicate, type, validate and conform.',
+    prompt: 'Clean and conform the sales table and quarantine bad rows.',
+    gate: 'Quality checks passing',
+  },
+  {
+    id: 'gold', label: 'Gold', sub: 'curated', color: '#ffd36b',
+    what: 'Business-ready tables and metrics that people trust.',
+    prompt: 'Build weekly demand by region and product line.',
+    gate: 'Metrics match the spec',
+  },
+  {
+    id: 'bi', label: 'Power BI', sub: 'insight', color: '#f2c811',
+    what: 'A semantic model and a report on top of gold.',
+    prompt: 'Create a semantic model and a demand report for the ops team.',
+    gate: 'Reviewed and published',
+  },
+]
+
+export const TERMINAL_SCRIPT = {
+  prompt: 'Build a medallion lakehouse from retail_sales.csv and a Power BI report on demand by region',
+  lines: [
+    { kind: 'info', text: 'Reading spec', meta: 'specs/retail-sales.md' },
+    { kind: 'info', text: 'Planning', meta: 'bronze → silver → gold → report' },
+    { kind: 'ok', text: 'bronze.retail_sales', meta: '1,204,331 rows' },
+    { kind: 'ok', text: 'silver.sales_clean', meta: '12 checks passed' },
+    { kind: 'ok', text: 'gold.demand_by_region', meta: '52 weeks × 9 regions' },
+    { kind: 'ok', text: 'report: Regional Demand', meta: 'ready for review' },
+    { kind: 'done', text: 'Done in 4m 12s · all tests green' },
+  ],
+}
 
 export const TOOLBOX = [
   { id: 'skill', num: '01', kicker: 'Reusable expertise', title: 'Skills', desc: 'Patterns, guardrails and examples that teach the agent a Fabric task.' },
@@ -71,7 +133,7 @@ export const PREP = [
 export const FAQ = [
   {
     q: 'What are the session topics?',
-    a: 'The elves are still wrapping them. Topics, levels and presenters will be announced here soon.',
+    a: 'Topics, levels and presenters are being finalised and will be announced here soon.',
   },
   {
     q: 'When does it start?',
@@ -79,7 +141,7 @@ export const FAQ = [
   },
   {
     q: 'Do I need to be a developer?',
-    a: 'No. Sessions are designed for data engineers, ML engineers, data analysts and business analysts, at every level.',
+    a: 'No. Sessions are designed for data engineers, data analysts and business analysts, at every level.',
   },
   {
     q: 'Is it hands-on?',
