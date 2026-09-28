@@ -1,20 +1,157 @@
 @import '@deckio/deck-engine/styles/global.css';
 @import '@deckio/deck-engine/themes/dark.css';
 
-/* Hide the DECKIO watermark on the Thank You slide */
-.deck-ty-watermark {
-  display: none;
+/* ── Winter palette (overrides DECKIO dark theme) ─────────────────────── */
+:root {
+  --background: #050a15;
+  --foreground: #eef6ff;
+  --card: #0a1426;
+  --secondary: #0f1b31;
+  --muted: #16233c;
+  --muted-foreground: #93a7c4;
+  --border: #1e2d49;
+  --accent: #8fd8ff;
+  --primary: #8fd8ff;
+  --ring: rgba(143, 216, 255, 0.4);
+
+  --purple: #b8a8ff;
+  --purple-deep: #34479e;
+  --cyan: #a8ecff;
+  --green: #2fc27a;
+  --pink: #ff6b81;
+
+  --holly: #ff4d61;
+  --pine: #1fa463;
+  --gold: #ffd36b;
+  --frost: #f4f9ff;
+  --ice: #8fd8ff;
+  --night: #050a15;
+
+  --glow-accent: rgba(143, 216, 255, 0.12);
+  --glow-purple: rgba(184, 168, 255, 0.10);
+  --glow-cyan: rgba(168, 236, 255, 0.10);
 }
 
-/* Floating GitHub Copilot mascot — shown on all slides except cover & thank you */
+body {
+  background:
+    radial-gradient(1200px 700px at 85% -10%, rgba(52, 71, 158, 0.35), transparent 60%),
+    radial-gradient(900px 600px at -10% 110%, rgba(31, 164, 99, 0.16), transparent 60%),
+    var(--night);
+}
+
+/* Candy-cane accent bar on every slide */
+.accent-bar {
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--holly) 0 14px,
+    var(--frost) 14px 28px
+  );
+  opacity: 0.85;
+  box-shadow: 0 0 18px rgba(255, 77, 97, 0.35);
+}
+
+.deck-ty-watermark { display: none; }
+
+/* ── Snow ─────────────────────────────────────────────────────────────── */
+.snowfall {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 150;
+}
+
+.snow-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--ice) 35%, transparent);
+  background: color-mix(in srgb, var(--card) 70%, transparent);
+  color: var(--foreground);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: border-color 0.2s, transform 0.2s;
+}
+.snow-toggle:hover { border-color: var(--ice); transform: translateY(-1px); }
+.snow-toggle:focus-visible { outline: 2px solid var(--ice); outline-offset: 2px; }
+
+/* ── Christmas lights ─────────────────────────────────────────────────── */
+.xmas-lights {
+  position: relative;
+  height: 30px;
+  width: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+.xmas-wire {
+  position: absolute;
+  inset: 0 0 auto 0;
+  width: 100%;
+  height: 16px;
+}
+.xmas-wire path { fill: none; stroke: #20304a; stroke-width: 0.6; }
+.xmas-lights ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1.5%;
+}
+.bulb {
+  width: 10px;
+  height: 16px;
+  margin-top: 6px;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  position: relative;
+  background: var(--c);
+  box-shadow: 0 0 10px 2px var(--c);
+  animation: bulb-glow 1.8s ease-in-out infinite;
+}
+.bulb::before {
+  content: '';
+  position: absolute;
+  top: -4px; left: 2px;
+  width: 6px; height: 5px;
+  border-radius: 2px;
+  background: #2a3a55;
+}
+.bulb:nth-child(odd) { margin-top: 9px; }
+.bulb-0 { --c: var(--holly); animation-delay: 0s; }
+.bulb-1 { --c: var(--gold); animation-delay: 0.45s; }
+.bulb-2 { --c: var(--pine); animation-delay: 0.9s; }
+.bulb-3 { --c: var(--ice); animation-delay: 1.35s; }
+
+@keyframes bulb-glow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; box-shadow: 0 0 2px 0 var(--c); }
+}
+
+/* ── Mascots with Santa hats ──────────────────────────────────────────── */
+.mascot {
+  position: relative;
+  display: inline-block;
+  line-height: 0;
+}
+.mascot-img { width: 100%; height: auto; display: block; }
+.mascot-hat {
+  position: absolute;
+  width: 62%;
+  top: -22%;
+  left: 12%;
+  transform: rotate(-14deg);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.35));
+}
+.mascot-duck .mascot-hat { width: 58%; top: -16%; left: 18%; transform: rotate(-8deg); }
+
 .floating-copilot {
   position: fixed;
-  bottom: 40px;
+  bottom: 84px;
   right: 48px;
-  width: 132px;
-  height: 132px;
-  object-fit: contain;
-  opacity: 0.55;
+  width: 110px;
+  opacity: 0.75;
   z-index: 9000;
   pointer-events: none;
   filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.4));
@@ -28,3 +165,47 @@
   75%      { transform: translateY(-12px) rotate(-2deg); }
 }
 
+/* ── Logos ────────────────────────────────────────────────────────────── */
+.logos { display: flex; align-items: center; gap: 20px; }
+.logos img { display: block; width: auto; }
+.logos-sm { gap: 12px; }
+.logos-sm img { height: 24px; }
+.logos-md img { height: 44px; }
+.logos-lg img { height: 64px; }
+.logos-divider {
+  width: 1px;
+  align-self: stretch;
+  background: color-mix(in srgb, var(--foreground) 22%, transparent);
+}
+
+/* ── Deck-only chrome ─────────────────────────────────────────────────── */
+.deck-chrome {
+  position: fixed;
+  top: 18px;
+  left: 20px;
+  z-index: 9100;
+  display: flex;
+  gap: 10px;
+  opacity: 0.55;
+  transition: opacity 0.2s;
+}
+.deck-chrome:hover, .deck-chrome:focus-within { opacity: 1; }
+.deck-home-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--card) 75%, transparent);
+  color: var(--foreground);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  backdrop-filter: blur(8px);
+}
+.deck-home-link:hover { border-color: var(--ice); }
+
+@media (prefers-reduced-motion: reduce) {
+  .bulb, .floating-copilot { animation: none; }
+}

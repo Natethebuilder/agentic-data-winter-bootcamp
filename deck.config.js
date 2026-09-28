@@ -1,48 +1,40 @@
-import BootcampTitleSlide from './src/slides/BootcampTitleSlide.jsx'
-import WorkshopOfferingSlide from './src/slides/WorkshopOfferingSlide.jsx'
-import SessionsSlide from './src/slides/SessionsSlide.jsx'
-import TimetableSlide from './src/slides/TimetableSlide.jsx'
-import SetupSlide from './src/slides/SetupSlide.jsx'
-import SurveySlide from './src/slides/SurveySlide.jsx'
-import AppendixDividerSlide from './src/slides/AppendixDividerSlide.jsx'
 import {
-  FoundationsDetailSlide,
-  ContextDetailSlide,
-  DataInfraDetailSlide,
-  AgenticDetailSlide,
-  SquadDetailSlide,
-  SreDetailSlide,
-} from './src/slides/SessionDetailSlides.jsx'
-import HowToRegisterSlide from './src/slides/HowToRegisterSlide.jsx'
-import TeamSlide from './src/slides/TeamSlide.jsx'
-import DisclaimerSlide from './src/slides/DisclaimerSlide.jsx'
-import ThankYouSlide from './src/slides/ThankYouSlide.jsx'
+  WinterTitleSlide,
+  OfferingSlide,
+  AudienceSlide,
+  SessionsSlide,
+  FormatSlide,
+  TimetableSlide,
+  ToolboxSlide,
+  SetupSlide,
+  SurveySlide,
+  RegisterSlide,
+  TeamSlide,
+  DisclaimerSlide,
+  ThankYouSlide,
+} from './src/slides/WinterSlides.jsx'
 
 export default {
-  id: 'github-copilot-summer-bootcamp-2026',
-  title: 'GitHub Copilot Summer Bootcamp',
-  subtitle: 'Code Smarter This Summer. From Zero to Agent Orchestrator.',
-  description: 'Code Smarter This Summer. From Zero to Agent Orchestrator.',
-  icon: '🎴',
-  accent: '#3fb950',
+  id: 'agentic-data-winter-bootcamp',
+  title: 'Agentic Data Engineering Winter Bootcamp',
+  subtitle: 'Sleigh your data backlog. From vibe coding to spec-driven data engineering.',
+  description: 'Sleigh your data backlog. From vibe coding to spec-driven data engineering with GitHub Copilot and Microsoft Fabric.',
+  icon: '❄️',
+  accent: '#8fd8ff',
   theme: 'dark',
   appearance: 'dark',
   order: 1,
   slides: [
-    BootcampTitleSlide,
-    WorkshopOfferingSlide,
+    WinterTitleSlide,
+    OfferingSlide,
+    AudienceSlide,
     SessionsSlide,
+    FormatSlide,
     TimetableSlide,
+    ToolboxSlide,
     SetupSlide,
     SurveySlide,
-    AppendixDividerSlide,
-    FoundationsDetailSlide,
-    ContextDetailSlide,
-    DataInfraDetailSlide,
-    AgenticDetailSlide,
-    SquadDetailSlide,
-    SreDetailSlide,
-    HowToRegisterSlide,
+    RegisterSlide,
     TeamSlide,
     DisclaimerSlide,
     ThankYouSlide,
