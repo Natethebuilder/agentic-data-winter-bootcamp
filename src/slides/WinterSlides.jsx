@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { BottomBar, Editable, Slide, useSlides } from '@deckio/deck-engine'
 import { ChristmasLights, Logos, Mascot, Snowflake } from '../winter/Decor.jsx'
-import { MedallionFlow } from '../data/DataViz.jsx'
 import {
   BOOTCAMP, PERSONAS, PILLARS, PREP, REGISTER_STEPS, SESSIONS, TOOLBOX, WEEKS,
 } from '../content.js'
@@ -131,20 +130,6 @@ export function AudienceSlide({ index }) {
           </div>
         ))}
       </div>
-    </Frame>
-  )
-}
-
-export function DataJourneySlide({ index }) {
-  return (
-    <Frame index={index} id="journey" orbs={['orbIce', 'orbPine']}>
-      <Header
-        id="journey"
-        eyebrow="The data journey"
-        title="Raw to gold, with an agent at every hop"
-        subtitle="Specs in, trusted data products out. Select a stage to see what you ask the agent and how quality is checked."
-      />
-      <MedallionFlow compact />
     </Frame>
   )
 }
