@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { BottomBar, Editable, Slide } from '@deckio/deck-engine'
+import { BottomBar, Editable, Slide, useSlides } from '@deckio/deck-engine'
 import { ChristmasLights, Logos, Mascot, Snowflake } from '../winter/Decor.jsx'
 import { MedallionFlow } from '../data/DataViz.jsx'
 import {
@@ -7,10 +7,29 @@ import {
 } from '../content.js'
 import s from './Slides.module.css'
 
+const LIGHTS = 34
+
+// The light string doubles as the deck progress bar.
+function SlideLights({ index }) {
+  const { visibleIndices = [], totalSlides } = useSlides()
+  const order = visibleIndices.length ? visibleIndices : Array.from({ length: totalSlides }, (_, i) => i)
+  const pos = Math.max(0, order.indexOf(index))
+  const at = (p) => Math.round(((p + 1) / order.length) * LIGHTS)
+  return (
+    <ChristmasLights
+      count={LIGHTS}
+      className="slide-lights"
+      lit={at(pos)}
+      prevLit={pos === 0 ? 0 : at(pos - 1)}
+      complete={pos === order.length - 1}
+    />
+  )
+}
+
 function Frame({ index, id, children, orbs = ['orbIce', 'orbPine'] }) {
   return (
     <Slide index={index} className={s.slide}>
-      <ChristmasLights count={34} className="slide-lights" />
+      <SlideLights index={index} />
       {orbs.map((o) => <div key={o} className={`orb ${s[o]}`} />)}
       <div className={`${s.body} content-frame content-gutter`}>{children}</div>
       <BottomBar text={<Editable as="span" id={`${id}.footer`}>{BOOTCAMP.footer}</Editable>} />
@@ -31,7 +50,7 @@ function Header({ id, eyebrow, title, subtitle }) {
 export function WinterTitleSlide({ index }) {
   return (
     <Slide index={index} className={s.slide}>
-      <ChristmasLights count={34} className="slide-lights" />
+      <SlideLights index={index} />
       <div className={`orb ${s.orbIce}`} />
       <div className={`orb ${s.orbHolly}`} />
       <div className={`orb ${s.orbPine}`} />
@@ -414,7 +433,7 @@ export function DisclaimerSlide({ index }) {
 export function ThankYouSlide({ index }) {
   return (
     <Slide index={index} className={s.slide}>
-      <ChristmasLights count={34} className="slide-lights" />
+      <SlideLights index={index} />
       <div className={`orb ${s.orbIce}`} />
       <div className={`orb ${s.orbHolly}`} />
       <div className={`orb ${s.orbPine}`} />
