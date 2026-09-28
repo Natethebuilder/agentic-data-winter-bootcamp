@@ -85,7 +85,8 @@ body {
   height: 30px;
   width: 100%;
   pointer-events: none;
-  overflow: hidden;
+  overflow-x: clip;
+  overflow-y: visible;
 }
 .xmas-wire {
   position: absolute;
@@ -137,10 +138,9 @@ html[data-export-mode="capture"] .deck-lights { display: none; }
 /* Deck progress: dark bulbs ahead, new bulbs flicker on as the slide arrives */
 .bulb { transition: background .4s ease, box-shadow .4s ease, opacity .4s ease; }
 .bulb-off {
-  background: #1a2538;
-  box-shadow: inset 0 -3px 4px rgba(255, 255, 255, 0.05);
+  background: color-mix(in srgb, var(--c) 22%, #0d1524);
+  box-shadow: 0 0 6px -1px color-mix(in srgb, var(--c) 25%, transparent);
   animation: none;
-  opacity: 0.8;
 }
 .deck-lights .bulb-new {
   animation:
@@ -148,9 +148,9 @@ html[data-export-mode="capture"] .deck-lights { display: none; }
     bulb-glow 1.8s ease-in-out calc(1s + var(--k) * 0.14s) infinite;
 }
 @keyframes bulb-on {
-  0% { background: #1a2538; box-shadow: none; opacity: 0.8; transform: scale(1); }
+  0% { background: color-mix(in srgb, var(--c) 22%, #0d1524); box-shadow: none; transform: scale(1); }
   30% { background: var(--c); box-shadow: 0 0 16px 5px var(--c); opacity: 1; transform: scale(1.35); }
-  45% { background: #1a2538; box-shadow: none; opacity: 0.8; }
+  45% { background: color-mix(in srgb, var(--c) 30%, #0d1524); box-shadow: none; }
   70% { background: var(--c); box-shadow: 0 0 18px 6px var(--c); opacity: 1; transform: scale(1.2); }
   100% { background: var(--c); box-shadow: 0 0 10px 2px var(--c); opacity: 1; transform: scale(1); }
 }

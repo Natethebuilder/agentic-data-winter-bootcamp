@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { ChristmasLights, Logos, Mascot, Snowflake } from '../winter/Decor.jsx'
 import { SnowToggle } from '../winter/Snowfall.jsx'
 import { Gift } from '../slides/WinterSlides.jsx'
-import { AgentTerminal, Countdown, MedallionFlow, ScheduleQuery } from '../data/DataViz.jsx'
+import { AgentTerminal, Countdown, ScheduleQuery } from '../data/DataViz.jsx'
 import {
   BOOTCAMP, FAQ, PERSONAS, PILLARS, PREP, REGISTER_STEPS, SESSIONS, TOOLBOX,
 } from '../content.js'
@@ -10,7 +10,6 @@ import s from './Site.module.css'
 
 const NAV = [
   ['why', 'Why join'],
-  ['journey', 'Data journey'],
   ['lineup', 'Lineup'],
   ['schedule', 'Schedule'],
   ['toolbox', 'Toolbox'],
@@ -185,7 +184,7 @@ export default function Site({ snow, onToggleSnow }) {
             </p>
             <div className={s.ctaRow}>
               <a className={s.btnPrimary} href="#/deck">▶ Present the deck</a>
-              <button type="button" className={s.btnGhost} onClick={() => go('journey')}>Explore the data journey</button>
+              <button type="button" className={s.btnGhost} onClick={() => go('lineup')}>See the lineup</button>
             </div>
             <Countdown target={BOOTCAMP.kickoff} className={s.countdown} />
           </div>
@@ -220,19 +219,10 @@ export default function Site({ snow, onToggleSnow }) {
           <PersonaPicker />
         </Section>
 
-        <Section
-          id="journey"
-          idx="02"
-          eyebrow="The data journey"
-          title="Raw to gold, with an agent at every hop"
-          subtitle="Specs in, trusted data products out. Select a stage to see what you ask the agent and how quality is checked."
-        >
-          <MedallionFlow />
-        </Section>
 
         <Section
           id="lineup"
-          idx="03"
+          idx="02"
           eyebrow="The lineup"
           title="Six sessions, topics coming soon"
           subtitle="Topics, levels and presenters are being finalised. Open a box to see the latest, and check back soon."
@@ -244,7 +234,7 @@ export default function Site({ snow, onToggleSnow }) {
 
         <Section
           id="schedule"
-          idx="04"
+          idx="03"
           eyebrow="Schedule"
           title="Winter Fridays, your way"
           subtitle="The same sessions run every week. Join one or many, whatever fits your calendar."
@@ -254,7 +244,7 @@ export default function Site({ snow, onToggleSnow }) {
 
         <Section
           id="toolbox"
-          idx="05"
+          idx="04"
           eyebrow="The toolbox"
           title="Fabric expertise, packaged for your agent"
           subtitle="The building blocks we use to turn GitHub Copilot into a Microsoft Fabric data engineer."
@@ -277,7 +267,7 @@ export default function Site({ snow, onToggleSnow }) {
 
         <Section
           id="prepare"
-          idx="06"
+          idx="05"
           eyebrow="Get ready"
           title="Pre-flight checks"
           subtitle="Tick off your prep before day one. Your progress is saved in this browser only."
@@ -285,7 +275,7 @@ export default function Site({ snow, onToggleSnow }) {
           <PrepChecklist />
         </Section>
 
-        <Section id="faq" idx="07" eyebrow="FAQ" title="Frequently asked questions">
+        <Section id="faq" idx="06" eyebrow="FAQ" title="Frequently asked questions">
           <div className={s.faq}>
             {FAQ.map((f) => (
               <details key={f.q} className={s.faqItem}>
@@ -299,7 +289,7 @@ export default function Site({ snow, onToggleSnow }) {
         <section id="join" className={`${s.panel} ${s.joinPanel}`} data-panel>
           <div className={`${s.register} ${s.reveal}`}>
             <div>
-              <p className={s.eyebrow}><span className={s.eyebrowIdx}>08</span>Ready to join?</p>
+              <p className={s.eyebrow}><span className={s.eyebrowIdx}>07</span>Ready to join?</p>
               <h2>Registration opens soon</h2>
               <ol className={s.steps}>
                 {REGISTER_STEPS.map((step, i) => (
