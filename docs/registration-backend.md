@@ -86,3 +86,9 @@ After the secure host is live, set `VITE_REGISTRATION_URL` for the GitHub Pages 
 4. Submit a test registration and confirm one List row is created.
 5. Submit again with different session choices and confirm the same row is updated.
 6. Confirm neither the browser response nor Azure Function logs contain the company email or full submitted payload.
+
+Live verification completed:
+
+- An invalid shared secret returned HTTP `401` and created no List item.
+- A GitHub-authenticated submission returned the registration success state and created one List item.
+- A repeat submission kept the List at one item and advanced `UpdatedAt`, confirming the update branch executed instead of creating a duplicate.

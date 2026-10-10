@@ -80,7 +80,7 @@ export default function RegistrationForm() {
           <p>Your handle comes directly from GitHub, so it is valid and typo-free.</p>
           {authUnavailable && !SECURE_REGISTRATION_URL && <small>The secure Azure registration host is being configured. The GitHub Pages preview cannot sign you in.</small>}
         </div>
-        <a className={s.signIn} href={loginUrl}>{authUnavailable && !SECURE_REGISTRATION_URL ? 'Registration opens soon' : 'Continue with GitHub'}</a>
+        <a className={s.signIn} href={loginUrl}>{authUnavailable && !SECURE_REGISTRATION_URL ? 'Secure registration unavailable' : 'Continue with GitHub'}</a>
       </div>
     )
   }

@@ -370,7 +370,7 @@ export function RegisterSlide({ index }) {
         id="register"
         eyebrow="Ready to join?"
         title="How to register"
-        subtitle="Registration opens soon. It takes about two minutes."
+        subtitle="Registration is open. Sign in with GitHub; it takes about two minutes."
       />
       <div className={s.points}>
         {REGISTER_STEPS.map((text, i) => (
