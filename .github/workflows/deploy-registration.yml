@@ -1,4 +1,4 @@
-name: Deploy secure registration
+name: Deploy Agentic Data Winter Bootcamp
 
 on:
   push:
@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: secure-registration
+  group: agentic-data-winter-bootcamp
   cancel-in-progress: true
 
 jobs:

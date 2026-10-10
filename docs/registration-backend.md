@@ -76,11 +76,11 @@ Deploy the repository with the settings in the root `README.md`. Add these appli
 
 GitHub authentication is enabled by the platform route `/.auth/login/github`. The client reads only the provider, username and application-scoped user ID from `/.auth/me`. The API independently requires the authenticated `x-ms-client-principal` header and never accepts a username from the browser request body.
 
-After the secure host is live, set `VITE_REGISTRATION_URL` for the GitHub Pages deployment to its registration URL, for example `https://<app>.azurestaticapps.net/?register=1`.
+The website and registration experience share the same Azure Static Web Apps origin. Registration links scroll to the embedded form, and GitHub sign-in returns to `/?register=1`.
 
 ## Verification
 
-1. Open the secure host in a private browser session.
+1. Open the Azure-hosted website in a private browser session.
 2. Confirm the registration API redirects or rejects an unauthenticated request.
 3. Sign in with GitHub and verify the displayed handle matches the signed-in account.
 4. Submit a test registration and confirm one List row is created.

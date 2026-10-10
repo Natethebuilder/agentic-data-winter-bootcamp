@@ -2,7 +2,7 @@
 
 Interactive public website and DECKIO slide deck for the Agentic Data Engineering Winter Bootcamp, focused on GitHub Copilot, Microsoft Fabric and agentic data workflows.
 
-**Public preview:** https://natethebuilder.github.io/agentic-data-winter-bootcamp/
+**Live website and registration:** https://mango-pebble-00edc8e0f.2.azurestaticapps.net/
 
 | Route | Experience |
 | --- | --- |
@@ -17,13 +17,7 @@ npm run dev
 npm run build
 ```
 
-The default build uses the GitHub Pages base path `/agentic-data-winter-bootcamp/`.
-
-```bash
-npm run build:swa
-```
-
-The Azure Static Web Apps build uses `/` so built-in GitHub authentication and `/api/register` work at the application root.
+The website is hosted as one Azure Static Web App. The landing experience, deck, GitHub authentication and registration API all use the same origin.
 
 ## Content and participant setup
 
@@ -34,18 +28,18 @@ The Azure Static Web Apps build uses `/` so built-in GitHub authentication and `
 
 ## Registration architecture
 
-GitHub Pages remains the public preview. Secure registration is deployed separately on Azure Static Web Apps because it provides built-in GitHub authentication. The custom themed form:
+Azure Static Web Apps hosts the complete public experience and provides built-in GitHub authentication. The custom themed form:
 
 1. reads the verified GitHub identity from `/.auth/me`;
 2. submits the registration to the protected `/api/register` function;
 3. forwards validated data to Power Automate;
 4. upserts the registration into a restricted Microsoft List.
 
-Set `VITE_REGISTRATION_URL` in the GitHub Pages build when the secure registration host is available. See [docs/registration-backend.md](docs/registration-backend.md) for the List, flow and application settings.
+See [docs/registration-backend.md](docs/registration-backend.md) for the List, flow and application settings.
 
 ## Deploy
 
-Pushing to `main` runs `.github/workflows/deploy.yml` and publishes the preview to GitHub Pages. Azure Static Web Apps should use:
+Pushing to `main` runs `.github/workflows/deploy-registration.yml` and publishes the complete application to Azure Static Web Apps:
 
 | Setting | Value |
 | --- | --- |

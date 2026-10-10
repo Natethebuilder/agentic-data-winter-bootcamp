@@ -1,15 +1,11 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { REGISTRATION, SESSIONS } from '../content.js'
 import s from './RegistrationForm.module.css'
-
-const SECURE_REGISTRATION_URL = import.meta.env.VITE_REGISTRATION_URL || ''
-const IS_STATIC_PREVIEW = import.meta.env.PROD && import.meta.env.BASE_URL !== '/'
 
 async function loadPrincipal() {
   if (import.meta.env.DEV) {
     return { identityProvider: 'github', userDetails: 'preview-github-user', userId: 'local-preview' }
   }
-  if (IS_STATIC_PREVIEW) throw new Error('Auth host unavailable')
   const response = await fetch('/.auth/me', { headers: { Accept: 'application/json' } })
   if (!response.ok || !response.headers.get('content-type')?.includes('application/json')) throw new Error('Auth host unavailable')
   const payload = await response.json()
@@ -33,10 +29,7 @@ export default function RegistrationForm() {
 
   const signedIn = principal?.identityProvider === 'github'
   const valid = signedIn && sessions.length > 0 && company.trim() && email.trim() && consent
-  const loginUrl = useMemo(() => {
-    if (SECURE_REGISTRATION_URL) return SECURE_REGISTRATION_URL
-    return '/.auth/login/github?post_login_redirect_uri=/?register=1'
-  }, [])
+  const loginUrl = '/login'
 
   const toggleSession = (id) => setSessions((current) => (
     current.includes(id) ? current.filter((item) => item !== id) : [...current, id]
@@ -78,9 +71,9 @@ export default function RegistrationForm() {
         <div>
           <h3>Sign in with GitHub to register</h3>
           <p>Your handle comes directly from GitHub, so it is valid and typo-free.</p>
-          {authUnavailable && !SECURE_REGISTRATION_URL && <small>The secure Azure registration host is being configured. The GitHub Pages preview cannot sign you in.</small>}
+          {authUnavailable && <small>GitHub sign-in is temporarily unavailable. Please try again shortly.</small>}
         </div>
-        <a className={s.signIn} href={loginUrl}>{authUnavailable && !SECURE_REGISTRATION_URL ? 'Secure registration unavailable' : 'Continue with GitHub'}</a>
+        <a className={s.signIn} href={loginUrl}>Continue with GitHub</a>
       </div>
     )
   }

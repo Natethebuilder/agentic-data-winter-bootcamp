@@ -16,7 +16,6 @@ const NAV = [
   ['toolbox', 'Toolbox'],
   ['prepare', 'Get ready'],
   ['faq', 'FAQ'],
-  ['join', 'Join'],
 ]
 
 const PREP_KEY = 'winter-bootcamp:prep'
@@ -256,7 +255,15 @@ export default function Site({ snow, onToggleSnow }) {
         </nav>
         <div className={s.navActions}>
           <SnowToggle enabled={snow} onToggle={onToggleSnow} />
-          <a className={s.btnPrimary} href="#/deck">▶ Deck</a>
+          <button
+            type="button"
+            className={`${s.btnPrimary} ${s.navRegister} ${active === 'join' ? s.navRegisterActive : ''}`}
+            aria-current={active === 'join' ? 'true' : undefined}
+            onClick={() => go('join')}
+          >
+            Register
+          </button>
+          <a className={`${s.btnGhost} ${s.navDeck}`} href="#/deck">▶ Deck</a>
         </div>
       </header>
 
@@ -272,8 +279,9 @@ export default function Site({ snow, onToggleSnow }) {
               <strong>{BOOTCAMP.tagline}</strong> {BOOTCAMP.subtitle}
             </p>
             <div className={s.ctaRow}>
-              <a className={s.btnPrimary} href="#/deck">▶ Present the deck</a>
+              <a className={s.btnGhost} href="#/deck">▶ Present the deck</a>
               <button type="button" className={s.btnGhost} onClick={() => go('lineup')}>See the lineup</button>
+              <button type="button" className={s.btnPrimary} onClick={() => go('join')}>Register now</button>
             </div>
             <Countdown
               target={BOOTCAMP.kickoff}
