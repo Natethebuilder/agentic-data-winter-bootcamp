@@ -3,11 +3,13 @@ import { REGISTRATION, SESSIONS } from '../content.js'
 import s from './RegistrationForm.module.css'
 
 const SECURE_REGISTRATION_URL = import.meta.env.VITE_REGISTRATION_URL || ''
+const IS_STATIC_PREVIEW = import.meta.env.PROD && import.meta.env.BASE_URL !== '/'
 
 async function loadPrincipal() {
   if (import.meta.env.DEV) {
     return { identityProvider: 'github', userDetails: 'preview-github-user', userId: 'local-preview' }
   }
+  if (IS_STATIC_PREVIEW) throw new Error('Auth host unavailable')
   const response = await fetch('/.auth/me', { headers: { Accept: 'application/json' } })
   if (!response.ok || !response.headers.get('content-type')?.includes('application/json')) throw new Error('Auth host unavailable')
   const payload = await response.json()
