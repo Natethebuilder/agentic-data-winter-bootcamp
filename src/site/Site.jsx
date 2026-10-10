@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Logos, Mascot, Snowflake } from '../winter/Decor.jsx'
 import { SnowToggle } from '../winter/Snowfall.jsx'
-import { Gift } from '../slides/WinterSlides.jsx'
 import { AgentTerminal, Countdown, ScheduleQuery } from '../data/DataViz.jsx'
 import SetupWizard from '../setup/SetupWizard.jsx'
 import RegistrationForm from '../registration/RegistrationForm.jsx'
@@ -110,6 +109,75 @@ function PersonaPicker() {
   )
 }
 
+function ProgrammeReveal() {
+  const [open, setOpen] = useState(false)
+
+  return (
+    <div className={s.programmeReveal}>
+      <button
+        type="button"
+        className={`${s.programmeGift} ${open ? s.programmeGiftOpen : ''}`}
+        aria-expanded={open}
+        aria-controls="programme-sessions"
+        onClick={() => setOpen(true)}
+      >
+        <span className={s.programmeGiftInside}>
+          <span>Full programme</span>
+          <strong>Six sessions unwrapped</strong>
+          <small>{open ? 'Everything is below' : 'Open once to reveal everything'}</small>
+        </span>
+        <span className={s.programmeGiftPaper} aria-hidden="true" />
+        <span className={s.programmeRibbonV} aria-hidden="true" />
+        <span className={s.programmeRibbonH} aria-hidden="true" />
+        <span className={s.programmeGiftLid} aria-hidden="true">
+          <span className={s.programmeBow}>◆</span>
+        </span>
+        <span className={s.programmeGiftLabel}>{open ? 'Programme open' : 'Unwrap the programme'}</span>
+      </button>
+
+      {open && (
+        <div id="programme-sessions" className={s.sessionList}>
+          {SESSIONS.map((session, index) => (
+            <article key={session.id} className={s.sessionRow} style={{ '--i': index }}>
+              <div className={s.sessionTop}>
+                <span className={s.sessionNumber}>{session.number}</span>
+                <span className={s.sessionIcon} aria-hidden="true">{session.icon}</span>
+                <div className={s.sessionHeading}>
+                  <span className={s.sessionAudience}>{session.audience}</span>
+                  <h3>{session.title}</h3>
+                  <p>{session.subtitle}</p>
+                </div>
+                <div className={s.sessionLead}>
+                  <span>Session lead</span>
+                  <strong>{session.lead}</strong>
+                </div>
+              </div>
+
+              <p className={s.sessionOverview}>{session.overview}</p>
+
+              <div className={s.sessionDepth}>
+                <div>
+                  <h4>What you will explore</h4>
+                  <ul>
+                    {session.outcomes.map((outcome) => <li key={outcome}>{outcome}</li>)}
+                  </ul>
+                </div>
+                <div className={s.sessionChallenge}>
+                  <span>Hands-on challenge</span>
+                  <p>{session.challenge}</p>
+                  <div className={s.sessionTools}>
+                    {session.tools.map((tool) => <span key={tool}>{tool}</span>)}
+                  </div>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
 function PrepChecklist() {
   const [done, setDone] = useState(() => {
     try { return JSON.parse(localStorage.getItem(PREP_KEY)) || {} } catch { return {} }
@@ -207,7 +275,12 @@ export default function Site({ snow, onToggleSnow }) {
               <a className={s.btnPrimary} href="#/deck">▶ Present the deck</a>
               <button type="button" className={s.btnGhost} onClick={() => go('lineup')}>See the lineup</button>
             </div>
-            <Countdown target={BOOTCAMP.kickoff} className={s.countdown} />
+            <Countdown
+              target={BOOTCAMP.kickoff}
+              date={BOOTCAMP.kickoffDate}
+              dateLabel={BOOTCAMP.kickoffLabel}
+              className={s.countdown}
+            />
           </div>
           <div className={s.heroArt}>
             <AgentTerminal className={s.terminal}>
@@ -245,12 +318,10 @@ export default function Site({ snow, onToggleSnow }) {
           id="lineup"
           idx="02"
           eyebrow="The lineup"
-          title="Six agentic data challenges"
-          subtitle="Open a box for the confirmed topic, format and presenter."
+          title="One gift. The full programme."
+          subtitle="Unwrap once to see every confirmed session, the lead, the tools and the hands-on challenge."
         >
-          <div className={`${s.grid} ${s.g3} ${s.gifts}`}>
-            {SESSIONS.map((session, i) => <Gift key={session.id} session={session} i={i} />)}
-          </div>
+          <ProgrammeReveal />
         </Section>
 
         <Section
@@ -258,7 +329,7 @@ export default function Site({ snow, onToggleSnow }) {
           idx="03"
           eyebrow="Schedule"
           title="Start with Foundations. Choose your path."
-          subtitle="Dates are still being finalised. The foundations session prepares your machine for every hands-on challenge."
+          subtitle="Six Fridays from 4 December 2026 to 22 January 2027. Foundations prepares your machine for every hands-on challenge."
         >
           <ScheduleQuery />
         </Section>

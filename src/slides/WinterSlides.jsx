@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { BottomBar, Editable, Slide, useSlides } from '@deckio/deck-engine'
 import { ChristmasLights, Logos, Mascot, Snowflake } from '../winter/Decor.jsx'
 import {
@@ -97,7 +96,7 @@ export function OfferingSlide({ index }) {
       <div className={s.stats}>
         {[
           ['online', 'Online', 'Join live from anywhere'],
-          ['weeks', 'Winter Fridays', 'Dates to be announced'],
+          ['weeks', 'Winter Fridays', '4 Dec 2026 – 22 Jan 2027'],
           ['levels', 'All levels', 'From first prompt to squads'],
           ['cost', 'Free', 'Only your time'],
           ['team', 'Delivered by', 'Microsoft Solution Engineers & Architects'],
@@ -134,85 +133,27 @@ export function AudienceSlide({ index }) {
   )
 }
 
-const GIFT_COLORS = ['giftRed', 'giftGreen', 'giftBlue']
-const CONFETTI = ['❄', '0', '1', '■', '✦', '{}', '❄', '1', '0', '■', '✦', '❄']
-
-function Bow() {
-  return (
-    <svg className={s.bow} viewBox="0 0 64 36" aria-hidden="true">
-      <path d="M32 20 C 18 2, 2 6, 6 18 C 9 28, 24 26, 32 20 Z" />
-      <path d="M32 20 C 46 2, 62 6, 58 18 C 55 28, 40 26, 32 20 Z" />
-      <path d="M29 22 L 20 36 L 26 34 L 31 24 Z M35 22 L 44 36 L 38 34 L 33 24 Z" />
-      <circle cx="32" cy="20" r="6" />
-    </svg>
-  )
-}
-
-export function Gift({ session, i }) {
-  const [open, setOpen] = useState(false)
-  const color = s[GIFT_COLORS[i % 3]]
-  return (
-    <button
-      type="button"
-      className={`${s.gift} ${open ? s.giftOpen : ''}`}
-      onClick={() => setOpen((v) => !v)}
-      aria-pressed={open}
-      aria-label={`Session ${session.number}: ${open ? `${session.title}, ${session.level}, ${session.format}` : 'reveal topic'}`}
-    >
-      <span className={s.giftContent}>
-        <span className={s.num}>SESSION {session.number}</span>
-        <span className={s.giftTitle}>{session.title}</span>
-        <span className={s.giftLead}>{session.lead}</span>
-        <span className={s.giftMeta}>
-          <span className={`${s.tag} ${s.tagIce}`}>{session.level}</span>
-          <span className={`${s.tag} ${s.tagPine}`}>{session.format}</span>
-        </span>
-      </span>
-      <span className={s.giftWrap} aria-hidden="true">
-        <span className={`${s.paper} ${s.paperL} ${color}`}>
-          <span className={s.giftLabel}><span className={s.giftLabelWord}>Session </span>{session.number}</span>
-        </span>
-        <span className={`${s.paper} ${s.paperR} ${color}`}>
-          <span className={s.giftHint}>Reveal topic</span>
-        </span>
-        <span className={s.ribbonV} />
-        <span className={s.ribbonH} />
-        <span className={`${s.lid} ${color}`}>
-          <Bow />
-        </span>
-      </span>
-      <span className={s.confetti} aria-hidden="true">
-        {CONFETTI.map((c, k) => {
-          const a = (k / CONFETTI.length) * Math.PI * 2 + i
-          return (
-            <i key={k} style={{ '--dx': `${Math.cos(a) * (70 + (k % 3) * 30)}px`, '--dy': `${Math.sin(a) * (45 + (k % 4) * 14) - 20}px`, '--r': `${(k % 2 ? 1 : -1) * (90 + k * 20)}deg` }}>
-              {c}
-            </i>
-          )
-        })}
-      </span>
-    </button>
-  )
-}
-
 export function SessionsSlide({ index }) {
   return (
     <Frame index={index} id="sessions" orbs={['orbIce', 'orbHolly']}>
-      <div className={s.headerRow}>
-        <Header
-          id="sessions"
-          eyebrow="The lineup"
-          title="Six agentic data challenges"
-          subtitle="Open each box for the confirmed topic, format and audience."
-        />
-        <div className={s.legend}>
-          <span className={`${s.tag} ${s.tagIce}`}>Hands-on</span>
-          <span className={`${s.tag} ${s.tagPine}`}>Presenter-led</span>
-          <span className={`${s.tag} ${s.tagHolly}`}>All levels</span>
-        </div>
-      </div>
-      <div className={`${s.grid} ${s.grid3} ${s.gifts}`}>
-        {SESSIONS.map((session, i) => <Gift key={session.id} session={session} i={i} />)}
+      <Header
+        id="sessions"
+        eyebrow="The lineup"
+        title="Six sessions, one shared foundation"
+        subtitle="Start together, then follow the role-based path that matches the data work you do."
+      />
+      <div className={s.sessionOverview}>
+        {SESSIONS.map((session) => (
+          <div className={s.sessionOverviewRow} key={session.id}>
+            <span className={s.sessionOverviewNum}>{session.number}</span>
+            <span className={s.sessionOverviewIcon}>{session.icon}</span>
+            <div className={s.sessionOverviewMain}>
+              <Editable as="h3" id={`sessions.${session.id}.title`}>{session.shortTitle}</Editable>
+              <Editable as="p" id={`sessions.${session.id}.subtitle`}>{session.subtitle}</Editable>
+            </div>
+            <Editable as="span" id={`sessions.${session.id}.audience`} className={s.sessionOverviewAudience}>{session.audience}</Editable>
+          </div>
+        ))}
       </div>
     </Frame>
   )
@@ -256,20 +197,20 @@ export function TimetableSlide({ index }) {
         id="timetable"
         eyebrow="How it works"
         title="Start together. Then choose your path."
-        subtitle="Dates are still being finalised. Foundations prepares your machine for every hands-on challenge."
+        subtitle="Six Fridays from 4 December 2026 to 22 January 2027. Foundations prepares your machine for every hands-on challenge."
       />
       <div className={`${s.grid} ${s.grid6}`}>
         {SCHEDULE.map((session, i) => (
           <div key={session.id} className={s.door}>
             <Snowflake className={s.flake} />
             <span className={s.doorNum}>{i + 1}</span>
-            <Editable as="span" id={`timetable.${session.id}.week`} className={s.doorWeek}>{session.level}</Editable>
+            <Editable as="span" id={`timetable.${session.id}.week`} className={s.doorWeek}>{session.track}</Editable>
             <Editable as="span" id={`timetable.${session.id}.date`} className={s.doorDate}>{session.format}</Editable>
           </div>
         ))}
       </div>
       <Editable as="p" id="timetable.caption" className={s.caption}>
-        Dates will be published before registration opens. Pick your sessions in the registration form.
+        4, 11 and 18 December 2026 · 8, 15 and 22 January 2027
       </Editable>
     </Frame>
   )
@@ -325,6 +266,77 @@ export function SetupSlide({ index }) {
     </Frame>
   )
 }
+
+export function SessionDetailsIntroSlide({ index }) {
+  return (
+    <Frame index={index} id="session-details-intro" orbs={['orbIce', 'orbHolly', 'orbPine']}>
+      <div className={s.detailIntro}>
+        <span className={s.pill}>❄️ The programme</span>
+        <Editable as="h1" id="sessionDetailsIntro.title">
+          Six sessions. <span className={s.highlight}>Six practical challenges.</span>
+        </Editable>
+        <Editable as="p" id="sessionDetailsIntro.subtitle" multiline className={s.subtitle}>
+          The next slides go deeper into the purpose, tools and hands-on outcome of every session.
+        </Editable>
+        <div className={s.detailIntroTracks}>
+          {SESSIONS.map((session) => (
+            <span key={session.id}><b>{session.number}</b>{session.track}</span>
+          ))}
+        </div>
+      </div>
+    </Frame>
+  )
+}
+
+function SessionDetailSlide({ index, session }) {
+  return (
+    <Frame index={index} id={`detail-${session.id}`} orbs={['orbIce', 'orbPine']}>
+      <div className={s.detailBody}>
+        <div className={s.detailMeta}>
+          <span className={s.detailNumber}>SESSION {session.number}</span>
+          <span className={s.tag}>{session.audience}</span>
+          <span className={`${s.tag} ${s.tagPine}`}>{session.format}</span>
+        </div>
+        <div className={s.detailHeader}>
+          <span className={s.detailIcon}>{session.icon}</span>
+          <div>
+            <Editable as="h1" id={`detail.${session.id}.title`}>{session.title}</Editable>
+            <Editable as="p" id={`detail.${session.id}.subtitle`} className={s.detailSubtitle}>{session.subtitle}</Editable>
+          </div>
+        </div>
+        <Editable as="p" id={`detail.${session.id}.overview`} multiline className={s.detailOverview}>
+          {session.overview}
+        </Editable>
+        <div className={s.detailGrid}>
+          <div className={s.detailPanel}>
+            <span className={s.detailLabel}>What you will explore</span>
+            <ul>
+              {session.outcomes.map((outcome) => <li key={outcome}>{outcome}</li>)}
+            </ul>
+          </div>
+          <div className={s.detailStack}>
+            <div className={`${s.detailPanel} ${s.detailChallenge}`}>
+              <span className={s.detailLabel}>Hands-on challenge</span>
+              <p>{session.challenge}</p>
+            </div>
+            <div className={`${s.detailPanel} ${s.detailToolbox}`}>
+              <div><span className={s.detailLabel}>Session lead</span><strong>{session.lead}</strong></div>
+              <div className={s.detailTools}>{session.tools.map((tool) => <span key={tool}>{tool}</span>)}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Frame>
+  )
+}
+
+export const sessionDetailSlides = SESSIONS.map((session) => {
+  function SessionDetailComponent({ index }) {
+    return <SessionDetailSlide index={index} session={session} />
+  }
+  SessionDetailComponent.displayName = `${session.id}SessionDetailSlide`
+  return SessionDetailComponent
+})
 
 export function SurveySlide({ index }) {
   return (
@@ -386,7 +398,7 @@ export function TeamSlide({ index }) {
           <div key={session.id} className={`${s.card} ${s.helper}`}>
             <span className={s.helperAvatar}>{session.icon}</span>
             <Editable as="h3" id={`team.${session.id}.name`}>{session.lead}</Editable>
-            <Editable as="p" id={`team.${session.id}.role`}>{session.title}</Editable>
+            <Editable as="p" id={`team.${session.id}.role`}>{session.shortTitle}</Editable>
           </div>
         ))}
       </div>

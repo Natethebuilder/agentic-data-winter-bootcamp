@@ -5,8 +5,9 @@ import d from './Data.module.css'
 const BASE = import.meta.env.BASE_URL
 
 /* ── Countdown to the first session, styled as a scheduled pipeline run ── */
-export function Countdown({ target, className = '' }) {
+export function Countdown({ target, date, dateLabel, className = '' }) {
   const t = target ? new Date(target).getTime() : null
+  const dateOnly = !t && date ? new Date(`${date}T12:00:00`) : null
   const [now, setNow] = useState(() => Date.now())
   useEffect(() => {
     if (!t) return undefined
@@ -15,34 +16,42 @@ export function Countdown({ target, className = '' }) {
   }, [t])
 
   const diff = t == null ? null : Math.max(0, t - now)
-  const parts = diff == null
-    ? ['--', '--', '--', '--']
-    : [
+  const parts = diff != null
+    ? [
         Math.floor(diff / 86400000),
         Math.floor(diff / 3600000) % 24,
         Math.floor(diff / 60000) % 60,
         Math.floor(diff / 1000) % 60,
       ].map((n) => String(n).padStart(2, '0'))
-  const status = t == null ? 'awaiting schedule' : diff > 0 ? 'scheduled' : 'live now'
-  const statusClass = t == null ? d.statusWait : diff > 0 ? d.statusOk : d.statusLive
+    : dateOnly
+      ? [
+          String(dateOnly.getDate()).padStart(2, '0'),
+          dateOnly.toLocaleString('en', { month: 'short' }).toUpperCase(),
+          String(dateOnly.getFullYear()),
+          dateOnly.toLocaleString('en', { weekday: 'short' }).toUpperCase(),
+        ]
+      : ['--', '--', '--', '--']
+  const labels = dateOnly ? ['day', 'month', 'year', 'starts'] : ['days', 'hrs', 'min', 'sec']
+  const status = t == null ? (dateOnly ? 'dates confirmed' : 'awaiting schedule') : diff > 0 ? 'scheduled' : 'live now'
+  const statusClass = t == null ? (dateOnly ? d.statusOk : d.statusWait) : diff > 0 ? d.statusOk : d.statusLive
 
   return (
-    <div className={`${d.countdown} ${className}`} role="timer" aria-live="off">
+    <div className={`${d.countdown} ${className}`} role={t ? 'timer' : 'group'} aria-live="off">
       <div className={d.cdHead}>
         <span className={d.mono}>▸ next run · session_01</span>
         <span className={`${d.status} ${statusClass}`}><i />{status}</span>
       </div>
       <div className={d.cdDigits}>
-        {['days', 'hrs', 'min', 'sec'].map((label, i) => (
+        {labels.map((label, i) => (
           <div key={label} className={d.cdCell}>
-            <span className={`${d.cdNum} ${t == null ? d.cdPending : ''}`}>{parts[i]}</span>
+            <span className={`${d.cdNum} ${t == null && !dateOnly ? d.cdPending : ''}`}>{parts[i]}</span>
             <span className={d.cdLabel}>{label}</span>
           </div>
         ))}
       </div>
-      {t != null && (
+      {(t != null || dateLabel) && (
         <p className={d.cdFoot}>
-          First session: {new Date(t).toLocaleString(undefined, { dateStyle: 'full', timeStyle: 'short' })}
+          First session: {t != null ? new Date(t).toLocaleString(undefined, { dateStyle: 'full', timeStyle: 'short' }) : dateLabel}
         </p>
       )}
     </div>
@@ -260,7 +269,7 @@ export function ScheduleQuery() {
             {run > 0 && SCHEDULE.map((session, i) => (
               <tr key={session.id} style={{ animationDelay: `${i * 70}ms` }}>
                 <td className={d.num}>{session.number}</td>
-                <td>{session.title}</td>
+                <td>{session.shortTitle}</td>
                 <td>{session.lead}</td>
                 <td>{session.date === 'Date TBA' ? <span className={d.null} title="Date to be announced">NULL</span> : session.date}</td>
                 <td><span className={d.pending}>{session.status}</span></td>

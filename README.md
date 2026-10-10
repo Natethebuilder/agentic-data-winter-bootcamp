@@ -7,7 +7,7 @@ Interactive public website and DECKIO slide deck for the Agentic Data Engineerin
 | Route | Experience |
 | --- | --- |
 | `#/` | Landing site with the confirmed lineup, schedule, data visuals, foundations setup, FAQ and registration |
-| `#/deck` | 13-slide DECKIO presentation with keyboard navigation and export support |
+| `#/deck` | DECKIO presentation with session overview and six detailed session deep-dives |
 
 ## Develop
 

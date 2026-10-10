@@ -7,8 +7,10 @@ export const BOOTCAMP = {
   tagline: 'Clear your data backlog with agents.',
   subtitle:
     'Pipelines, lakehouses, semantic models and Power BI, built spec-first with GitHub Copilot in Microsoft Fabric.',
-  season: 'Winter 2026',
-  // First session start (ISO 8601 with offset), e.g. '2026-11-06T10:00:00+01:00'. null = not announced yet.
+  season: 'Winter 2026/27',
+  kickoffDate: '2026-12-04',
+  kickoffLabel: 'Friday, 4 December 2026 · time TBA',
+  // Add an ISO 8601 time with offset when the start time is confirmed.
   kickoff: null,
   footer: 'Agentic Data Engineering Winter Bootcamp',
 }
@@ -18,68 +20,150 @@ export const SESSIONS = [
     id: 'foundations',
     number: '01',
     title: 'Agentic AI Foundations',
+    shortTitle: 'Agentic AI Foundations',
+    track: 'Foundation',
     subtitle: 'From vibe coding to agentic engineering',
     lead: 'Remco van Dam',
-    level: 'Foundation',
+    audience: 'Everyone',
     format: 'Hands-on setup',
     icon: '🧭',
+    overview:
+      'The common starting point for every participant. Configure GitHub Copilot CLI with reusable instructions, skills and MCP connections, then validate Azure, GitHub, Fabric and Rayfin sign-in before the role-based labs.',
+    outcomes: [
+      'Move from ad-hoc prompting to durable, version-controlled agent instructions.',
+      'Understand when to use skills, specialist agents, MCP servers and command-line tools.',
+      'Verify the participant toolchain and tenant access without storing credentials.',
+    ],
+    challenge:
+      'Run the bootcamp audit, install only what is missing, connect the required services and prove the agent can discover the Fabric toolchain.',
+    tools: ['Copilot CLI', 'Azure CLI', 'GitHub CLI', 'Fabric CLI', 'Skills', 'MCP'],
   },
   {
     id: 'analysts',
     number: '02',
-    title: 'Agentic AI for Analysts',
+    title: 'Agentic AI for Analysts: Consuming Data',
+    shortTitle: 'Agentic AI for Analysts',
+    track: 'Analyst',
     subtitle: 'From data to insights, apps and action',
     lead: 'Zeeshan Ali',
-    level: 'Analyst',
+    audience: 'Data analysts & app builders',
     format: 'Rayfin + Power BI',
     icon: '📊',
+    overview:
+      'Turn a business question into a governed data experience with an agent doing the heavy lifting. Use Rayfin and Power BI to explore data, shape an analytical experience and keep the analyst in control of what gets published.',
+    outcomes: [
+      'Translate a business question into a clear analytical specification.',
+      'Use Rayfin and agent skills to accelerate data exploration and experience creation.',
+      'Review generated queries, models and visuals before sharing the result.',
+    ],
+    challenge:
+      'Start with a question and sample data, then produce a review-ready analytical experience and Power BI output.',
+    tools: ['Rayfin', 'Power BI', 'Microsoft Fabric', 'GitHub Copilot'],
   },
   {
     id: 'lakehouse',
     number: '03',
-    title: 'Agentic AI for Data Engineers',
+    title: 'Agentic AI for Data Engineers: Lakehouse Design',
+    shortTitle: 'Lakehouse Design',
+    track: 'Lakehouse',
     subtitle: 'Design and build a lakehouse with AI agents',
     lead: 'Arash Nezami',
-    level: 'Data engineer',
+    audience: 'Fabric data engineers',
     format: 'Fabric + Osmos',
     icon: '🏗️',
+    overview:
+      'Design and build a Microsoft Fabric lakehouse from a data-product specification. Use Fabric-native skills, CLI and MCP connections with Project Osmos patterns to move from architecture to working engineering artifacts.',
+    outcomes: [
+      'Define lakehouse boundaries, medallion layers and data contracts before implementation.',
+      'Use an agent to scaffold notebooks, pipelines and lakehouse assets from the specification.',
+      'Review generated assets, lineage and quality gates before publishing.',
+    ],
+    challenge:
+      'Create a small lakehouse path from raw data to a curated table, with the architecture decisions and checks captured alongside the code.',
+    tools: ['Fabric Lakehouse', 'Notebooks', 'Pipelines', 'Project Osmos', 'Fabric CLI'],
   },
   {
     id: 'open-source',
     number: '04',
-    title: 'Open-source Data Engineering',
+    title: 'Agentic AI for Open-Source Data Engineers: dbt and Airflow',
+    shortTitle: 'dbt & Airflow',
+    track: 'Open source',
     subtitle: 'Build, orchestrate and transform with agents',
     lead: 'Remco van Dam',
-    level: 'Data engineer',
+    audience: 'Open-source data engineers',
     format: 'dbt + Airflow',
     icon: '🔧',
+    overview:
+      'Apply agentic engineering to open-source data stacks, not only Fabric. Work with dbt and Airflow projects, use repository context to understand dependencies, and accelerate transformations, tests, documentation and orchestration.',
+    outcomes: [
+      'Navigate an existing dbt and Airflow repository with an agent that understands its structure.',
+      'Design or update models and DAGs while keeping tests and documentation aligned.',
+      'Review lineage, schedules and failure paths before merging the change.',
+    ],
+    challenge:
+      'Extend a sample pipeline with a dbt model and Airflow orchestration while keeping dependencies, tests and documentation consistent.',
+    tools: ['dbt', 'Apache Airflow', 'GitHub Copilot', 'GitHub'],
   },
   {
     id: 'sql',
     number: '05',
-    title: 'AI-assisted SQL Engineering',
+    title: 'Agentic AI for SQL Developers & Admins',
+    shortTitle: 'SQL Engineering',
+    track: 'SQL / DBA',
     subtitle: 'Monitor, investigate and optimize databases',
     lead: 'Ajinkya Soitkar',
-    level: 'SQL / DBA',
+    audience: 'SQL developers & DBAs',
     format: 'Database Hub',
     icon: '🗄️',
+    overview:
+      'Use agentic workflows across SQL development and administration. Explore Database Hub, ask targeted questions of database context, investigate performance and turn findings into reviewed tuning actions.',
+    outcomes: [
+      'Inspect the SQL estate and focus an investigation with Database Hub context.',
+      'Explain queries and execution behaviour to identify likely bottlenecks.',
+      'Generate and review scripts for tuning, maintenance and repeatable administration.',
+    ],
+    challenge:
+      'Investigate a slow sample workload, identify the likely cause, then propose and validate an optimization.',
+    tools: ['SQL', 'Database Hub', 'GitHub Copilot', 'Monitoring'],
   },
   {
     id: 'nosql',
     number: '06',
-    title: 'NoSQL for Developers at Scale',
+    title: 'Agentic AI for NoSQL Developers & Admins',
+    shortTitle: 'NoSQL & AI Apps',
+    track: 'NoSQL',
     subtitle: 'Build an AI chat app with Cosmos DB',
     lead: 'Rene Bremer',
-    level: 'Developer',
+    audience: 'NoSQL developers & architects',
     format: 'Cosmos DB + MCP',
     icon: '🌐',
+    overview:
+      'Build an AI-enabled application backed by operational NoSQL data. Use Cosmos DB patterns and MCP-connected tools to ground a chat experience in application data while keeping model and data access under explicit review.',
+    outcomes: [
+      'Model and query NoSQL data for an AI-enabled application.',
+      'Connect an agent or chat workflow to sample Cosmos DB data.',
+      'Review grounding, latency, correctness and safe data access before release.',
+    ],
+    challenge:
+      'Build a small chat experience that answers against a sample Cosmos DB dataset and makes the returned data easy to inspect.',
+    tools: ['Azure Cosmos DB', 'MCP', 'AI chat', 'GitHub Copilot'],
   },
 ]
 
-export const SCHEDULE = SESSIONS.map((session) => ({
+const SESSION_DATES = [
+  ['2026-12-04', 'Fri 4 Dec 2026'],
+  ['2026-12-11', 'Fri 11 Dec 2026'],
+  ['2026-12-18', 'Fri 18 Dec 2026'],
+  ['2027-01-08', 'Fri 8 Jan 2027'],
+  ['2027-01-15', 'Fri 15 Jan 2027'],
+  ['2027-01-22', 'Fri 22 Jan 2027'],
+]
+
+export const SCHEDULE = SESSIONS.map((session, index) => ({
   ...session,
-  date: 'Date TBA',
-  status: session.id === 'foundations' ? 'required first' : 'registration opens soon',
+  dateIso: SESSION_DATES[index][0],
+  date: SESSION_DATES[index][1],
+  status: session.id === 'foundations' ? 'foundations first' : 'confirmed',
 }))
 
 export const PERSONAS = [
@@ -204,7 +288,7 @@ export const FAQ = [
   },
   {
     q: 'When does it start?',
-    a: 'This winter, on Fridays over several weeks. Exact dates will be published on this page.',
+    a: 'The sessions run on Friday 4, 11 and 18 December 2026, followed by Friday 8, 15 and 22 January 2027. Session start times will be added when confirmed.',
   },
   {
     q: 'Do I need to be a developer?',
