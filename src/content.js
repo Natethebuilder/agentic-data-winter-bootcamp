@@ -1,5 +1,5 @@
 // Shared public content for the landing site and the deck.
-// Topics, dates and presenters are placeholders until the core team confirms them.
+// Session topics and leads are confirmed; dates remain placeholders until published.
 
 export const BOOTCAMP = {
   name: 'Agentic Data Engineering Winter Bootcamp',
@@ -13,18 +13,73 @@ export const BOOTCAMP = {
   footer: 'Agentic Data Engineering Winter Bootcamp',
 }
 
-export const SESSIONS = Array.from({ length: 6 }, (_, i) => ({
-  id: `s${i + 1}`,
-  number: String(i + 1).padStart(2, '0'),
-  title: 'Topic to be announced',
-  level: 'Level TBA',
-  format: 'Format TBA',
-}))
+export const SESSIONS = [
+  {
+    id: 'foundations',
+    number: '01',
+    title: 'Agentic AI Foundations',
+    subtitle: 'From vibe coding to agentic engineering',
+    lead: 'Remco van Dam',
+    level: 'Foundation',
+    format: 'Hands-on setup',
+    icon: '🧭',
+  },
+  {
+    id: 'analysts',
+    number: '02',
+    title: 'Agentic AI for Analysts',
+    subtitle: 'From data to insights, apps and action',
+    lead: 'Zeeshan Ali',
+    level: 'Analyst',
+    format: 'Rayfin + Power BI',
+    icon: '📊',
+  },
+  {
+    id: 'lakehouse',
+    number: '03',
+    title: 'Agentic AI for Data Engineers',
+    subtitle: 'Design and build a lakehouse with AI agents',
+    lead: 'Arash Nezami',
+    level: 'Data engineer',
+    format: 'Fabric + Osmos',
+    icon: '🏗️',
+  },
+  {
+    id: 'open-source',
+    number: '04',
+    title: 'Open-source Data Engineering',
+    subtitle: 'Build, orchestrate and transform with agents',
+    lead: 'Remco van Dam',
+    level: 'Data engineer',
+    format: 'dbt + Airflow',
+    icon: '🔧',
+  },
+  {
+    id: 'sql',
+    number: '05',
+    title: 'AI-assisted SQL Engineering',
+    subtitle: 'Monitor, investigate and optimize databases',
+    lead: 'Ajinkya Soitkar',
+    level: 'SQL / DBA',
+    format: 'Database Hub',
+    icon: '🗄️',
+  },
+  {
+    id: 'nosql',
+    number: '06',
+    title: 'NoSQL for Developers at Scale',
+    subtitle: 'Build an AI chat app with Cosmos DB',
+    lead: 'Rene Bremer',
+    level: 'Developer',
+    format: 'Cosmos DB + MCP',
+    icon: '🌐',
+  },
+]
 
-export const WEEKS = Array.from({ length: 6 }, (_, i) => ({
-  id: `w${i + 1}`,
-  week: `Week ${i + 1}`,
+export const SCHEDULE = SESSIONS.map((session) => ({
+  ...session,
   date: 'Date TBA',
+  status: session.id === 'foundations' ? 'required first' : 'registration opens soon',
 }))
 
 export const PERSONAS = [
@@ -123,17 +178,29 @@ export const TOOLBOX = [
 ]
 
 export const PREP = [
-  { id: 'github', icon: '🐙', title: 'Personal GitHub.com account', desc: 'Copilot access links to a GitHub username. Details are shared at registration.' },
-  { id: 'cli', icon: '⌨️', title: 'GitHub Copilot CLI installed', desc: 'We work in the terminal. Install it and sign in before your first session.' },
-  { id: 'fabric', icon: '🧊', title: 'Microsoft Fabric access', desc: 'Environment details are to be confirmed. Follow-along is always possible.' },
+  { id: 'github', icon: '🐙', title: 'GitHub account verified', desc: 'Sign in through the registration page so your exact GitHub handle is captured.' },
+  { id: 'core-cli', icon: '⌨️', title: 'Azure, GitHub and Copilot CLIs', desc: 'The foundations setup checks az, gh and GitHub Copilot CLI.' },
+  { id: 'fabric-cli', icon: '🧊', title: 'Python 3.10–3.13 and Fabric CLI', desc: 'The setup script audits both and can install Python 3.13 and ms-fabric-cli when requested.' },
+  { id: 'agent-tools', icon: '🧰', title: 'Skills and MCP servers', desc: 'Install Azure Skills, Skills for Fabric, Microsoft Learn MCP and GitHub MCP.' },
+  { id: 'fabric-access', icon: '🔑', title: 'Fabric access confirmed', desc: 'Sign in with az and fab, then verify the workspace and capacity shared for the labs.' },
   { id: 'data', icon: '🔒', title: 'Sample data only', desc: 'No customer, personal or production data. Synthetic or public data only.' },
-  { id: 'survey', icon: '📝', title: 'Two minutes for the survey', desc: 'A short, anonymous survey after each session helps us improve.' },
+]
+
+export const SETUP_RESOURCES = [
+  { id: 'az', label: 'Azure CLI', check: 'az version', login: 'az login --tenant <tenant-id>', href: 'https://learn.microsoft.com/cli/azure/install-azure-cli' },
+  { id: 'gh', label: 'GitHub CLI', check: 'gh --version', login: 'gh auth login', href: 'https://cli.github.com/' },
+  { id: 'fab', label: 'Fabric CLI', check: 'fab --version', login: 'fab auth login', href: 'https://microsoft.github.io/fabric-cli/' },
+  { id: 'rayfin', label: 'Rayfin CLI', check: 'npx rayfin --version', login: 'npx rayfin login', href: 'https://rayfin.ai/docs/start/installation' },
+  { id: 'azure-skills', label: 'Azure Skills', check: '/skills', login: '/plugin install azure@azure-skills', href: 'https://github.com/microsoft/azure-skills' },
+  { id: 'fabric-skills', label: 'Skills for Fabric', check: '/skills', login: '/plugin install fabric-skills@fabric-collection', href: 'https://github.com/microsoft/skills-for-fabric' },
+  { id: 'learn-mcp', label: 'Microsoft Learn MCP', check: '/mcp', login: 'Verify the Learn MCP server is running', href: 'https://learn.microsoft.com/training/support/mcp' },
+  { id: 'github-mcp', label: 'GitHub MCP Server', check: '/mcp', login: 'Verify GitHub MCP is connected', href: 'https://github.com/github/github-mcp-server' },
 ]
 
 export const FAQ = [
   {
     q: 'What are the session topics?',
-    a: 'Topics, levels and presenters are being finalised and will be announced here soon.',
+    a: 'Foundations, analyst experiences with Rayfin and Power BI, Fabric lakehouse engineering, open-source data engineering, SQL engineering, and a Cosmos DB AI chat application.',
   },
   {
     q: 'When does it start?',
@@ -153,12 +220,24 @@ export const FAQ = [
   },
   {
     q: 'How do I register?',
-    a: 'Your Microsoft contact will share a registration link. Pick your sessions and weeks, and we follow up by email.',
+    a: 'Sign in with GitHub on the registration page. Your verified GitHub handle is attached automatically, then you choose sessions and provide your company details.',
   },
 ]
 
 export const REGISTER_STEPS = [
-  'Your Microsoft contact shares a registration link',
-  'Complete the short form: sessions, weeks and details',
-  'We follow up by email with everything you need',
+  'Sign in with your personal GitHub.com account',
+  'Choose sessions and add your company details',
+  'Receive setup guidance and access information by email',
 ]
+
+export const REGISTRATION = {
+  eyebrow: 'Registration',
+  title: 'One verified GitHub handle. No typos.',
+  subtitle: 'GitHub sign-in supplies your handle. We only ask for the details needed to run the bootcamp and provision access.',
+  environments: [
+    { id: 'local', label: 'I will install the tools locally' },
+    { id: 'cloud', label: 'I need a cloud development environment' },
+  ],
+  consent:
+    'I consent to Microsoft using my company, company email, session choices, GitHub.com username and environment preference to administer the bootcamp, provision access, communicate with me and improve the programme. Registration data is deleted after the administration period.',
+}

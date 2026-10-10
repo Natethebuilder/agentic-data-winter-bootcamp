@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { BottomBar, Editable, Slide, useSlides } from '@deckio/deck-engine'
 import { ChristmasLights, Logos, Mascot, Snowflake } from '../winter/Decor.jsx'
 import {
-  BOOTCAMP, PERSONAS, PILLARS, PREP, REGISTER_STEPS, SESSIONS, TOOLBOX, WEEKS,
+  BOOTCAMP, PERSONAS, PILLARS, PREP, REGISTER_STEPS, SCHEDULE, SESSIONS, TOOLBOX,
 } from '../content.js'
 import s from './Slides.module.css'
 
@@ -162,6 +162,7 @@ export function Gift({ session, i }) {
       <span className={s.giftContent}>
         <span className={s.num}>SESSION {session.number}</span>
         <span className={s.giftTitle}>{session.title}</span>
+        <span className={s.giftLead}>{session.lead}</span>
         <span className={s.giftMeta}>
           <span className={`${s.tag} ${s.tagIce}`}>{session.level}</span>
           <span className={`${s.tag} ${s.tagPine}`}>{session.format}</span>
@@ -201,8 +202,8 @@ export function SessionsSlide({ index }) {
         <Header
           id="sessions"
           eyebrow="The lineup"
-          title="Six sessions, topics coming soon"
-          subtitle="Topics, levels and presenters are being finalised. Open a box to see the latest."
+          title="Six agentic data challenges"
+          subtitle="Open each box for the confirmed topic, format and audience."
         />
         <div className={s.legend}>
           <span className={`${s.tag} ${s.tagIce}`}>Hands-on</span>
@@ -254,16 +255,16 @@ export function TimetableSlide({ index }) {
       <Header
         id="timetable"
         eyebrow="How it works"
-        title="Winter Fridays, your way"
-        subtitle="The same sessions run every week. Join one or many, whatever fits your calendar."
+        title="Start together. Then choose your path."
+        subtitle="Dates are still being finalised. Foundations prepares your machine for every hands-on challenge."
       />
       <div className={`${s.grid} ${s.grid6}`}>
-        {WEEKS.map((w, i) => (
-          <div key={w.id} className={s.door}>
+        {SCHEDULE.map((session, i) => (
+          <div key={session.id} className={s.door}>
             <Snowflake className={s.flake} />
             <span className={s.doorNum}>{i + 1}</span>
-            <Editable as="span" id={`timetable.${w.id}.week`} className={s.doorWeek}>{w.week}</Editable>
-            <Editable as="span" id={`timetable.${w.id}.date`} className={s.doorDate}>{w.date}</Editable>
+            <Editable as="span" id={`timetable.${session.id}.week`} className={s.doorWeek}>{session.level}</Editable>
+            <Editable as="span" id={`timetable.${session.id}.date`} className={s.doorDate}>{session.format}</Editable>
           </div>
         ))}
       </div>
@@ -309,8 +310,8 @@ export function SetupSlide({ index }) {
       <Header
         id="setup"
         eyebrow="Get ready"
-        title="Before your first session"
-        subtitle="A few small things to get ready. Full setup guides and an FAQ are shared before the first session."
+        title="Your Foundations setup"
+        subtitle="Audit first, install only what is missing, then sign in to the correct tenant."
       />
       <div className={`${s.grid} ${s.grid4}`}>
         {PREP.slice(0, 4).map((p) => (
@@ -377,15 +378,15 @@ export function TeamSlide({ index }) {
       <Header
         id="team"
         eyebrow="Brought to you by"
-        title="Your presenters"
-        subtitle="Microsoft Solution Engineers and Architects. The full line-up is announced soon."
+        title="Your session leads"
+        subtitle="Specialists from the data and AI community lead each hands-on challenge."
       />
       <div className={`${s.grid} ${s.grid6}`}>
-        {Array.from({ length: 6 }, (_, i) => (
-          <div key={i} className={`${s.card} ${s.helper}`}>
-            <span className={s.helperAvatar}>{['🛠️', '📊', '🧊', '🤖', '📐', '🔎'][i]}</span>
-            <Editable as="h3" id={`team.h${i}.name`}>To be announced</Editable>
-            <Editable as="p" id={`team.h${i}.role`}>Presenter</Editable>
+        {SESSIONS.map((session) => (
+          <div key={session.id} className={`${s.card} ${s.helper}`}>
+            <span className={s.helperAvatar}>{session.icon}</span>
+            <Editable as="h3" id={`team.${session.id}.name`}>{session.lead}</Editable>
+            <Editable as="p" id={`team.${session.id}.role`}>{session.title}</Editable>
           </div>
         ))}
       </div>

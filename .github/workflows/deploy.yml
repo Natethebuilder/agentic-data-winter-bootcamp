@@ -31,6 +31,8 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          VITE_REGISTRATION_URL: ${{ vars.VITE_REGISTRATION_URL }}
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

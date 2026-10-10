@@ -349,6 +349,8 @@ main { position: relative; z-index: 2; }
 .checked { background: color-mix(in srgb, var(--pine) 12%, transparent); border-color: color-mix(in srgb, var(--pine) 50%, transparent); }
 .checked .checkBox { background: var(--green); border-color: var(--green); }
 .checked strong { text-decoration: line-through; text-decoration-color: var(--green); }
+.setupStack { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr); gap: 20px; align-items: start; }
+.setupStack .checklist { max-width: none; }
 
 /* ── FAQ ── */
 .faq { display: flex; flex-direction: column; gap: 10px; max-width: 860px; }
@@ -423,6 +425,7 @@ main { position: relative; z-index: 2; }
   .scrollCue { display: none; }
   .joinPanel { padding-top: 40px; }
   .g4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .setupStack { grid-template-columns: 1fr; }
 }
 @media (max-width: 700px) {
   .g3, .g4 { grid-template-columns: 1fr; }

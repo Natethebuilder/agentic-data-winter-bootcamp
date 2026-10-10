@@ -3,8 +3,10 @@ import { Logos, Mascot, Snowflake } from '../winter/Decor.jsx'
 import { SnowToggle } from '../winter/Snowfall.jsx'
 import { Gift } from '../slides/WinterSlides.jsx'
 import { AgentTerminal, Countdown, ScheduleQuery } from '../data/DataViz.jsx'
+import SetupWizard from '../setup/SetupWizard.jsx'
+import RegistrationForm from '../registration/RegistrationForm.jsx'
 import {
-  BOOTCAMP, FAQ, PERSONAS, PILLARS, PREP, REGISTER_STEPS, SESSIONS, TOOLBOX,
+  BOOTCAMP, FAQ, PERSONAS, PILLARS, PREP, REGISTRATION, SESSIONS, TOOLBOX,
 } from '../content.js'
 import s from './Site.module.css'
 
@@ -163,6 +165,14 @@ export default function Site({ snow, onToggleSnow }) {
 
   const go = (id) => rootRef.current?.querySelector(`#${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get('register') === '1') {
+      const id = setTimeout(() => go('join'), 100)
+      return () => clearTimeout(id)
+    }
+    return undefined
+  }, [])
+
   return (
     <div className={s.site} ref={rootRef} onScroll={(e) => setScrolled(e.currentTarget.scrollTop > 40)}>
 
@@ -235,8 +245,8 @@ export default function Site({ snow, onToggleSnow }) {
           id="lineup"
           idx="02"
           eyebrow="The lineup"
-          title="Six sessions, topics coming soon"
-          subtitle="Topics, levels and presenters are being finalised. Open a box to see the latest, and check back soon."
+          title="Six agentic data challenges"
+          subtitle="Open a box for the confirmed topic, format and presenter."
         >
           <div className={`${s.grid} ${s.g3} ${s.gifts}`}>
             {SESSIONS.map((session, i) => <Gift key={session.id} session={session} i={i} />)}
@@ -247,8 +257,8 @@ export default function Site({ snow, onToggleSnow }) {
           id="schedule"
           idx="03"
           eyebrow="Schedule"
-          title="Winter Fridays, your way"
-          subtitle="The same sessions run every week. Join one or many, whatever fits your calendar."
+          title="Start with Foundations. Choose your path."
+          subtitle="Dates are still being finalised. The foundations session prepares your machine for every hands-on challenge."
         >
           <ScheduleQuery />
         </Section>
@@ -281,9 +291,12 @@ export default function Site({ snow, onToggleSnow }) {
           idx="05"
           eyebrow="Get ready"
           title="Pre-flight checks"
-          subtitle="Tick off your prep before day one. Your progress is saved in this browser only."
+          subtitle="Run the foundations setup, sign in, then tick off the checks. Checklist progress stays in this browser only."
         >
-          <PrepChecklist />
+          <div className={s.setupStack}>
+            <SetupWizard />
+            <PrepChecklist />
+          </div>
         </Section>
 
         <Section id="faq" idx="06" eyebrow="FAQ" title="Frequently asked questions">
@@ -297,28 +310,24 @@ export default function Site({ snow, onToggleSnow }) {
           </div>
         </Section>
 
-        <section id="join" className={`${s.panel} ${s.joinPanel}`} data-panel>
-          <div className={`${s.register} ${s.reveal}`}>
-            <div>
-              <p className={s.eyebrow}><span className={s.eyebrowIdx}>07</span>Ready to join?</p>
-              <h2>Registration opens soon</h2>
-              <ol className={s.steps}>
-                {REGISTER_STEPS.map((step, i) => (
-                  <li key={step}><span>{i + 1}</span>{step}</li>
-                ))}
-              </ol>
-            </div>
-            <Mascot kind="duck" className={s.registerDuck} />
-          </div>
-          <footer className={s.footer}>
-            <Logos size="sm" />
-            <p>
-              Educational workshop series delivered by Microsoft. Not a consulting engagement. Use sample or
-              synthetic data only. Workshop outputs are learning artifacts.
-            </p>
-            <p className={s.footerSmall}>Built with DECKIO</p>
-          </footer>
-        </section>
+        <Section
+          id="join"
+          idx="07"
+          eyebrow={REGISTRATION.eyebrow}
+          title={REGISTRATION.title}
+          subtitle={REGISTRATION.subtitle}
+        >
+          <RegistrationForm />
+        </Section>
+
+        <footer className={s.footer}>
+          <Logos size="sm" />
+          <p>
+            Educational workshop series delivered by Microsoft. Not a consulting engagement. Use sample or
+            synthetic data only. Workshop outputs are learning artifacts.
+          </p>
+          <p className={s.footerSmall}>Built with DECKIO</p>
+        </footer>
       </main>
     </div>
   )

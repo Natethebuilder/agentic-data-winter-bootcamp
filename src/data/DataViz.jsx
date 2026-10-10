@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { PIPELINE, TERMINAL_SCRIPT, WEEKS } from '../content.js'
+import { PIPELINE, SCHEDULE, TERMINAL_SCRIPT } from '../content.js'
 import d from './Data.module.css'
 
 const BASE = import.meta.env.BASE_URL
@@ -243,9 +243,9 @@ export function ScheduleQuery() {
       </div>
       <pre className={d.qCode}>
         <code>
-          <span className={d.kw}>SELECT</span> week, day, session_date, sessions, status{'\n'}
+          <span className={d.kw}>SELECT</span> session, focus, lead, session_date, status{'\n'}
           <span className={d.kw}>FROM</span> <span className={d.tbl}>winter_bootcamp.schedule</span>{'\n'}
-          <span className={d.kw}>ORDER BY</span> week;
+          <span className={d.kw}>ORDER BY</span> session;
         </code>
       </pre>
       <div className={`${d.qProgress} ${loading ? d.qProgressOn : ''}`} />
@@ -253,25 +253,25 @@ export function ScheduleQuery() {
         <table className={d.qGrid}>
           <thead>
             <tr>
-              <th className={d.num}>week</th><th>day</th><th>session_date</th><th className={d.num}>sessions</th><th>status</th>
+              <th className={d.num}>session</th><th>focus</th><th>lead</th><th>session_date</th><th>status</th>
             </tr>
           </thead>
           <tbody key={run}>
-            {run > 0 && WEEKS.map((w, i) => (
-              <tr key={w.id} style={{ animationDelay: `${i * 70}ms` }}>
-                <td className={d.num}>{i + 1}</td>
-                <td>Friday</td>
-                <td>{w.date === 'Date TBA' ? <span className={d.null} title="Date to be announced">NULL</span> : w.date}</td>
-                <td className={d.num}>6</td>
-                <td><span className={d.pending}>pending</span></td>
+            {run > 0 && SCHEDULE.map((session, i) => (
+              <tr key={session.id} style={{ animationDelay: `${i * 70}ms` }}>
+                <td className={d.num}>{session.number}</td>
+                <td>{session.title}</td>
+                <td>{session.lead}</td>
+                <td>{session.date === 'Date TBA' ? <span className={d.null} title="Date to be announced">NULL</span> : session.date}</td>
+                <td><span className={d.pending}>{session.status}</span></td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
       <div className={d.qFoot}>
-        <span>{run > 0 ? `${WEEKS.length} rows · ${ms} ms` : 'Not run yet'}</span>
-        <span>Dates publish before registration opens</span>
+        <span>{run > 0 ? `${SCHEDULE.length} rows · ${ms} ms` : 'Not run yet'}</span>
+        <span>Foundations prepares the environment for every lab</span>
       </div>
     </div>
   )

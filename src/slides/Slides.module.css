@@ -171,6 +171,7 @@
   transition: opacity 0.35s ease, transform 0.35s ease;
 }
 .giftTitle { font-size: 18px; font-weight: 700; color: var(--frost); }
+.giftLead { font-size: 12px; color: var(--muted-foreground); }
 .giftMeta { display: flex; gap: 8px; flex-wrap: wrap; }
 
 .giftWrap {
@@ -466,6 +467,7 @@
   .giftLabel::before { content: '#'; opacity: 0.7; }
   .giftContent { padding: 12px 14px; gap: 6px; }
   .giftTitle { font-size: 15px; }
+  .giftLead { font-size: 11px; }
   .bow { width: 48px; }
 }
 
