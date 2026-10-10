@@ -1,4 +1,7 @@
+import { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { BottomBar, Editable, Slide, useSlides } from '@deckio/deck-engine'
+import RegistrationForm from '../registration/RegistrationForm.jsx'
 import { ChristmasLights, Logos, Mascot, Snowflake } from '../winter/Decor.jsx'
 import {
   BOOTCAMP, PERSONAS, PILLARS, PREP, REGISTER_STEPS, SCHEDULE, SESSIONS, TOOLBOX,
@@ -364,6 +367,19 @@ export function SurveySlide({ index }) {
 }
 
 export function RegisterSlide({ index }) {
+  const [registrationOpen, setRegistrationOpen] = useState(
+    () => new URLSearchParams(window.location.search).get('deckRegister') === '1',
+  )
+
+  useEffect(() => {
+    if (!registrationOpen) return undefined
+    const closeOnEscape = (event) => {
+      if (event.key === 'Escape') setRegistrationOpen(false)
+    }
+    window.addEventListener('keydown', closeOnEscape, true)
+    return () => window.removeEventListener('keydown', closeOnEscape, true)
+  }, [registrationOpen])
+
   return (
     <Frame index={index} id="register" orbs={['orbIce', 'orbHolly']}>
       <Header
@@ -372,14 +388,51 @@ export function RegisterSlide({ index }) {
         title="How to register"
         subtitle="Registration is open. Sign in with GitHub; it takes about two minutes."
       />
-      <div className={s.points}>
-        {REGISTER_STEPS.map((text, i) => (
-          <div key={i} className={s.point}>
-            <span className={s.stepNum}>{i + 1}</span>
-            <Editable as="span" id={`register.step${i + 1}`}>{text}</Editable>
+      <div className={s.registerSlideGrid}>
+        <div className={s.points}>
+          {REGISTER_STEPS.map((text, i) => (
+            <div key={i} className={s.point}>
+              <span className={s.stepNum}>{i + 1}</span>
+              <Editable as="span" id={`register.step${i + 1}`}>{text}</Editable>
+            </div>
+          ))}
+        </div>
+        <div className={s.registerPrompt}>
+          <span className={s.registerPromptMark}>GH</span>
+          <div>
+            <strong>Register without leaving the deck</strong>
+            <p>GitHub verifies your handle, then the form opens here.</p>
           </div>
-        ))}
+          <button type="button" onClick={() => setRegistrationOpen(true)}>Register now</button>
+        </div>
       </div>
+      {registrationOpen && createPortal(
+        <div
+          className={s.registrationOverlay}
+          role="presentation"
+          onPointerDown={(event) => event.stopPropagation()}
+          onClick={() => setRegistrationOpen(false)}
+        >
+          <div
+            className={s.registrationModal}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="deck-registration-title"
+            onClick={(event) => event.stopPropagation()}
+            onKeyDown={(event) => event.stopPropagation()}
+          >
+            <div className={s.registrationModalHeader}>
+              <div>
+                <span>Agentic Data Winter Bootcamp</span>
+                <h2 id="deck-registration-title">Register from the deck</h2>
+              </div>
+              <button type="button" aria-label="Close registration" onClick={() => setRegistrationOpen(false)}>×</button>
+            </div>
+            <RegistrationForm postLoginRedirect="/?deckRegister=1#/deck" />
+          </div>
+        </div>,
+        document.body,
+      )}
     </Frame>
   )
 }

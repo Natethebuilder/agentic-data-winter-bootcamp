@@ -12,7 +12,7 @@ async function loadPrincipal() {
   return payload.clientPrincipal
 }
 
-export default function RegistrationForm() {
+export default function RegistrationForm({ postLoginRedirect = '/?register=1' }) {
   const [principal, setPrincipal] = useState(undefined)
   const [authUnavailable, setAuthUnavailable] = useState(false)
   const [sessions, setSessions] = useState([])
@@ -29,7 +29,7 @@ export default function RegistrationForm() {
 
   const signedIn = principal?.identityProvider === 'github'
   const valid = signedIn && sessions.length > 0 && company.trim() && email.trim() && consent
-  const loginUrl = '/login'
+  const loginUrl = `/.auth/login/github?post_login_redirect_uri=${encodeURIComponent(postLoginRedirect)}`
 
   const toggleSession = (id) => setSessions((current) => (
     current.includes(id) ? current.filter((item) => item !== id) : [...current, id]

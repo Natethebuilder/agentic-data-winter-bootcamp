@@ -320,6 +320,106 @@
   background: radial-gradient(circle at 35% 30%, #fff, var(--ice));
   box-shadow: 0 0 14px rgba(143, 216, 255, 0.5);
 }
+.registerSlideGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+  align-items: stretch;
+  gap: 18px;
+}
+.registerPrompt {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 16px;
+  padding: 22px;
+  border-radius: 18px;
+  border: 1px solid color-mix(in srgb, var(--holly) 42%, var(--border));
+  background:
+    radial-gradient(260px 160px at 100% 0%, color-mix(in srgb, var(--holly) 20%, transparent), transparent 70%),
+    color-mix(in srgb, var(--card) 90%, transparent);
+}
+.registerPromptMark {
+  width: 50px;
+  height: 50px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--frost);
+  color: var(--night);
+  font-weight: 900;
+}
+.registerPrompt strong { display: block; color: var(--frost); font-size: 18px; }
+.registerPrompt p { margin-top: 5px; color: var(--muted-foreground); font-size: 14px; line-height: 1.45; }
+.registerPrompt button {
+  grid-column: 1 / -1;
+  appearance: none;
+  border: 0;
+  border-radius: 999px;
+  padding: 13px 20px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--holly), #c81e36);
+  box-shadow: 0 10px 28px rgba(255, 77, 97, 0.32);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+.registerPrompt button:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(255, 77, 97, 0.45); }
+.registerPrompt button:focus-visible { outline: 2px solid var(--ice); outline-offset: 3px; }
+.registrationOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  display: grid;
+  place-items: center;
+  padding: 28px;
+  background: rgba(2, 8, 20, 0.82);
+  backdrop-filter: blur(12px);
+}
+.registrationModal {
+  width: min(1040px, calc(100vw - 56px));
+  max-height: calc(100vh - 56px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 22px;
+  border-radius: 24px;
+  border: 1px solid color-mix(in srgb, var(--ice) 38%, var(--border));
+  background: var(--night);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.65);
+}
+.registrationModalHeader {
+  position: sticky;
+  top: -22px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin: -22px -22px 18px;
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in srgb, var(--night) 92%, transparent);
+  backdrop-filter: blur(14px);
+}
+.registrationModalHeader span {
+  color: var(--ice);
+  font: 700 11px/1.2 ui-monospace, monospace;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+.registrationModalHeader h2 { margin-top: 3px; font-size: 24px; color: var(--frost); }
+.registrationModalHeader button {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--card) 84%, transparent);
+  color: var(--frost);
+  font-family: inherit;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
 
 /* ── Team ── */
 .helper { align-items: center; text-align: center; }
@@ -432,6 +532,21 @@
   .flowArrow { display: inline-block; transform: rotate(90deg); }
   .point { padding: 12px 14px; font-size: 15px; gap: 12px; }
   .stepNum { width: 30px; height: 30px; }
+  .registerSlideGrid { grid-template-columns: 1fr; }
+  .registerPrompt { padding: 18px; }
+  .registrationOverlay { padding: 10px; }
+  .registrationModal {
+    width: calc(100vw - 20px);
+    max-height: calc(100vh - 20px);
+    padding: 14px;
+    border-radius: 18px;
+  }
+  .registrationModalHeader {
+    top: -14px;
+    margin: -14px -14px 14px;
+    padding: 14px;
+  }
+  .registrationModalHeader h2 { font-size: 20px; }
   .helperAvatar { width: 60px; height: 60px; font-size: 28px; }
 
   .thanks { gap: 14px; }
