@@ -142,8 +142,8 @@ export function SessionsSlide({ index }) {
       <Header
         id="sessions"
         eyebrow="The lineup"
-        title="Six sessions, one shared foundation"
-        subtitle="Start together, then follow the role-based path that matches the data work you do."
+        title="Six sessions, one connected programme"
+        subtitle="Each session adds a different perspective. Join the full series to see how agentic AI connects the data community."
       />
       <div className={s.sessionOverview}>
         {SESSIONS.map((session) => (
@@ -199,8 +199,8 @@ export function TimetableSlide({ index }) {
       <Header
         id="timetable"
         eyebrow="How it works"
-        title="Start together. Then choose your path."
-        subtitle="Six Fridays from 4 December 2026 to 22 January 2027. Foundations prepares your machine for every hands-on challenge."
+        title="Six Fridays. One connected programme."
+        subtitle="Join the complete series from 4 December 2026 to 22 January 2027. Every session builds a broader view of agentic AI in data."
       />
       <div className={`${s.grid} ${s.grid6}`}>
         {SCHEDULE.map((session, i) => (

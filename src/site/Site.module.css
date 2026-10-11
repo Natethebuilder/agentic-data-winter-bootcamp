@@ -58,8 +58,6 @@
 .navLinks button:hover { color: var(--frost); background: color-mix(in srgb, var(--ice) 10%, transparent); }
 .navLinks button.navActive { color: var(--frost); background: color-mix(in srgb, var(--ice) 14%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ice) 35%, transparent); }
 .navActions { display: flex; align-items: center; gap: 10px; }
-.navRegister { padding: 9px 17px; font-size: 14px; white-space: nowrap; }
-.navRegisterActive { box-shadow: 0 0 0 2px color-mix(in srgb, var(--ice) 55%, transparent), 0 8px 24px rgba(255, 77, 97, 0.35); }
 .navDeck { padding: 9px 16px; font-size: 14px; white-space: nowrap; }
 
 @keyframes spin { to { transform: rotate(360deg); } }
@@ -397,28 +395,12 @@ main { position: relative; z-index: 2; }
   font-size: 22px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
 }
-.programmeGiftLabel {
-  position: absolute;
-  z-index: 4;
-  left: 50%;
-  bottom: 24px;
-  transform: translateX(-50%);
-  padding: 7px 13px;
-  border-radius: 999px;
-  background: rgba(5, 10, 21, 0.8);
-  color: var(--frost);
-  font: 700 12px/1 ui-monospace, monospace;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
 .programmeGift:hover:not(.programmeGiftOpen) .programmeGiftPaper,
 .programmeGift:hover:not(.programmeGiftOpen) .programmeGiftLid { transform: translateY(-4px) rotate(-1deg); }
 .programmeGiftOpen .programmeGiftPaper { opacity: 0; transform: translateY(42px) scale(1.08) rotate(4deg); }
 .programmeGiftOpen .programmeRibbonV { opacity: 0; transform: translateX(-50%) scaleY(0); }
 .programmeGiftOpen .programmeRibbonH { opacity: 0; transform: scaleX(0); }
 .programmeGiftOpen .programmeGiftLid { opacity: 0; transform: translate(26%, -105%) rotate(18deg); }
-.programmeGiftOpen .programmeGiftLabel { opacity: 0; transform: translateX(-50%) translateY(12px); }
 .programmeGiftOpen .programmeBurst i { animation: unwrapSpark 0.8s ease-out calc(0.12s + var(--i, 0) * 25ms) forwards; }
 @keyframes unwrapSpark {
   0% { opacity: 0; transform: translate(0, 0) scale(0.4); }
@@ -456,20 +438,15 @@ main { position: relative; z-index: 2; }
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.36), 0 0 34px color-mix(in srgb, var(--session-accent) 10%, transparent);
 }
 .sessionSummary {
-  appearance: none;
   width: 100%;
-  border: 0;
   color: inherit;
-  background: transparent;
   text-align: left;
-  cursor: pointer;
   display: grid;
-  grid-template-columns: auto auto minmax(0, 1fr) auto auto;
+  grid-template-columns: auto auto minmax(0, 1fr) auto;
   align-items: center;
   gap: 14px;
   padding: 22px 24px;
 }
-.sessionSummary:focus-visible { outline: 2px solid var(--session-accent); outline-offset: -5px; border-radius: 18px; }
 .sessionRowOpen .sessionSummary { border-bottom: 1px solid color-mix(in srgb, var(--session-accent) 22%, var(--border)); }
 .sessionDetails {
   padding: 22px 24px 24px;
@@ -502,19 +479,6 @@ main { position: relative; z-index: 2; }
 .sessionLead { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; text-align: right; }
 .sessionLead small { color: var(--muted-foreground); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
 .sessionLead strong { color: var(--frost); white-space: nowrap; }
-.sessionToggle {
-  width: 38px;
-  height: 38px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  border: 1px solid color-mix(in srgb, var(--session-accent) 48%, transparent);
-  color: var(--session-accent);
-  background: color-mix(in srgb, var(--session-accent) 8%, transparent);
-  font-size: 23px;
-  transition: transform 0.25s ease, background 0.25s ease;
-}
-.sessionRowOpen .sessionToggle { transform: rotate(180deg); background: color-mix(in srgb, var(--session-accent) 16%, transparent); }
 .sessionOverview {
   margin: 0 0 18px;
   color: color-mix(in srgb, var(--frost) 82%, transparent);
@@ -566,7 +530,7 @@ main { position: relative; z-index: 2; }
   background: repeating-linear-gradient(-45deg, var(--holly) 0 10px, var(--frost) 10px 20px);
   transition: width 0.5s ease;
 }
-.checklist ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.checklist ul { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 .checkItem {
   display: flex; align-items: center; gap: 14px;
   padding: 14px 16px; border-radius: 14px;
@@ -599,8 +563,24 @@ main { position: relative; z-index: 2; }
 .checked { background: color-mix(in srgb, var(--pine) 12%, transparent); border-color: color-mix(in srgb, var(--pine) 50%, transparent); }
 .checked .checkBox { background: var(--green); border-color: var(--green); }
 .checked strong { text-decoration: line-through; text-decoration-color: var(--green); }
-.setupStack { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr); gap: 20px; align-items: start; }
+.preflightPanel .section { padding-top: 64px; padding-bottom: 64px; }
+.setupStack { display: flex; flex-direction: column; gap: 26px; }
 .setupStack .checklist { max-width: none; }
+.preflightBlock { display: flex; flex-direction: column; gap: 11px; }
+.preflightLabel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--frost);
+  font-size: 15px;
+}
+.preflightLabel span {
+  padding: 4px 7px;
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--ice) 35%, transparent);
+  color: var(--ice);
+  font: 700 11px/1 ui-monospace, monospace;
+}
 
 /* ── FAQ ── */
 .faq { display: flex; flex-direction: column; gap: 10px; max-width: 860px; }
@@ -675,7 +655,6 @@ main { position: relative; z-index: 2; }
   .scrollCue { display: none; }
   .joinPanel { padding-top: 40px; }
   .g4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .setupStack { grid-template-columns: 1fr; }
 }
 @media (max-width: 700px) {
   .g3, .g4 { grid-template-columns: 1fr; }
@@ -725,7 +704,7 @@ main { position: relative; z-index: 2; }
   .programmeGiftOpen .programmeGiftLid { transform: translateY(-105%); }
   .sessionRow { border-radius: 17px; }
   .sessionSummary {
-    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-columns: auto minmax(0, 1fr);
     grid-template-rows: auto auto auto;
     gap: 8px 12px;
     padding: 17px;
@@ -736,7 +715,6 @@ main { position: relative; z-index: 2; }
   .sessionHeading > strong { font-size: 21px; }
   .sessionLead { grid-column: 2; grid-row: 3; align-items: flex-start; text-align: left; margin-top: 3px; }
   .sessionLead strong { white-space: normal; }
-  .sessionToggle { grid-column: 3; grid-row: 1 / 4; align-self: center; }
   .sessionDetails { padding: 17px; }
   .sessionSpotlight { font-size: 15px; }
   .sessionOverview { font-size: 15px; }
@@ -744,6 +722,7 @@ main { position: relative; z-index: 2; }
   .sessionDepth > div { padding: 15px; }
 
   .checklist { padding: 16px; }
+  .checklist ul { grid-template-columns: 1fr; }
   .checkHead { gap: 12px; }
   .progress { flex-basis: 100%; max-width: none; }
   .checkItem {
@@ -766,6 +745,7 @@ main { position: relative; z-index: 2; }
   .registerDuck { width: 110px; order: -1; }
   .steps li { font-size: 15px; align-items: flex-start; }
   .footer { padding: 28px 22px 36px; font-size: 13px; }
+  .preflightPanel .section { padding-top: 44px; padding-bottom: 44px; }
 }
 @media (max-width: 380px) {
   .nav { padding: 10px 12px; gap: 8px; }
@@ -782,7 +762,6 @@ main { position: relative; z-index: 2; }
   .section { padding-left: 16px; padding-right: 16px; }
   .section h2, .register h2 { font-size: 27px; }
   .programmeGift { --gift-height: 178px; }
-  .programmeGiftLabel { font-size: 10.5px; bottom: 20px; }
   .sessionSummary, .sessionDetails { padding: 15px; }
   .sessionHeading > strong { font-size: 19px; }
   .register { margin-left: 12px; margin-right: 12px; }

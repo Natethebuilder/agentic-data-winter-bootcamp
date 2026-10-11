@@ -15,6 +15,7 @@ const NAV = [
   ['schedule', 'Schedule'],
   ['prepare', 'Get ready'],
   ['faq', 'FAQ'],
+  ['join', 'Register'],
 ]
 
 const PREP_KEY = 'winter-bootcamp:prep'
@@ -46,9 +47,9 @@ function useReveal(rootRef) {
 }
 
 // Each section is a self-contained, full-height panel so it reads on its own.
-function Section({ id, idx, eyebrow, title, subtitle, children }) {
+function Section({ id, idx, eyebrow, title, subtitle, className = '', children }) {
   return (
-    <section id={id} className={s.panel} data-panel>
+    <section id={id} className={`${s.panel} ${className}`} data-panel>
       <div className={`${s.section} ${s.reveal}`}>
         <div className={s.sectionHead}>
           <p className={s.eyebrow}><span className={s.eyebrowIdx}>{idx}</span>{eyebrow}</p>
@@ -109,7 +110,6 @@ function PersonaPicker() {
 
 function ProgrammeReveal() {
   const [open, setOpen] = useState(false)
-  const [expanded, setExpanded] = useState(null)
 
   return (
     <div className={s.programmeReveal}>
@@ -118,6 +118,7 @@ function ProgrammeReveal() {
         className={`${s.programmeGift} ${open ? s.programmeGiftOpen : ''}`}
         aria-expanded={open}
         aria-controls="programme-sessions"
+        aria-label="Unwrap the programme"
         disabled={open}
         onClick={() => setOpen(true)}
       >
@@ -130,7 +131,6 @@ function ProgrammeReveal() {
         <span className={s.programmeGiftLid} aria-hidden="true">
           <span className={s.programmeBow}>◆</span>
         </span>
-        <span className={s.programmeGiftLabel}>{open ? 'Programme unwrapped' : 'Unwrap the programme'}</span>
       </button>
 
       {open && (
@@ -138,16 +138,10 @@ function ProgrammeReveal() {
           {SESSIONS.map((session, index) => (
             <article
               key={session.id}
-              className={`${s.sessionRow} ${expanded === session.id ? s.sessionRowOpen : ''}`}
+              className={`${s.sessionRow} ${s.sessionRowOpen}`}
               style={{ '--i': index, '--session-accent': session.accent }}
             >
-              <button
-                type="button"
-                className={s.sessionSummary}
-                aria-expanded={expanded === session.id}
-                aria-controls={`session-${session.id}`}
-                onClick={() => setExpanded((current) => current === session.id ? null : session.id)}
-              >
+              <div className={s.sessionSummary}>
                 <span className={s.sessionNumber}>{session.number}</span>
                 <span className={s.sessionIcon} aria-hidden="true">{session.icon}</span>
                 <span className={s.sessionHeading}>
@@ -159,30 +153,27 @@ function ProgrammeReveal() {
                   <small>Lead</small>
                   <strong>{session.lead}</strong>
                 </span>
-                <span className={s.sessionToggle} aria-hidden="true">{expanded === session.id ? '−' : '+'}</span>
-              </button>
+              </div>
 
-              {expanded === session.id && (
-                <div id={`session-${session.id}`} className={s.sessionDetails}>
-                  <p className={s.sessionSpotlight}>{session.spotlight}</p>
-                  <p className={s.sessionOverview}>{session.overview}</p>
+              <div className={s.sessionDetails}>
+                <p className={s.sessionSpotlight}>{session.spotlight}</p>
+                <p className={s.sessionOverview}>{session.overview}</p>
 
-                  <div className={s.sessionDepth}>
-                    <div>
-                      <h4>You will</h4>
-                      <ul>
-                        {session.outcomes.map((outcome) => <li key={outcome}>{outcome}</li>)}
-                      </ul>
-                    </div>
-                    <div className={s.sessionToolkit}>
-                      <span>Tools and concepts</span>
-                      <div className={s.sessionTools}>
-                        {session.tools.map((tool) => <span key={tool}>{tool}</span>)}
-                      </div>
+                <div className={s.sessionDepth}>
+                  <div>
+                    <h4>You will</h4>
+                    <ul>
+                      {session.outcomes.map((outcome) => <li key={outcome}>{outcome}</li>)}
+                    </ul>
+                  </div>
+                  <div className={s.sessionToolkit}>
+                    <span>Tools and concepts</span>
+                    <div className={s.sessionTools}>
+                      {session.tools.map((tool) => <span key={tool}>{tool}</span>)}
                     </div>
                   </div>
                 </div>
-              )}
+              </div>
             </article>
           ))}
         </div>
@@ -269,14 +260,6 @@ export default function Site({ snow, onToggleSnow }) {
         </nav>
         <div className={s.navActions}>
           <SnowToggle enabled={snow} onToggle={onToggleSnow} />
-          <button
-            type="button"
-            className={`${s.btnPrimary} ${s.navRegister} ${active === 'join' ? s.navRegisterActive : ''}`}
-            aria-current={active === 'join' ? 'true' : undefined}
-            onClick={() => go('join')}
-          >
-            Register
-          </button>
           <a className={`${s.btnGhost} ${s.navDeck}`} href="#/deck">▶ Deck</a>
         </div>
       </header>
@@ -350,8 +333,8 @@ export default function Site({ snow, onToggleSnow }) {
           id="schedule"
           idx="03"
           eyebrow="Schedule"
-          title="Start with Foundations. Choose your path."
-          subtitle="Six Fridays from 4 December 2026 to 22 January 2027. Foundations prepares your machine for every hands-on challenge."
+          title="Six Fridays. One connected programme."
+          subtitle="Every session adds a different view of agentic AI. Join the complete series to connect analytics, engineering, open source, SQL, NoSQL and AI applications."
         >
           <ScheduleQuery />
         </Section>
@@ -362,10 +345,17 @@ export default function Site({ snow, onToggleSnow }) {
           eyebrow="Get ready"
           title="Pre-flight checks"
           subtitle="Run the foundations setup, sign in, then tick off the checks. Checklist progress stays in this browser only."
+          className={s.preflightPanel}
         >
           <div className={s.setupStack}>
-            <SetupWizard />
-            <PrepChecklist />
+            <div className={s.preflightBlock}>
+              <div className={s.preflightLabel}><span>01</span><strong>Readiness checklist</strong></div>
+              <PrepChecklist />
+            </div>
+            <div className={s.preflightBlock}>
+              <div className={s.preflightLabel}><span>02</span><strong>Guided setup</strong></div>
+              <SetupWizard />
+            </div>
           </div>
         </Section>
 
