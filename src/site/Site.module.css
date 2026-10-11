@@ -567,7 +567,7 @@ main { position: relative; z-index: 2; }
   text-transform: uppercase;
 }
 .sessionDepth ul { margin: 11px 0 0 18px; display: flex; flex-direction: column; gap: 7px; }
-.sessionDepth li { color: var(--muted-foreground); line-height: 1.5; padding-left: 3px; }
+.sessionDepth li { color: color-mix(in srgb, var(--frost) 84%, var(--muted-foreground)); line-height: 1.5; padding-left: 3px; }
 .sessionDepth li::marker { color: var(--session-accent); }
 .sessionTools { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 14px; }
 .sessionTools span {
