@@ -33,7 +33,7 @@
 .sessionField legend, .environment legend { margin-bottom: 12px; }
 .sessionGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 .sessionGrid label {
-  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 11px;
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 11px;
   padding: 13px; border-radius: 13px; border: 1px solid var(--border);
   cursor: pointer; transition: border-color .2s, background .2s, transform .2s;
 }
@@ -42,7 +42,6 @@
 .sessionGrid strong { display: block; font-size: 14px; line-height: 1.35; }
 .sessionGrid small { display: block; color: var(--muted-foreground); margin-top: 3px; line-height: 1.35; }
 .sessionGrid i { font-style: normal; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; color: var(--ice); border: 1px solid color-mix(in srgb, var(--ice) 40%, transparent); }
-.sessionIcon { font-size: 23px; }
 .sessionGrid .sessionOn { background: color-mix(in srgb, var(--pine) 14%, var(--card)); border-color: var(--green); }
 .sessionGrid .sessionOn i { color: var(--night); background: var(--green); border-color: var(--green); }
 .environment { display: flex; flex-wrap: wrap; gap: 10px; }

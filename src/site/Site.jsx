@@ -144,7 +144,6 @@ function ProgrammeReveal() {
             >
               <div className={s.sessionSummary}>
                 <span className={s.sessionNumber}>{session.number}</span>
-                <span className={s.sessionIcon} aria-hidden="true">{session.icon}</span>
                 <span className={s.sessionHeading}>
                   <span className={s.sessionAudience}>{session.audience}</span>
                   <strong>{session.title}</strong>

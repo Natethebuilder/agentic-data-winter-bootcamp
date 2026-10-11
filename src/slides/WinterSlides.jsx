@@ -245,7 +245,6 @@ function SessionDetailSlide({ index, session }) {
           <span className={`${s.tag} ${s.tagPine}`}>{session.format}</span>
         </div>
         <div className={s.detailHeader}>
-          <span className={s.detailIcon}>{session.icon}</span>
           <div>
             <Editable as="h1" id={`detail.${session.id}.title`}>{session.title}</Editable>
             <Editable as="p" id={`detail.${session.id}.subtitle`} className={s.detailSubtitle}>{session.subtitle}</Editable>

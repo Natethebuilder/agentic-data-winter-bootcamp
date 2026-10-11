@@ -26,7 +26,6 @@ export const SESSIONS = [
     lead: 'Remco van Dam',
     audience: 'Everyone',
     format: 'Hands-on setup',
-    icon: '🧭',
     scheduleMark: 'AI',
     accent: '#8fd8ff',
     spotlight: 'What if AI didn’t just help you write code, but became part of how you engineer?',
@@ -51,7 +50,6 @@ export const SESSIONS = [
     lead: 'Zeeshan Ali',
     audience: 'Analysts & app builders',
     format: 'Insights, apps & action',
-    icon: '📊',
     scheduleMark: 'BI',
     accent: '#d97cff',
     spotlight:
@@ -78,7 +76,6 @@ export const SESSIONS = [
     lead: 'Arash Nezami',
     audience: 'Data engineers',
     format: 'Lakehouse design',
-    icon: '🏗️',
     scheduleMark: 'LH',
     accent: '#ffb454',
     spotlight:
@@ -103,7 +100,6 @@ export const SESSIONS = [
     lead: 'Remco van Dam',
     audience: 'Open-source data engineers',
     format: 'dbt + Airflow',
-    icon: '🔧',
     scheduleMark: 'OS',
     accent: '#55d6a9',
     spotlight: 'What happens when your favourite open-source data engineering tools meet Agentic AI?',
@@ -129,7 +125,6 @@ export const SESSIONS = [
     lead: 'Ajinkya Soitkar',
     audience: 'SQL developers & DBAs',
     format: 'Database Hub',
-    icon: '🗄️',
     scheduleMark: 'SQL',
     accent: '#7ea7ff',
     spotlight:
@@ -156,7 +151,6 @@ export const SESSIONS = [
     lead: 'René Bremer',
     audience: 'NoSQL developers at scale',
     format: 'AI chat application',
-    icon: '🌐',
     scheduleMark: 'NoSQL',
     accent: '#4fd1e8',
     spotlight:

@@ -103,7 +103,6 @@ export default function RegistrationForm({ postLoginRedirect = '/?register=1' })
           {SESSIONS.map((session) => (
             <label key={session.id} className={sessions.includes(session.id) ? s.sessionOn : ''}>
               <input type="checkbox" checked={sessions.includes(session.id)} onChange={() => toggleSession(session.id)} />
-              <span className={s.sessionIcon}>{session.icon}</span>
               <span><strong>{session.number} · {session.title}</strong><small>{session.subtitle}</small></span>
               <i>{sessions.includes(session.id) ? '✓' : '+'}</i>
             </label>
