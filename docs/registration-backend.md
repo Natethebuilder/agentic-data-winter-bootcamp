@@ -61,22 +61,24 @@ Turn on version history. Do not expose the list publicly, and define a deletion 
 3. Keep `eventId` optional while the original Data client remains deployed without it.
 4. Reject the request unless the `x-registration-secret` header exactly matches the secret stored in the flow.
 5. Route `agentic-software-development-winter-bootcamp` to the Software Development List.
-6. Route missing or unrecognized `eventId` values to the unchanged Data branch for backward compatibility.
-7. In each event branch, use **Get items** with the filter query `RegistrationId eq '<registrationId>'` and top count `1`.
-8. If a row exists, update it. Otherwise, create it. This makes repeat submissions an upsert instead of creating duplicates.
-9. Return HTTP `202` for an accepted registration and HTTP `401` for a failed shared-secret check.
-10. Apply a flow run-history retention policy appropriate for registration data and restrict flow ownership to the operations team.
+6. In the non-Software path, route `foundry-agentic-development-winter-bootcamp` to the Foundry Agentic Development List.
+7. Route missing or unrecognized `eventId` values to the unchanged Data branch for backward compatibility.
+8. In each event branch, use **Get items** with the filter query `RegistrationId eq '<registrationId>'` and top count `1`.
+9. If a row exists, update it. Otherwise, create it. This makes repeat submissions an upsert instead of creating duplicates.
+10. Return HTTP `202` for an accepted registration and HTTP `401` for a failed shared-secret check.
+11. Apply a flow run-history retention policy appropriate for registration data and restrict flow ownership to the operations team.
 
 Do not log the request body or send registration details to chat channels. Keep the HTTP trigger URL and optional shared secret only in Azure Static Web Apps application settings.
 
 ## Shared event routing
 
-The deployed valid-secret branch contains `Route_registration`:
+The deployed valid-secret branch first evaluates `Route_registration`. Its non-Software path evaluates the nested `Route_foundry` condition before falling back to the legacy Data actions:
 
 | Event | `eventId` behavior | SharePoint target |
 | --- | --- | --- |
 | Agentic Data Winter Bootcamp | Missing or unrecognized `eventId` uses the legacy fallback | `Agentic Data Bootcamp Registrations` |
 | Agentic Software Development Winter Bootcamp | `agentic-software-development-winter-bootcamp` | `Agentic Software Development Bootcamp Registrations` |
+| Foundry Agentic Development Winter Bootcamp | `foundry-agentic-development-winter-bootcamp` | `Foundry Agentic Development Bootcamp Registrations` |
 
 The Data API and its existing registration ID calculation remain unchanged so existing participants continue to update their original rows rather than receiving duplicate registrations. New event APIs must include a constant `eventId` and calculate registration IDs within that event namespace.
 
@@ -109,3 +111,5 @@ Live verification completed:
 - A repeat submission kept the List at one item and advanced `UpdatedAt`, confirming the update branch executed instead of creating a duplicate.
 - A Software Development submission executed only the Software branch and skipped the Data actions.
 - Repeating that Software Development submission executed `Update_software_registration`, skipped `Create_software_registration`, kept its dedicated List at one row, and advanced `UpdatedAt`.
+- A Foundry submission executed `Create_foundry_registration` and skipped every Software and Data action.
+- Repeating that Foundry submission executed `Update_foundry_registration`, skipped `Create_foundry_registration`, kept its dedicated List at one row, and advanced `UpdatedAt`.
