@@ -229,6 +229,7 @@ main { position: relative; z-index: 2; }
   padding: 96px clamp(20px, 4vw, 56px);
 }
 .lineupPanel .section { padding-top: 52px; padding-bottom: 52px; }
+.lineupPanel .sectionHead { margin-bottom: 22px; }
 .sectionHead { max-width: 780px; margin-bottom: 36px; }
 .eyebrow { display: flex; align-items: center; gap: 12px; font-size: 13px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--ice); margin-bottom: 10px; }
 .eyebrowIdx { font-size: 12px; letter-spacing: 0; color: var(--holly); padding: 2px 8px; border-radius: 6px; border: 1px solid color-mix(in srgb, var(--holly) 40%, transparent); }
@@ -326,6 +327,7 @@ main { position: relative; z-index: 2; }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(6px); } }
 
 .programmeReveal { display: flex; flex-direction: column; align-items: center; gap: 36px; }
+.programmeReveal:has(.programmeGiftOpen) { gap: 0; }
 .programmeGift {
   --gift-height: 210px;
   appearance: none;
@@ -447,7 +449,7 @@ main { position: relative; z-index: 2; }
   100% { height: 0; opacity: 0; }
 }
 
-.sessionList { width: 100%; display: flex; flex-direction: column; gap: 72px; }
+.sessionList { width: 100%; display: flex; flex-direction: column; gap: 112px; }
 .sessionRow {
   position: relative;
   overflow: hidden;
@@ -768,7 +770,8 @@ main { position: relative; z-index: 2; }
 
   .programmeReveal { gap: 34px; }
   .lineupPanel .section { padding-top: 34px; padding-bottom: 36px; }
-  .sessionList { gap: 52px; }
+  .lineupPanel .sectionHead { margin-bottom: 18px; }
+  .sessionList { gap: 78px; }
   .programmeGift { --gift-height: 190px; }
   .programmeGiftOpen .programmeGiftPaper { transform: translateY(34px) scale(0.98); }
   .programmeGiftOpen .programmeGiftLid { transform: translateY(-105%); }
