@@ -4,7 +4,7 @@ import { BottomBar, Editable, Slide, useSlides } from '@deckio/deck-engine'
 import RegistrationForm from '../registration/RegistrationForm.jsx'
 import { ChristmasLights, Logos, Mascot, Snowflake } from '../winter/Decor.jsx'
 import {
-  BOOTCAMP, PERSONAS, PILLARS, PREP, REGISTER_STEPS, SCHEDULE, SESSIONS, TOOLBOX,
+  BOOTCAMP, PERSONAS, PILLARS, PREP, REGISTER_STEPS, SCHEDULE, SESSIONS,
 } from '../content.js'
 import s from './Slides.module.css'
 
@@ -84,7 +84,7 @@ export function OfferingSlide({ index }) {
           <Editable as="span" id="offering.titleHighlight" className={s.highlight}>Ship data products.</Editable>
         </h1>
         <Editable as="p" id="offering.subtitle" multiline className={s.subtitle}>
-          A hands-on program that does for the data community what the Summer Bootcamp did for developers.
+          A hands-on programme for analysts, engineers, database specialists and builders across the data community.
         </Editable>
       </div>
       <div className={`${s.grid} ${s.grid3}`}>
@@ -177,7 +177,7 @@ export function FormatSlide({ index }) {
           <span className={s.icon}>🧑‍💻</span>
           <Editable as="h3" id="format.handson.title">Build it yourself</Editable>
           <Editable as="p" id="format.handson.desc">
-            Get your hands dirty in Microsoft Fabric with GitHub Copilot driving. It is the real thing, in a real environment.
+            Build with the data tools used in each session while GitHub Copilot and agents support the workflow.
           </Editable>
         </div>
         <div className={s.card}>
@@ -215,35 +215,6 @@ export function TimetableSlide({ index }) {
       <Editable as="p" id="timetable.caption" className={s.caption}>
         4, 11 and 18 December 2026 · 8, 15 and 22 January 2027
       </Editable>
-    </Frame>
-  )
-}
-
-export function ToolboxSlide({ index }) {
-  return (
-    <Frame index={index} id="toolbox" orbs={['orbIce', 'orbPine']}>
-      <Header
-        id="toolbox"
-        eyebrow="The toolbox"
-        title="Fabric expertise, packaged for your agent"
-        subtitle="The building blocks we use to turn GitHub Copilot into a Fabric data engineer."
-      />
-      <div className={`${s.grid} ${s.grid4}`}>
-        {TOOLBOX.map((t) => (
-          <div key={t.id} className={s.card}>
-            <span className={s.num}>{t.num}</span>
-            <span className={s.kicker}>{t.kicker}</span>
-            <Editable as="h3" id={`toolbox.${t.id}.title`}>{t.title}</Editable>
-            <Editable as="p" id={`toolbox.${t.id}.desc`}>{t.desc}</Editable>
-          </div>
-        ))}
-      </div>
-      <div className={s.flow}>
-        <span>Agent orchestrates</span><span className={s.flowArrow}>→</span>
-        <span>Skill guides</span><span className={s.flowArrow}>→</span>
-        <span>Fabric CLI executes</span><span className={s.flowArrow}>↔</span>
-        <span>MCP connects live tools</span>
-      </div>
     </Frame>
   )
 }
@@ -319,8 +290,8 @@ function SessionDetailSlide({ index, session }) {
           </div>
           <div className={s.detailStack}>
             <div className={`${s.detailPanel} ${s.detailChallenge}`}>
-              <span className={s.detailLabel}>Hands-on challenge</span>
-              <p>{session.challenge}</p>
+              <span className={s.detailLabel}>Session focus</span>
+              <p>{session.spotlight}</p>
             </div>
             <div className={`${s.detailPanel} ${s.detailToolbox}`}>
               <div><span className={s.detailLabel}>Session lead</span><strong>{session.lead}</strong></div>
@@ -400,10 +371,10 @@ export function RegisterSlide({ index }) {
         <div className={s.registerPrompt}>
           <span className={s.registerPromptMark}>GH</span>
           <div>
-            <strong>Register without leaving the deck</strong>
-            <p>GitHub verifies your handle, then the form opens here.</p>
+            <strong>Registration is open</strong>
+            <p>Sign in with GitHub to verify your handle and choose your sessions.</p>
           </div>
-          <button type="button" onClick={() => setRegistrationOpen(true)}>Register now</button>
+          <button type="button" onClick={() => setRegistrationOpen(true)}>Open registration</button>
         </div>
       </div>
       {registrationOpen && createPortal(
@@ -424,7 +395,7 @@ export function RegisterSlide({ index }) {
             <div className={s.registrationModalHeader}>
               <div>
                 <span>Agentic Data Winter Bootcamp</span>
-                <h2 id="deck-registration-title">Register from the deck</h2>
+                <h2 id="deck-registration-title">Bootcamp registration</h2>
               </div>
               <button type="button" aria-label="Close registration" onClick={() => setRegistrationOpen(false)}>×</button>
             </div>

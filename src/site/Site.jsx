@@ -5,7 +5,7 @@ import { AgentTerminal, Countdown, ScheduleQuery } from '../data/DataViz.jsx'
 import SetupWizard from '../setup/SetupWizard.jsx'
 import RegistrationForm from '../registration/RegistrationForm.jsx'
 import {
-  BOOTCAMP, FAQ, PERSONAS, PILLARS, PREP, REGISTRATION, SESSIONS, TOOLBOX,
+  BOOTCAMP, FAQ, PERSONAS, PILLARS, PREP, REGISTRATION, SESSIONS,
 } from '../content.js'
 import s from './Site.module.css'
 
@@ -13,7 +13,6 @@ const NAV = [
   ['why', 'Why join'],
   ['lineup', 'Lineup'],
   ['schedule', 'Schedule'],
-  ['toolbox', 'Toolbox'],
   ['prepare', 'Get ready'],
   ['faq', 'FAQ'],
 ]
@@ -110,6 +109,7 @@ function PersonaPicker() {
 
 function ProgrammeReveal() {
   const [open, setOpen] = useState(false)
+  const [expanded, setExpanded] = useState(null)
 
   return (
     <div className={s.programmeReveal}>
@@ -118,57 +118,71 @@ function ProgrammeReveal() {
         className={`${s.programmeGift} ${open ? s.programmeGiftOpen : ''}`}
         aria-expanded={open}
         aria-controls="programme-sessions"
+        disabled={open}
         onClick={() => setOpen(true)}
       >
-        <span className={s.programmeGiftInside}>
-          <span>Full programme</span>
-          <strong>Six sessions unwrapped</strong>
-          <small>{open ? 'Everything is below' : 'Open once to reveal everything'}</small>
-        </span>
         <span className={s.programmeGiftPaper} aria-hidden="true" />
         <span className={s.programmeRibbonV} aria-hidden="true" />
         <span className={s.programmeRibbonH} aria-hidden="true" />
+        <span className={s.programmeBurst} aria-hidden="true">
+          {Array.from({ length: 10 }, (_, index) => <i key={index} style={{ '--i': index }} />)}
+        </span>
         <span className={s.programmeGiftLid} aria-hidden="true">
           <span className={s.programmeBow}>◆</span>
         </span>
-        <span className={s.programmeGiftLabel}>{open ? 'Programme open' : 'Unwrap the programme'}</span>
+        <span className={s.programmeGiftLabel}>{open ? 'Programme unwrapped' : 'Unwrap the programme'}</span>
       </button>
 
       {open && (
         <div id="programme-sessions" className={s.sessionList}>
           {SESSIONS.map((session, index) => (
-            <article key={session.id} className={s.sessionRow} style={{ '--i': index }}>
-              <div className={s.sessionTop}>
+            <article
+              key={session.id}
+              className={`${s.sessionRow} ${expanded === session.id ? s.sessionRowOpen : ''}`}
+              style={{ '--i': index, '--session-accent': session.accent }}
+            >
+              <button
+                type="button"
+                className={s.sessionSummary}
+                aria-expanded={expanded === session.id}
+                aria-controls={`session-${session.id}`}
+                onClick={() => setExpanded((current) => current === session.id ? null : session.id)}
+              >
                 <span className={s.sessionNumber}>{session.number}</span>
                 <span className={s.sessionIcon} aria-hidden="true">{session.icon}</span>
-                <div className={s.sessionHeading}>
+                <span className={s.sessionHeading}>
                   <span className={s.sessionAudience}>{session.audience}</span>
-                  <h3>{session.title}</h3>
-                  <p>{session.subtitle}</p>
-                </div>
-                <div className={s.sessionLead}>
-                  <span>Session lead</span>
+                  <strong>{session.title}</strong>
+                  <small>{session.subtitle}</small>
+                </span>
+                <span className={s.sessionLead}>
+                  <small>Lead</small>
                   <strong>{session.lead}</strong>
-                </div>
-              </div>
+                </span>
+                <span className={s.sessionToggle} aria-hidden="true">{expanded === session.id ? '−' : '+'}</span>
+              </button>
 
-              <p className={s.sessionOverview}>{session.overview}</p>
+              {expanded === session.id && (
+                <div id={`session-${session.id}`} className={s.sessionDetails}>
+                  <p className={s.sessionSpotlight}>{session.spotlight}</p>
+                  <p className={s.sessionOverview}>{session.overview}</p>
 
-              <div className={s.sessionDepth}>
-                <div>
-                  <h4>What you will explore</h4>
-                  <ul>
-                    {session.outcomes.map((outcome) => <li key={outcome}>{outcome}</li>)}
-                  </ul>
-                </div>
-                <div className={s.sessionChallenge}>
-                  <span>Hands-on challenge</span>
-                  <p>{session.challenge}</p>
-                  <div className={s.sessionTools}>
-                    {session.tools.map((tool) => <span key={tool}>{tool}</span>)}
+                  <div className={s.sessionDepth}>
+                    <div>
+                      <h4>You will</h4>
+                      <ul>
+                        {session.outcomes.map((outcome) => <li key={outcome}>{outcome}</li>)}
+                      </ul>
+                    </div>
+                    <div className={s.sessionToolkit}>
+                      <span>Tools and concepts</span>
+                      <div className={s.sessionTools}>
+                        {session.tools.map((tool) => <span key={tool}>{tool}</span>)}
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
             </article>
           ))}
         </div>
@@ -306,8 +320,8 @@ export default function Site({ snow, onToggleSnow }) {
           id="why"
           idx="01"
           eyebrow="Why join"
-          title="Engineer data with agents. Ship data products."
-          subtitle="A hands-on programme for the data community, following the Summer Bootcamp for developers."
+          title="Agentic AI for every part of the data community."
+          subtitle="A hands-on programme for analysts, engineers, database specialists and builders working across the data ecosystem."
         >
           <div className={`${s.grid} ${s.g3}`}>
             {PILLARS.map((p) => (
@@ -326,8 +340,8 @@ export default function Site({ snow, onToggleSnow }) {
           id="lineup"
           idx="02"
           eyebrow="The lineup"
-          title="One gift. The full programme."
-          subtitle="Unwrap once to see every confirmed session, the lead, the tools and the hands-on challenge."
+          title="Unwrap the programme."
+          subtitle="Open the gift, then explore each session, its lead and what you will learn."
         >
           <ProgrammeReveal />
         </Section>
@@ -343,31 +357,8 @@ export default function Site({ snow, onToggleSnow }) {
         </Section>
 
         <Section
-          id="toolbox"
-          idx="04"
-          eyebrow="The toolbox"
-          title="Fabric expertise, packaged for your agent"
-          subtitle="The building blocks we use to turn GitHub Copilot into a Microsoft Fabric data engineer."
-        >
-          <div className={`${s.grid} ${s.g4}`}>
-            {TOOLBOX.map((t) => (
-              <article key={t.id} className={s.card}>
-                <span className={s.num}>{t.num}</span>
-                <span className={s.kicker}>{t.kicker}</span>
-                <h3>{t.title}</h3>
-                <p>{t.desc}</p>
-              </article>
-            ))}
-          </div>
-          <div className={s.flow}>
-            <span>Agent orchestrates</span><i>→</i><span>Skill guides</span><i>→</i>
-            <span>Fabric CLI executes</span><i>↔</i><span>MCP connects live tools</span>
-          </div>
-        </Section>
-
-        <Section
           id="prepare"
-          idx="05"
+          idx="04"
           eyebrow="Get ready"
           title="Pre-flight checks"
           subtitle="Run the foundations setup, sign in, then tick off the checks. Checklist progress stays in this browser only."
@@ -378,7 +369,7 @@ export default function Site({ snow, onToggleSnow }) {
           </div>
         </Section>
 
-        <Section id="faq" idx="06" eyebrow="FAQ" title="Frequently asked questions">
+        <Section id="faq" idx="05" eyebrow="FAQ" title="Frequently asked questions">
           <div className={s.faq}>
             {FAQ.map((f) => (
               <details key={f.q} className={s.faqItem}>
@@ -391,7 +382,7 @@ export default function Site({ snow, onToggleSnow }) {
 
         <Section
           id="join"
-          idx="07"
+          idx="06"
           eyebrow={REGISTRATION.eyebrow}
           title={REGISTRATION.title}
           subtitle={REGISTRATION.subtitle}

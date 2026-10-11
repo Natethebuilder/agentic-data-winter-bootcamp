@@ -1,6 +1,6 @@
 # ❄️ Agentic Data Engineering Winter Bootcamp
 
-Interactive public website and DECKIO slide deck for the Agentic Data Engineering Winter Bootcamp, focused on GitHub Copilot, Microsoft Fabric and agentic data workflows.
+Interactive public website and DECKIO slide deck for the Agentic Data Engineering Winter Bootcamp, built for the wider data community across analytics, engineering, open source, SQL, NoSQL and AI applications.
 
 **Live website and registration:** https://mango-pebble-00edc8e0f.2.azurestaticapps.net/
 

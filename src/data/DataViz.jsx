@@ -80,7 +80,7 @@ export function AgentTerminal({ className = '', children }) {
       {children}
       <div className={d.termBar}>
         <span className={d.dots}><i /><i /><i /></span>
-        <span className={d.termTitle}>copilot · ~/retail-lakehouse</span>
+        <span className={d.termTitle}>copilot · ~/data-product</span>
       </div>
       <div className={d.termBody} aria-label={`Example: ${prompt}`}>
         <p className={d.termDim}>$ copilot</p>

@@ -1,12 +1,12 @@
 // Shared public content for the landing site and the deck.
-// Session topics and leads are confirmed; dates remain placeholders until published.
+// Session topics, leads and dates are confirmed.
 
 export const BOOTCAMP = {
   name: 'Agentic Data Engineering Winter Bootcamp',
   short: 'Winter Bootcamp',
-  tagline: 'Clear your data backlog with agents.',
+  tagline: 'Explore what agentic AI means for modern data work.',
   subtitle:
-    'Pipelines, lakehouses, semantic models and Power BI, built spec-first with GitHub Copilot in Microsoft Fabric.',
+    'Six practical paths across analytics, engineering, open source, SQL, NoSQL and AI applications.',
   season: 'Winter 2026/27',
   kickoffDate: '2026-12-04',
   kickoffLabel: 'Friday, 4 December 2026 · time TBA',
@@ -22,21 +22,23 @@ export const SESSIONS = [
     title: 'Agentic AI Foundations',
     shortTitle: 'Agentic AI Foundations',
     track: 'Foundation',
-    subtitle: 'From vibe coding to agentic engineering',
-    lead: 'Remco van Dam',
+    subtitle: 'From Vibe Coding to Agentic Engineering',
+    lead: 'Remco',
     audience: 'Everyone',
     format: 'Hands-on setup',
     icon: '🧭',
+    accent: '#8fd8ff',
+    spotlight: 'What if AI didn’t just help you write code, but became part of how you engineer?',
     overview:
-      'The common starting point for every participant. Configure GitHub Copilot CLI with reusable instructions, skills and MCP connections, then validate Azure, GitHub, Fabric and Rayfin sign-in before the role-based labs.',
+      'In this hands-on foundation session, you’ll learn the difference between vibe coding and Agentic (data) Engineering, and the building blocks that make agentic development possible. We’ll demystify agents, skills, MCP and CLIs, and show how they work together to give AI the context, tools and instructions it needs to get real work done.\n\nYou’ll also set up your own environment so you can use these capabilities throughout the rest of the bootcamp.',
     outcomes: [
-      'Move from ad-hoc prompting to durable, version-controlled agent instructions.',
-      'Understand when to use skills, specialist agents, MCP servers and command-line tools.',
-      'Verify the participant toolchain and tenant access without storing credentials.',
+      'Understand the difference between vibe coding and Agentic Engineering',
+      'Learn what agents, Agent Skills, MCP and CLIs are, and how they fit together',
+      'Set up GitHub Copilot and the agentic tooling you’ll use during the bootcamp',
+      'Configure your environment with the skills, tools and connections your agents need',
+      'Leave with a working Agentic Engineering foundation ready for the rest of the day',
     ],
-    challenge:
-      'Run the bootcamp audit, install only what is missing, connect the required services and prove the agent can discover the Fabric toolchain.',
-    tools: ['Copilot CLI', 'Azure CLI', 'GitHub CLI', 'Fabric CLI', 'Skills', 'MCP'],
+    tools: ['GitHub Copilot', 'Agents', 'Agent Skills', 'MCP', 'CLIs'],
   },
   {
     id: 'analysts',
@@ -44,21 +46,25 @@ export const SESSIONS = [
     title: 'Agentic AI for Analysts: Consuming Data',
     shortTitle: 'Agentic AI for Analysts',
     track: 'Analyst',
-    subtitle: 'From data to insights, apps and action',
-    lead: 'Zeeshan Ali',
-    audience: 'Data analysts & app builders',
-    format: 'Rayfin + Power BI',
+    subtitle: 'From Data to Insights, Apps & Action',
+    lead: 'Zeeshan',
+    audience: 'Analysts & app builders',
+    format: 'Insights, apps & action',
     icon: '📊',
+    accent: '#d97cff',
+    spotlight:
+      'What if AI could help you go from raw data to insights, reports and applications without building everything by hand?',
     overview:
-      'Turn a business question into a governed data experience with an agent doing the heavy lifting. Use Rayfin and Power BI to explore data, shape an analytical experience and keep the analyst in control of what gets published.',
+      'In this hands-on challenge, you’ll use AI to create a semantic model, build interactive reports and turn your insights into an application. You’ll go beyond traditional analytics by creating a Rayfin app with writeback, allowing users to not only consume data, but also act on it.\n\nFinally, you’ll bring your semantic model into Microsoft 365 Copilot, making governed business data available through a conversational AI experience for end users.',
     outcomes: [
-      'Translate a business question into a clear analytical specification.',
-      'Use Rayfin and agent skills to accelerate data exploration and experience creation.',
-      'Review generated queries, models and visuals before sharing the result.',
+      'Use AI to create and enrich semantic models',
+      'Build interactive reports and visualizations',
+      'Turn analytics into an application using Rayfin',
+      'Add writeback so users can act on insights and update data',
+      'Connect semantic models with Microsoft 365 Copilot',
+      'Experience how Agentic AI changes the analyst workflow from data → insight → action',
     ],
-    challenge:
-      'Start with a question and sample data, then produce a review-ready analytical experience and Power BI output.',
-    tools: ['Rayfin', 'Power BI', 'Microsoft Fabric', 'GitHub Copilot'],
+    tools: ['Semantic models', 'Interactive reports', 'Rayfin', 'Microsoft 365 Copilot'],
   },
   {
     id: 'lakehouse',
@@ -66,21 +72,23 @@ export const SESSIONS = [
     title: 'Agentic AI for Data Engineers: Lakehouse Design',
     shortTitle: 'Lakehouse Design',
     track: 'Lakehouse',
-    subtitle: 'Design and build a lakehouse with AI agents',
-    lead: 'Arash Nezami',
-    audience: 'Fabric data engineers',
-    format: 'Fabric + Osmos',
+    subtitle: 'Design and Build a Lakehouse with AI Agents',
+    lead: 'Arash',
+    audience: 'Data engineers',
+    format: 'Lakehouse design',
     icon: '🏗️',
+    accent: '#ffb454',
+    spotlight:
+      'Use Fabric Agentic Skills for Data Engineers and Project Osmos to turn requirements and source data into a modern Microsoft Fabric lakehouse.',
     overview:
-      'Design and build a Microsoft Fabric lakehouse from a data-product specification. Use Fabric-native skills, CLI and MCP connections with Project Osmos patterns to move from architecture to working engineering artifacts.',
+      'In this hands-on session, you’ll work with AI agents to design the lakehouse architecture, build ingestion and transformation workflows, and create trusted data products for analytics and AI.',
     outcomes: [
-      'Define lakehouse boundaries, medallion layers and data contracts before implementation.',
-      'Use an agent to scaffold notebooks, pipelines and lakehouse assets from the specification.',
-      'Review generated assets, lineage and quality gates before publishing.',
+      'Design a scalable lakehouse architecture',
+      'Use Fabric Agentic Skills to build and transform data',
+      'Experience Project Osmos for agentic data engineering',
+      'Prepare trusted data products for analytics and AI',
     ],
-    challenge:
-      'Create a small lakehouse path from raw data to a curated table, with the architecture decisions and checks captured alongside the code.',
-    tools: ['Fabric Lakehouse', 'Notebooks', 'Pipelines', 'Project Osmos', 'Fabric CLI'],
+    tools: ['Lakehouse', 'Fabric Agentic Skills', 'Project Osmos', 'AI agents'],
   },
   {
     id: 'open-source',
@@ -88,65 +96,75 @@ export const SESSIONS = [
     title: 'Agentic AI for Open-Source Data Engineers: dbt and Airflow',
     shortTitle: 'dbt & Airflow',
     track: 'Open source',
-    subtitle: 'Build, orchestrate and transform with agents',
-    lead: 'Remco van Dam',
+    subtitle: 'Build, Orchestrate & Transform with Agents',
+    lead: 'Remco',
     audience: 'Open-source data engineers',
     format: 'dbt + Airflow',
     icon: '🔧',
+    accent: '#55d6a9',
+    spotlight: 'What happens when your favourite open-source data engineering tools meet Agentic AI?',
     overview:
-      'Apply agentic engineering to open-source data stacks, not only Fabric. Work with dbt and Airflow projects, use repository context to understand dependencies, and accelerate transformations, tests, documentation and orchestration.',
+      'In this hands-on challenge, you’ll use AI agents to build and operate a modern data engineering workflow using familiar open-source technologies. Instead of manually writing every pipeline, transformation and command, you’ll let agents help you design, build, run and troubleshoot your data workloads.\n\nYou’ll work with technologies such as dbt, Apache Airflow, Python, SQL, Git and CLI-based tooling, while using Agent Skills and MCP to give your agents the knowledge and tools they need.',
     outcomes: [
-      'Navigate an existing dbt and Airflow repository with an agent that understands its structure.',
-      'Design or update models and DAGs while keeping tests and documentation aligned.',
-      'Review lineage, schedules and failure paths before merging the change.',
+      'Build and transform data using dbt, Python and SQL',
+      'Orchestrate data workflows with Apache Airflow',
+      'Use GitHub Copilot and agents throughout the engineering workflow',
+      'Use Agent Skills to teach agents how to work with your tools and environment',
+      'Use MCP and CLIs to let agents interact with your data platform',
+      'Experience what Agentic Data Engineering looks like with the open-source tools you already know',
     ],
-    challenge:
-      'Extend a sample pipeline with a dbt model and Airflow orchestration while keeping dependencies, tests and documentation consistent.',
-    tools: ['dbt', 'Apache Airflow', 'GitHub Copilot', 'GitHub'],
+    tools: ['dbt', 'Apache Airflow', 'Python', 'SQL', 'Git', 'Agent Skills', 'MCP'],
   },
   {
     id: 'sql',
     number: '05',
     title: 'Agentic AI for SQL Developers & Admins',
-    shortTitle: 'SQL Engineering',
+    shortTitle: 'SQL Developers & Admins',
     track: 'SQL / DBA',
-    subtitle: 'Monitor, investigate and optimize databases',
-    lead: 'Ajinkya Soitkar',
+    subtitle: 'From Database Operations to AI-Assisted SQL Engineering',
+    lead: 'Ajinkya',
     audience: 'SQL developers & DBAs',
     format: 'Database Hub',
     icon: '🗄️',
+    accent: '#7ea7ff',
+    spotlight:
+      'What if your AI assistant could help you understand, troubleshoot and optimize your databases?',
     overview:
-      'Use agentic workflows across SQL development and administration. Explore Database Hub, ask targeted questions of database context, investigate performance and turn findings into reviewed tuning actions.',
+      'In this hands-on challenge, you’ll explore how GitHub Copilot and Agentic AI can change the daily workflow of database developers and administrators. You’ll start by exploring Database Hub, then use AI-assisted workflows to investigate database performance, understand SQL workloads and improve inefficient queries.\n\nInstead of manually digging through everything yourself, you’ll learn how to combine your database expertise with AI to move faster from problem → investigation → optimization.',
     outcomes: [
-      'Inspect the SQL estate and focus an investigation with Database Hub context.',
-      'Explain queries and execution behaviour to identify likely bottlenecks.',
-      'Generate and review scripts for tuning, maintenance and repeatable administration.',
+      'Explore Database Hub as the starting point for working with your databases',
+      'Use GitHub Copilot as an AI pair for database development and administration',
+      'Investigate database performance and identify potential bottlenecks',
+      'Analyze, explain and improve SQL queries',
+      'Use AI to assist with SQL tuning and troubleshooting',
+      'Experience how Agentic AI changes database engineering from monitor → investigate → optimize',
     ],
-    challenge:
-      'Investigate a slow sample workload, identify the likely cause, then propose and validate an optimization.',
-    tools: ['SQL', 'Database Hub', 'GitHub Copilot', 'Monitoring'],
+    tools: ['Database Hub', 'GitHub Copilot', 'SQL', 'Performance tuning'],
   },
   {
     id: 'nosql',
     number: '06',
     title: 'Agentic AI for NoSQL Developers & Admins',
-    shortTitle: 'NoSQL & AI Apps',
+    shortTitle: 'NoSQL Developers & Admins',
     track: 'NoSQL',
-    subtitle: 'Build an AI chat app with Cosmos DB',
-    lead: 'Rene Bremer',
-    audience: 'NoSQL developers & architects',
-    format: 'Cosmos DB + MCP',
+    subtitle: 'Build Your Own AI Chat App using Cosmos DB NoSQL',
+    lead: 'René',
+    audience: 'NoSQL developers at scale',
+    format: 'AI chat application',
     icon: '🌐',
+    accent: '#4fd1e8',
+    spotlight:
+      'Can you build your own ChatGPT-style application using GitHub Copilot and Cosmos DB NoSQL in just one hour?',
     overview:
-      'Build an AI-enabled application backed by operational NoSQL data. Use Cosmos DB patterns and MCP-connected tools to ground a chat experience in application data while keeping model and data access under explicit review.',
+      'In this hands-on challenge, your team will use GitHub Copilot, Agent Skills and MCP to turn an idea into a working AI application. Instead of writing everything yourself, you will specify what you want to build and let AI help you design, develop and interact with the underlying data platform.\n\nAzure Cosmos DB is built for globally distributed, highly scalable AI applications such as ChatGPT and Microsoft Copilot. Now it’s your turn to see how far you can get with AI-assisted development + NoSQL.',
     outcomes: [
-      'Model and query NoSQL data for an AI-enabled application.',
-      'Connect an agent or chat workflow to sample Cosmos DB data.',
-      'Review grounding, latency, correctness and safe data access before release.',
+      'Provide a ChatGPT-style chat experience',
+      'Connect to an AI model',
+      'Store and retrieve conversations using Azure Cosmos DB',
+      'Use Cosmos DB Agent Skills to guide the implementation',
+      'Use MCP to interact with Cosmos DB',
     ],
-    challenge:
-      'Build a small chat experience that answers against a sample Cosmos DB dataset and makes the returned data easy to inspect.',
-    tools: ['Azure Cosmos DB', 'MCP', 'AI chat', 'GitHub Copilot'],
+    tools: ['GitHub Copilot', 'Agent Skills', 'MCP', 'Azure Cosmos DB NoSQL'],
   },
 ]
 
@@ -169,21 +187,21 @@ export const SCHEDULE = SESSIONS.map((session, index) => ({
 export const PERSONAS = [
   {
     id: 'de', icon: '🛠️', label: 'Data engineers',
-    desc: 'Pipelines, lakehouses and medallion architectures.',
-    does: 'Ingest, transform and orchestrate while Copilot writes the PySpark, SQL and pipeline code from your spec.',
-    stack: ['Lakehouse', 'Notebooks', 'Pipelines', 'Fabric CLI'],
+    desc: 'Pipelines, transformations, orchestration and trusted data products.',
+    does: 'Design, build and operate data workflows with agents working from your requirements and repository context.',
+    stack: ['Lakehouse', 'dbt', 'Airflow', 'Python', 'SQL'],
   },
   {
     id: 'da', icon: '📊', label: 'Data analysts',
-    desc: 'SQL, semantic models and Power BI.',
-    does: 'Query, model and visualise with an agent that drafts the SQL, measures and report pages for you to review.',
-    stack: ['Warehouse', 'SQL', 'Semantic models', 'Power BI'],
+    desc: 'Queries, semantic models, reports, applications and action.',
+    does: 'Move from a business question to governed insights and experiences while keeping review and publishing decisions in your hands.',
+    stack: ['SQL', 'Semantic models', 'BI', 'Apps', 'Writeback'],
   },
   {
     id: 'ba', icon: '💼', label: 'Business analysts',
     desc: 'Describe the outcome in plain English.',
     does: 'Describe the question you need answered and turn it into a spec that an agent can build from.',
-    stack: ['Specs', 'Semantic models', 'Power BI'],
+    stack: ['Specs', 'Metrics', 'Reports', 'Applications'],
   },
 ]
 
@@ -191,8 +209,8 @@ export const PILLARS = [
   {
     id: 'handson',
     icon: '🧪',
-    title: 'Raw to gold, hands-on',
-    desc: 'Build real lakehouses, pipelines and reports in Microsoft Fabric with GitHub Copilot at the wheel.',
+    title: 'Built around real data work',
+    desc: 'Work across analytics, engineering, databases, open source and AI applications—not toy examples.',
   },
   {
     id: 'spec',
@@ -203,8 +221,8 @@ export const PILLARS = [
   {
     id: 'agentic',
     icon: '🤖',
-    title: 'Agents that speak Fabric',
-    desc: 'Skills, MCP servers and the Fabric CLI give your agent real data platform know-how.',
+    title: 'Bring the tools you know',
+    desc: 'Use agents, skills, MCP and CLIs with Microsoft and open-source data platforms.',
   },
 ]
 
@@ -242,24 +260,17 @@ export const PIPELINE = [
 ]
 
 export const TERMINAL_SCRIPT = {
-  prompt: 'Build a medallion lakehouse from retail_sales.csv and a Power BI report on demand by region',
+  prompt: 'Turn retail_sales.csv into a trusted data product with tested transformations and an analyst-ready experience',
   lines: [
     { kind: 'info', text: 'Reading spec', meta: 'specs/retail-sales.md' },
-    { kind: 'info', text: 'Planning', meta: 'bronze → silver → gold → report' },
-    { kind: 'ok', text: 'bronze.retail_sales', meta: '1,204,331 rows' },
-    { kind: 'ok', text: 'silver.sales_clean', meta: '12 checks passed' },
-    { kind: 'ok', text: 'gold.demand_by_region', meta: '52 weeks × 9 regions' },
-    { kind: 'ok', text: 'report: Regional Demand', meta: 'ready for review' },
+    { kind: 'info', text: 'Planning', meta: 'profile → transform → test → experience' },
+    { kind: 'ok', text: 'source profile', meta: '1,204,331 rows' },
+    { kind: 'ok', text: 'sales_clean', meta: '12 checks passed' },
+    { kind: 'ok', text: 'demand_by_region', meta: '52 weeks × 9 regions' },
+    { kind: 'ok', text: 'analyst experience', meta: 'ready for review' },
     { kind: 'done', text: 'Done in 4m 12s · all tests green' },
   ],
 }
-
-export const TOOLBOX = [
-  { id: 'skill', num: '01', kicker: 'Reusable expertise', title: 'Skills', desc: 'Patterns, guardrails and examples that teach the agent a Fabric task.' },
-  { id: 'agent', num: '02', kicker: 'Role-based orchestrator', title: 'Agents', desc: 'Specialist personas that plan the goal and coordinate skills.' },
-  { id: 'mcp', num: '03', kicker: 'Live tool connection', title: 'MCP servers', desc: 'Runtime endpoints to discover, query and change live systems.' },
-  { id: 'cli', num: '04', kicker: 'Repeatable execution', title: 'Fabric CLI', desc: 'A scriptable command surface for terminals, scripts and CI/CD.' },
-]
 
 export const PREP = [
   { id: 'github', icon: '🐙', title: 'GitHub account verified', desc: 'Sign in through the registration page so your exact GitHub handle is captured.' },
@@ -284,7 +295,7 @@ export const SETUP_RESOURCES = [
 export const FAQ = [
   {
     q: 'What are the session topics?',
-    a: 'Foundations, analyst experiences with Rayfin and Power BI, Fabric lakehouse engineering, open-source data engineering, SQL engineering, and a Cosmos DB AI chat application.',
+    a: 'Agentic AI foundations, consuming data as an analyst, lakehouse design, dbt and Airflow, SQL development and administration, and building an AI chat application with NoSQL.',
   },
   {
     q: 'When does it start?',
