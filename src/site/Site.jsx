@@ -150,8 +150,11 @@ function ProgrammeReveal() {
                   <small>{session.subtitle}</small>
                 </span>
                 <span className={s.sessionLead}>
-                  <small>Lead</small>
-                  <strong>{session.lead}</strong>
+                  <span className={s.sessionHeadshot} aria-hidden="true"><i /><b /></span>
+                  <span className={s.sessionLeadCopy}>
+                    <small>Session lead</small>
+                    <strong>{session.lead}</strong>
+                  </span>
                 </span>
               </div>
 
@@ -250,7 +253,12 @@ export default function Site({ snow, onToggleSnow }) {
 
       <header className={`${s.nav} ${scrolled ? s.navScrolled : ''}`}>
         <button type="button" className={s.brand} onClick={() => go('top')}>
-          <span className={s.brandMark}><Snowflake className={s.brandFlake} /></span>
+          <span className={s.brandMark}>
+            <span className={s.brandDataGlyph}>
+              <Snowflake className={s.brandFlake} />
+              <span className={s.brandDataPackets} aria-hidden="true"><i /><i /><i /></span>
+            </span>
+          </span>
           <span className={s.brandText}><small>Agentic Data</small><strong>Winter Bootcamp</strong></span>
         </button>
         <nav className={s.navLinks} aria-label="Sections">
@@ -325,6 +333,7 @@ export default function Site({ snow, onToggleSnow }) {
           eyebrow="The lineup"
           title="Unwrap the programme."
           subtitle="Open the gift, then explore each session, its lead and what you will learn."
+          className={s.lineupPanel}
         >
           <ProgrammeReveal />
         </Section>

@@ -9,11 +9,6 @@ import {
 import s from './Slides.module.css'
 
 const LIGHTS = 34
-const initials = (name) => {
-  const parts = name.trim().split(/\s+/)
-  return `${parts[0][0]}${parts.at(-1)[0]}`.toUpperCase()
-}
-
 // The light string doubles as the deck progress bar.
 function SlideLights({ index }) {
   const { visibleIndices = [], totalSlides } = useSlides()
@@ -272,7 +267,10 @@ function SessionDetailSlide({ index, session }) {
               <p>{session.spotlight}</p>
             </div>
             <div className={`${s.detailPanel} ${s.detailToolbox}`}>
-              <div><span className={s.detailLabel}>Session lead</span><strong>{session.lead}</strong></div>
+              <div>
+                <span className={s.detailLabel}>Session lead</span>
+                <strong>{session.lead}</strong>
+              </div>
               <div className={s.detailTools}>{session.tools.map((tool) => <span key={tool}>{tool}</span>)}</div>
             </div>
           </div>
@@ -393,17 +391,17 @@ export function TeamSlide({ index }) {
         id="team"
         eyebrow="Brought to you by"
         title="Your session leads"
-        subtitle="Specialists from the data and AI community lead each hands-on challenge."
+        subtitle="Senior solution engineers from the data and AI community lead each hands-on challenge."
       />
       <div className={`${s.grid} ${s.grid6}`}>
         {SESSIONS.map((session) => (
           <div key={session.id} className={`${s.card} ${s.helper}`}>
             <span className={s.helperAvatar} style={{ '--avatar-accent': session.accent }} aria-label={`Photo placeholder for ${session.lead}`}>
-              <strong>{initials(session.lead)}</strong>
-              <small>Photo</small>
+              <i aria-hidden="true" />
+              <b aria-hidden="true" />
             </span>
             <Editable as="h3" id={`team.${session.id}.name`}>{session.lead}</Editable>
-            <Editable as="p" id={`team.${session.id}.role`}>{session.shortTitle}</Editable>
+            <Editable as="p" id={`team.${session.id}.topic`} className={s.helperTopic}>{session.shortTitle}</Editable>
           </div>
         ))}
       </div>

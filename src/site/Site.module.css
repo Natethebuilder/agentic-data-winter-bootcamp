@@ -36,6 +36,8 @@
 }
 .brand { display: inline-flex; align-items: center; gap: 12px; text-align: left; }
 .brandMark {
+  position: relative;
+  overflow: hidden;
   width: 38px; height: 38px; flex-shrink: 0;
   display: grid; place-items: center;
   border-radius: 11px;
@@ -43,7 +45,30 @@
   border: 1px solid color-mix(in srgb, var(--ice) 40%, transparent);
   box-shadow: 0 0 18px -4px color-mix(in srgb, var(--ice) 60%, transparent);
 }
-.brandFlake { width: 20px; height: 20px; color: var(--ice); animation: spin 14s linear infinite; }
+.brandDataGlyph {
+  position: relative;
+  width: 21px;
+  height: 21px;
+  animation: spin 16s linear infinite;
+}
+.brandFlake { position: absolute; inset: 0; width: 21px; height: 21px; color: var(--ice); }
+.brandDataPackets { position: absolute; inset: 0; z-index: 2; }
+.brandDataPackets i {
+  --dx: 0px;
+  --dy: -9px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--gold) 85%, transparent);
+  opacity: 0;
+  animation: dataPacket 2.4s ease-out infinite;
+}
+.brandDataPackets i:nth-child(2) { --dx: 8px; --dy: 5px; background: var(--holly); animation-delay: 0.8s; }
+.brandDataPackets i:nth-child(3) { --dx: -8px; --dy: 5px; background: var(--green); animation-delay: 1.6s; }
 .brandText { display: flex; flex-direction: column; line-height: 1.1; }
 .brandText small { font: 600 10.5px/1.2 ui-monospace, monospace; letter-spacing: 1.6px; text-transform: uppercase; color: var(--ice); }
 .brandText strong { font-size: 16px; font-weight: 800; letter-spacing: -0.3px; color: var(--frost); }
@@ -61,6 +86,11 @@
 .navDeck { padding: 9px 16px; font-size: 14px; white-space: nowrap; }
 
 @keyframes spin { to { transform: rotate(360deg); } }
+@keyframes dataPacket {
+  0%, 18% { opacity: 0; transform: translate(-50%, -50%) translate(0, 0) scale(0.5); }
+  38% { opacity: 1; }
+  78%, 100% { opacity: 0; transform: translate(-50%, -50%) translate(var(--dx), var(--dy)) scale(1.1); }
+}
 
 /* ── Buttons ── */
 .btnPrimary, .btnGhost {
@@ -194,6 +224,7 @@ main { position: relative; z-index: 2; }
   margin: 0 auto;
   padding: 96px clamp(20px, 4vw, 56px);
 }
+.lineupPanel .section { padding-top: 52px; }
 .sectionHead { max-width: 780px; margin-bottom: 36px; }
 .eyebrow { display: flex; align-items: center; gap: 12px; font-size: 13px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--ice); margin-bottom: 10px; }
 .eyebrowIdx { font-size: 12px; letter-spacing: 0; color: var(--holly); padding: 2px 8px; border-radius: 6px; border: 1px solid color-mix(in srgb, var(--holly) 40%, transparent); }
@@ -412,7 +443,7 @@ main { position: relative; z-index: 2; }
   100% { height: 0; opacity: 0; }
 }
 
-.sessionList { width: 100%; display: flex; flex-direction: column; gap: 34px; }
+.sessionList { width: 100%; display: flex; flex-direction: column; gap: 58px; }
 .sessionRow {
   position: relative;
   overflow: hidden;
@@ -476,9 +507,40 @@ main { position: relative; z-index: 2; }
 .sessionAudience { display: block; color: var(--session-accent); font: 700 11px/1.2 ui-monospace, monospace; letter-spacing: 1.4px; text-transform: uppercase; }
 .sessionHeading > strong { display: block; margin-top: 5px; font-size: clamp(20px, 2.3vw, 28px); line-height: 1.15; letter-spacing: -0.5px; }
 .sessionHeading > small { display: block; margin-top: 5px; color: var(--muted-foreground); font-size: 15px; }
-.sessionLead { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; text-align: right; }
-.sessionLead small { color: var(--muted-foreground); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+.sessionLead { display: flex; align-items: center; justify-content: flex-end; gap: 11px; text-align: right; }
+.sessionLeadCopy { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
+.sessionLead small { color: var(--muted-foreground); font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
 .sessionLead strong { color: var(--frost); white-space: nowrap; }
+.sessionHeadshot {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 1px dashed color-mix(in srgb, var(--session-accent) 55%, transparent);
+  background: color-mix(in srgb, var(--session-accent) 9%, var(--night));
+}
+.sessionHeadshot i {
+  position: absolute;
+  left: 50%;
+  top: 8px;
+  width: 16px;
+  height: 16px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: #f4f8ff;
+}
+.sessionHeadshot b {
+  position: absolute;
+  left: 50%;
+  bottom: 5px;
+  width: 32px;
+  height: 18px;
+  transform: translateX(-50%);
+  border-radius: 18px 18px 8px 8px;
+  background: linear-gradient(180deg, #69b7ff, #2368bd);
+}
 .sessionOverview {
   margin: 0 0 18px;
   color: color-mix(in srgb, var(--frost) 82%, transparent);
@@ -699,7 +761,8 @@ main { position: relative; z-index: 2; }
   .personaPanel p { font-size: 15px; }
 
   .programmeReveal { gap: 34px; }
-  .sessionList { gap: 24px; }
+  .lineupPanel .section { padding-top: 34px; }
+  .sessionList { gap: 40px; }
   .programmeGift { --gift-height: 190px; }
   .programmeGiftOpen .programmeGiftPaper { transform: translateY(34px) scale(0.98); }
   .programmeGiftOpen .programmeGiftLid { transform: translateY(-105%); }
@@ -714,7 +777,8 @@ main { position: relative; z-index: 2; }
   .sessionIcon { grid-column: 1; grid-row: 2; justify-self: center; font-size: 25px; }
   .sessionHeading { grid-column: 2; grid-row: 1 / 3; }
   .sessionHeading > strong { font-size: 21px; }
-  .sessionLead { grid-column: 2; grid-row: 3; align-items: flex-start; text-align: left; margin-top: 3px; }
+  .sessionLead { grid-column: 2; grid-row: 3; justify-content: flex-start; text-align: left; margin-top: 6px; }
+  .sessionLeadCopy { align-items: flex-start; }
   .sessionLead strong { white-space: normal; }
   .sessionDetails { padding: 17px; }
   .sessionSpotlight { font-size: 15px; }
@@ -780,3 +844,7 @@ main { position: relative; z-index: 2; }
 }
 .checked .checkBox { animation: tick 0.35s ease; }
 @keyframes tick { 50% { transform: scale(1.3); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .brandDataGlyph, .brandDataPackets i { animation: none; }
+}
