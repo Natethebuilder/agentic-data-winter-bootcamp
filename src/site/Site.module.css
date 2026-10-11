@@ -4,6 +4,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
   scroll-padding-top: 90px;
 }
 
@@ -193,8 +194,13 @@
 /* ── Sections ── */
 main { position: relative; z-index: 2; }
 /* Sections flow continuously; the hero alone fills the first screen */
-.panel { position: relative; scroll-margin-top: 20px; }
-.heroPanel { min-height: calc(100vh - 90px); display: flex; flex-direction: column; justify-content: center; }
+.panel {
+  position: relative;
+  min-height: calc(100svh - 72px);
+  scroll-margin-top: 20px;
+  scroll-snap-align: start;
+}
+.heroPanel { min-height: calc(100svh - 72px); display: flex; flex-direction: column; justify-content: center; }
 .heroPanel .hero { min-height: 0; width: 100%; }
 .joinPanel { padding-top: 24px; }
 .joinPanel .register { width: min(1128px, calc(100% - 40px)); }
@@ -719,6 +725,7 @@ main { position: relative; z-index: 2; }
   .g4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 700px) {
+  .panel, .heroPanel { min-height: calc(100svh - 58px); }
   .g3, .g4 { grid-template-columns: 1fr; }
   .perched { width: 76px; top: -52px; }
   .register { grid-template-columns: 1fr; }
