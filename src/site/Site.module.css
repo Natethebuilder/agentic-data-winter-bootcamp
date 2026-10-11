@@ -343,6 +343,7 @@ main { position: relative; z-index: 2; }
   text-align: center;
   -webkit-tap-highlight-color: transparent;
 }
+.programmeGift:not(.programmeGiftOpen) { margin-top: 24px; }
 .programmeGift:focus-visible { outline: 2px solid var(--ice); outline-offset: 8px; }
 .programmeGiftOpen {
   cursor: default;
@@ -773,6 +774,7 @@ main { position: relative; z-index: 2; }
   .lineupPanel .sectionHead { margin-bottom: 18px; }
   .sessionList { gap: 78px; }
   .programmeGift { --gift-height: 190px; }
+  .programmeGift:not(.programmeGiftOpen) { margin-top: 18px; }
   .programmeGiftOpen .programmeGiftPaper { transform: translateY(34px) scale(0.98); }
   .programmeGiftOpen .programmeGiftLid { transform: translateY(-105%); }
   .sessionRow { border-radius: 17px; }
