@@ -136,32 +136,6 @@ export function AudienceSlide({ index }) {
   )
 }
 
-export function SessionsSlide({ index }) {
-  return (
-    <Frame index={index} id="sessions" orbs={['orbIce', 'orbHolly']}>
-      <Header
-        id="sessions"
-        eyebrow="The lineup"
-        title="Six sessions, one connected programme"
-        subtitle="Each session adds a different perspective. Join the full series to see how agentic AI connects the data community."
-      />
-      <div className={s.sessionOverview}>
-        {SESSIONS.map((session) => (
-          <div className={s.sessionOverviewRow} key={session.id}>
-            <span className={s.sessionOverviewNum}>{session.number}</span>
-            <span className={s.sessionOverviewIcon}>{session.icon}</span>
-            <div className={s.sessionOverviewMain}>
-              <Editable as="h3" id={`sessions.${session.id}.title`}>{session.shortTitle}</Editable>
-              <Editable as="p" id={`sessions.${session.id}.subtitle`}>{session.subtitle}</Editable>
-            </div>
-            <Editable as="span" id={`sessions.${session.id}.audience`} className={s.sessionOverviewAudience}>{session.audience}</Editable>
-          </div>
-        ))}
-      </div>
-    </Frame>
-  )
-}
-
 export function FormatSlide({ index }) {
   return (
     <Frame index={index} id="format" orbs={['orbIce', 'orbPine']}>
@@ -198,7 +172,7 @@ export function TimetableSlide({ index }) {
     <Frame index={index} id="timetable" orbs={['orbIce', 'orbHolly']}>
       <Header
         id="timetable"
-        eyebrow="How it works"
+        eyebrow="Programme schedule"
         title="Six Fridays. One connected programme."
         subtitle="Join the complete series from 4 December 2026 to 22 January 2027. Every session builds a broader view of agentic AI in data."
       />
