@@ -1,6 +1,6 @@
-# Registration backend
+# Shared registration backend
 
-The registration page uses Azure Static Web Apps GitHub authentication and stores submissions in Microsoft 365 through a Power Automate flow and Microsoft List. Microsoft Forms is not used because an embedded form cannot inherit the site theme and does not expose a supported API for custom response submission.
+The registration page uses Azure Static Web Apps GitHub authentication and stores submissions in Microsoft 365 through one shared Power Automate flow and a private Microsoft List per event. Microsoft Forms is not used because an embedded form cannot inherit the site theme and does not expose a supported API for custom response submission.
 
 ## Microsoft List
 
@@ -41,6 +41,7 @@ Turn on version history. Do not expose the list publicly, and define a deletion 
     "updatedAt"
   ],
   "properties": {
+    "eventId": { "type": "string" },
     "registrationId": { "type": "string" },
     "githubUserId": { "type": "string" },
     "githubUsername": { "type": "string" },
@@ -57,13 +58,27 @@ Turn on version history. Do not expose the list publicly, and define a deletion 
 }
 ```
 
-3. If `REGISTRATION_FLOW_SHARED_SECRET` is configured, reject the request unless the `x-registration-secret` header exactly matches the same secret stored in the flow.
-4. Use **Get items** with the filter query `RegistrationId eq '<registrationId>'` and top count `1`.
-5. If a row exists, update it. Otherwise, create it. This makes repeat submissions an upsert instead of creating duplicates.
-6. Return an HTTP `200` or `202` response. The API treats any other status as a failed registration.
-7. Apply a flow run-history retention policy appropriate for registration data and restrict flow ownership to the operations team.
+3. Keep `eventId` optional while the original Data client remains deployed without it.
+4. Reject the request unless the `x-registration-secret` header exactly matches the secret stored in the flow.
+5. Route `agentic-software-development-winter-bootcamp` to the Software Development List.
+6. Route missing or unrecognized `eventId` values to the unchanged Data branch for backward compatibility.
+7. In each event branch, use **Get items** with the filter query `RegistrationId eq '<registrationId>'` and top count `1`.
+8. If a row exists, update it. Otherwise, create it. This makes repeat submissions an upsert instead of creating duplicates.
+9. Return HTTP `202` for an accepted registration and HTTP `401` for a failed shared-secret check.
+10. Apply a flow run-history retention policy appropriate for registration data and restrict flow ownership to the operations team.
 
 Do not log the request body or send registration details to chat channels. Keep the HTTP trigger URL and optional shared secret only in Azure Static Web Apps application settings.
+
+## Shared event routing
+
+The deployed valid-secret branch contains `Route_registration`:
+
+| Event | `eventId` behavior | SharePoint target |
+| --- | --- | --- |
+| Agentic Data Winter Bootcamp | Missing or unrecognized `eventId` uses the legacy fallback | `Agentic Data Bootcamp Registrations` |
+| Agentic Software Development Winter Bootcamp | `agentic-software-development-winter-bootcamp` | `Agentic Software Development Bootcamp Registrations` |
+
+The Data API and its existing registration ID calculation remain unchanged so existing participants continue to update their original rows rather than receiving duplicate registrations. New event APIs must include a constant `eventId` and calculate registration IDs within that event namespace.
 
 ## Azure Static Web Apps
 
@@ -71,8 +86,8 @@ Deploy the repository with the settings in the root `README.md`. Add these appli
 
 | Name | Required | Value |
 | --- | --- | --- |
-| `REGISTRATION_FLOW_URL` | Yes | Power Automate HTTP trigger URL |
-| `REGISTRATION_FLOW_SHARED_SECRET` | Recommended | Random secret also validated by the flow |
+| `REGISTRATION_FLOW_URL` | Yes | Shared Power Automate HTTP trigger URL |
+| `REGISTRATION_FLOW_SHARED_SECRET` | Yes | Shared secret validated before event routing |
 
 GitHub authentication is enabled by the platform route `/.auth/login/github`. The client reads only the provider, username and application-scoped user ID from `/.auth/me`. The API independently requires the authenticated `x-ms-client-principal` header and never accepts a username from the browser request body.
 
@@ -92,3 +107,5 @@ Live verification completed:
 - An invalid shared secret returned HTTP `401` and created no List item.
 - A GitHub-authenticated submission returned the registration success state and created one List item.
 - A repeat submission kept the List at one item and advanced `UpdatedAt`, confirming the update branch executed instead of creating a duplicate.
+- A Software Development submission executed only the Software branch and skipped the Data actions.
+- Repeating that Software Development submission executed `Update_software_registration`, skipped `Create_software_registration`, kept its dedicated List at one row, and advanced `UpdatedAt`.
