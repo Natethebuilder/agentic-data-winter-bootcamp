@@ -19,6 +19,7 @@ const NAV = [
 ]
 
 const PREP_KEY = 'winter-bootcamp:prep'
+const DECK_URL = `${import.meta.env.BASE_URL}#/deck`
 
 function useReveal(rootRef) {
   useEffect(() => {
@@ -268,7 +269,7 @@ export default function Site({ snow, onToggleSnow }) {
         </nav>
         <div className={s.navActions}>
           <SnowToggle enabled={snow} onToggle={onToggleSnow} />
-          <a className={`${s.btnGhost} ${s.navDeck}`} href="#/deck">▶ Deck</a>
+          <a className={`${s.btnGhost} ${s.navDeck}`} href={DECK_URL}>▶ Deck</a>
         </div>
       </header>
 
@@ -284,7 +285,7 @@ export default function Site({ snow, onToggleSnow }) {
               <strong>{BOOTCAMP.tagline}</strong> {BOOTCAMP.subtitle}
             </p>
             <div className={s.ctaRow}>
-              <a className={s.btnGhost} href="#/deck">▶ Present the deck</a>
+              <a className={s.btnGhost} href={DECK_URL}>▶ Present the deck</a>
               <button type="button" className={s.btnGhost} onClick={() => go('lineup')}>See the lineup</button>
               <button type="button" className={s.btnPrimary} onClick={() => go('join')}>Register now</button>
             </div>

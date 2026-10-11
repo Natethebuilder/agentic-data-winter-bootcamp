@@ -319,6 +319,13 @@ export function RegisterSlide({ index }) {
   )
 
   useEffect(() => {
+    const url = new URL(window.location.href)
+    if (url.searchParams.get('deckRegister') !== '1') return
+    url.searchParams.delete('deckRegister')
+    window.history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`)
+  }, [])
+
+  useEffect(() => {
     if (!registrationOpen) return undefined
     const closeOnEscape = (event) => {
       if (event.key === 'Escape') setRegistrationOpen(false)
