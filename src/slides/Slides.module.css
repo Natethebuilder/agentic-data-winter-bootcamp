@@ -283,7 +283,20 @@
 .doorNum { font-size: 44px; font-weight: 900; color: var(--frost); line-height: 1; }
 .doorWeek { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--ice); }
 .doorDate { font-size: 13px; color: var(--muted-foreground); }
-.flake { width: 22px; height: 22px; color: var(--ice); opacity: 0.8; }
+.doorIcon {
+  min-width: 38px;
+  height: 34px;
+  padding: 0 8px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, var(--door-accent) 42%, transparent);
+  background: color-mix(in srgb, var(--door-accent) 10%, transparent);
+  color: var(--door-accent);
+  font: 800 11px/1 ui-monospace, monospace;
+  letter-spacing: 0.5px;
+  line-height: 1;
+}
 
 .caption { font-size: 14px; color: var(--muted-foreground); }
 
@@ -426,11 +439,12 @@
 .helper { align-items: center; text-align: center; }
 .helperAvatar {
   width: 76px; height: 76px; border-radius: 50%;
-  display: grid; place-items: center;
-  font-size: 34px;
-  background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--ice) 30%, var(--card)), var(--card));
-  border: 2px dashed color-mix(in srgb, var(--ice) 45%, transparent);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--avatar-accent) 24%, var(--card)), var(--card));
+  border: 2px dashed color-mix(in srgb, var(--avatar-accent) 55%, transparent);
 }
+.helperAvatar strong { color: var(--avatar-accent); font: 850 20px/1 ui-monospace, monospace; letter-spacing: 1px; }
+.helperAvatar small { color: var(--muted-foreground); font: 700 8px/1 ui-monospace, monospace; letter-spacing: 1.2px; text-transform: uppercase; }
 
 /* ── Disclaimer ── */
 .small p { font-size: 13px; }
@@ -548,7 +562,9 @@
     padding: 14px;
   }
   .registrationModalHeader h2 { font-size: 20px; }
-  .helperAvatar { width: 60px; height: 60px; font-size: 28px; }
+  .helperAvatar { width: 60px; height: 60px; }
+  .helperAvatar strong { font-size: 17px; }
+  .helperAvatar small { font-size: 7px; }
 
   .thanks { gap: 14px; }
   .thanks h1 { font-size: 52px; letter-spacing: -1.6px; }

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { PIPELINE, SCHEDULE, TERMINAL_SCRIPT } from '../content.js'
+import { PIPELINE, SCHEDULE, TERMINAL_SCRIPTS } from '../content.js'
 import d from './Data.module.css'
 
 const BASE = import.meta.env.BASE_URL
@@ -60,7 +60,8 @@ export function Countdown({ target, date, dateLabel, className = '' }) {
 
 /* ── Copilot CLI terminal that types a data engineering request ── */
 export function AgentTerminal({ className = '', children }) {
-  const { prompt, lines } = TERMINAL_SCRIPT
+  const [scriptIndex, setScriptIndex] = useState(0)
+  const { workspace, prompt, lines } = TERMINAL_SCRIPTS[scriptIndex]
   const [chars, setChars] = useState(0)
   const [shown, setShown] = useState(0)
 
@@ -68,9 +69,15 @@ export function AgentTerminal({ className = '', children }) {
     let id
     if (chars < prompt.length) id = setTimeout(() => setChars((c) => c + 1), 24)
     else if (shown < lines.length) id = setTimeout(() => setShown((n) => n + 1), shown === 0 ? 700 : 520)
-    else id = setTimeout(() => { setChars(0); setShown(0) }, 5200)
+    else {
+      id = setTimeout(() => {
+        setChars(0)
+        setShown(0)
+        setScriptIndex((current) => (current + 1) % TERMINAL_SCRIPTS.length)
+      }, 4200)
+    }
     return () => clearTimeout(id)
-  }, [chars, shown, prompt.length, lines.length])
+  }, [chars, shown, prompt.length, lines.length, scriptIndex])
 
   const typing = chars < prompt.length
   const working = !typing && shown < lines.length
@@ -80,7 +87,7 @@ export function AgentTerminal({ className = '', children }) {
       {children}
       <div className={d.termBar}>
         <span className={d.dots}><i /><i /><i /></span>
-        <span className={d.termTitle}>copilot · ~/data-product</span>
+        <span className={d.termTitle}>copilot · {workspace}</span>
       </div>
       <div className={d.termBody} aria-label={`Example: ${prompt}`}>
         <p className={d.termDim}>$ copilot</p>

@@ -412,7 +412,7 @@ main { position: relative; z-index: 2; }
   100% { height: 0; opacity: 0; }
 }
 
-.sessionList { width: 100%; display: flex; flex-direction: column; gap: 18px; }
+.sessionList { width: 100%; display: flex; flex-direction: column; gap: 34px; }
 .sessionRow {
   position: relative;
   overflow: hidden;
@@ -699,6 +699,7 @@ main { position: relative; z-index: 2; }
   .personaPanel p { font-size: 15px; }
 
   .programmeReveal { gap: 34px; }
+  .sessionList { gap: 24px; }
   .programmeGift { --gift-height: 190px; }
   .programmeGiftOpen .programmeGiftPaper { transform: translateY(34px) scale(0.98); }
   .programmeGiftOpen .programmeGiftLid { transform: translateY(-105%); }

@@ -53,9 +53,6 @@ export default function SetupWizard() {
             <code>pwsh -File .\prepare-agentic-data.ps1 -InstallMissing</code>
             <CopyButton text={'pwsh -File .\\prepare-agentic-data.ps1 -InstallMissing'} />
           </div>
-          <div className={s.note}>
-            <strong>Microsoft employees only:</strong> add <code>-ConfigureMicrosoftNpmProxy</code> to set the npm registry to <code>https://packagefeedproxy.microsoft.io/npm/</code>.
-          </div>
         </div>
       )}
 

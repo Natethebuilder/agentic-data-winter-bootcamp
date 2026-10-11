@@ -27,6 +27,7 @@ export const SESSIONS = [
     audience: 'Everyone',
     format: 'Hands-on setup',
     icon: '🧭',
+    scheduleMark: 'AI',
     accent: '#8fd8ff',
     spotlight: 'What if AI didn’t just help you write code, but became part of how you engineer?',
     overview:
@@ -51,6 +52,7 @@ export const SESSIONS = [
     audience: 'Analysts & app builders',
     format: 'Insights, apps & action',
     icon: '📊',
+    scheduleMark: 'BI',
     accent: '#d97cff',
     spotlight:
       'What if AI could help you go from raw data to insights, reports and applications without building everything by hand?',
@@ -77,6 +79,7 @@ export const SESSIONS = [
     audience: 'Data engineers',
     format: 'Lakehouse design',
     icon: '🏗️',
+    scheduleMark: 'LH',
     accent: '#ffb454',
     spotlight:
       'Use Fabric Agentic Skills for Data Engineers and Project Osmos to turn requirements and source data into a modern Microsoft Fabric lakehouse.',
@@ -101,6 +104,7 @@ export const SESSIONS = [
     audience: 'Open-source data engineers',
     format: 'dbt + Airflow',
     icon: '🔧',
+    scheduleMark: 'OS',
     accent: '#55d6a9',
     spotlight: 'What happens when your favourite open-source data engineering tools meet Agentic AI?',
     overview:
@@ -126,6 +130,7 @@ export const SESSIONS = [
     audience: 'SQL developers & DBAs',
     format: 'Database Hub',
     icon: '🗄️',
+    scheduleMark: 'SQL',
     accent: '#7ea7ff',
     spotlight:
       'What if your AI assistant could help you understand, troubleshoot and optimize your databases?',
@@ -152,6 +157,7 @@ export const SESSIONS = [
     audience: 'NoSQL developers at scale',
     format: 'AI chat application',
     icon: '🌐',
+    scheduleMark: 'NoSQL',
     accent: '#4fd1e8',
     spotlight:
       'Can you build your own ChatGPT-style application using GitHub Copilot and Cosmos DB NoSQL in just one hour?',
@@ -259,18 +265,64 @@ export const PIPELINE = [
   },
 ]
 
-export const TERMINAL_SCRIPT = {
-  prompt: 'Turn retail_sales.csv into a trusted data product with tested transformations and an analyst-ready experience',
-  lines: [
-    { kind: 'info', text: 'Reading spec', meta: 'specs/retail-sales.md' },
-    { kind: 'info', text: 'Planning', meta: 'profile → transform → test → experience' },
-    { kind: 'ok', text: 'source profile', meta: '1,204,331 rows' },
-    { kind: 'ok', text: 'sales_clean', meta: '12 checks passed' },
-    { kind: 'ok', text: 'demand_by_region', meta: '52 weeks × 9 regions' },
-    { kind: 'ok', text: 'analyst experience', meta: 'ready for review' },
-    { kind: 'done', text: 'Done in 4m 12s · all tests green' },
-  ],
-}
+export const TERMINAL_SCRIPTS = [
+  {
+    workspace: '~/data-product',
+    prompt: 'Turn retail_sales.csv into a trusted data product with tested transformations and an analyst-ready experience',
+    lines: [
+      { kind: 'info', text: 'Reading spec', meta: 'specs/retail-sales.md' },
+      { kind: 'info', text: 'Planning', meta: 'profile → transform → test → experience' },
+      { kind: 'ok', text: 'source profile', meta: '1,204,331 rows' },
+      { kind: 'ok', text: 'sales_clean', meta: '12 checks passed' },
+      { kind: 'ok', text: 'demand_by_region', meta: '52 weeks × 9 regions' },
+      { kind: 'done', text: 'Data product ready for review' },
+    ],
+  },
+  {
+    workspace: '~/analyst-experience',
+    prompt: 'Create a semantic model, interactive report and app with writeback for customer feedback',
+    lines: [
+      { kind: 'info', text: 'Understanding the business question', meta: 'feedback → action' },
+      { kind: 'ok', text: 'semantic model', meta: 'measures enriched' },
+      { kind: 'ok', text: 'interactive report', meta: '4 pages generated' },
+      { kind: 'ok', text: 'Rayfin application', meta: 'writeback enabled' },
+      { kind: 'done', text: 'Insight-to-action flow ready' },
+    ],
+  },
+  {
+    workspace: '~/open-data-stack',
+    prompt: 'Add a tested dbt model and an Airflow DAG for the daily orders workflow',
+    lines: [
+      { kind: 'info', text: 'Reading repository context', meta: 'dbt · Airflow · SQL' },
+      { kind: 'ok', text: 'orders_daily model', meta: 'tests passing' },
+      { kind: 'ok', text: 'daily_orders DAG', meta: 'dependencies linked' },
+      { kind: 'ok', text: 'documentation', meta: 'lineage updated' },
+      { kind: 'done', text: 'Open-source workflow ready for review' },
+    ],
+  },
+  {
+    workspace: '~/database-operations',
+    prompt: 'Investigate why this SQL workload slowed down and propose a safe optimization',
+    lines: [
+      { kind: 'info', text: 'Reading database context', meta: 'Database Hub' },
+      { kind: 'ok', text: 'query plan analysed', meta: 'hot path identified' },
+      { kind: 'ok', text: 'optimization proposed', meta: 'review required' },
+      { kind: 'ok', text: 'validation workload', meta: 'latency improved' },
+      { kind: 'done', text: 'Investigation summary ready' },
+    ],
+  },
+  {
+    workspace: '~/nosql-chat',
+    prompt: 'Build a ChatGPT-style support app with conversations stored in Cosmos DB NoSQL',
+    lines: [
+      { kind: 'info', text: 'Reading application spec', meta: 'chat · model · data' },
+      { kind: 'ok', text: 'conversation model', meta: 'partitioned for scale' },
+      { kind: 'ok', text: 'chat experience', meta: 'model connected' },
+      { kind: 'ok', text: 'Cosmos DB tools', meta: 'skills + MCP' },
+      { kind: 'done', text: 'AI chat application ready to test' },
+    ],
+  },
+]
 
 export const PREP = [
   { id: 'github', icon: '🐙', title: 'GitHub account verified', desc: 'Sign in through the registration page so your exact GitHub handle is captured.' },

@@ -2,13 +2,17 @@ import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { BottomBar, Editable, Slide, useSlides } from '@deckio/deck-engine'
 import RegistrationForm from '../registration/RegistrationForm.jsx'
-import { ChristmasLights, Logos, Mascot, Snowflake } from '../winter/Decor.jsx'
+import { ChristmasLights, Logos, Mascot } from '../winter/Decor.jsx'
 import {
   BOOTCAMP, PERSONAS, PILLARS, PREP, REGISTER_STEPS, SCHEDULE, SESSIONS,
 } from '../content.js'
 import s from './Slides.module.css'
 
 const LIGHTS = 34
+const initials = (name) => {
+  const parts = name.trim().split(/\s+/)
+  return `${parts[0][0]}${parts.at(-1)[0]}`.toUpperCase()
+}
 
 // The light string doubles as the deck progress bar.
 function SlideLights({ index }) {
@@ -178,8 +182,8 @@ export function TimetableSlide({ index }) {
       />
       <div className={`${s.grid} ${s.grid6}`}>
         {SCHEDULE.map((session, i) => (
-          <div key={session.id} className={s.door}>
-            <Snowflake className={s.flake} />
+          <div key={session.id} className={s.door} style={{ '--door-accent': session.accent }}>
+            <span className={s.doorIcon} aria-hidden="true">{session.scheduleMark}</span>
             <span className={s.doorNum}>{i + 1}</span>
             <Editable as="span" id={`timetable.${session.id}.week`} className={s.doorWeek}>{session.track}</Editable>
             <Editable as="span" id={`timetable.${session.id}.date`} className={s.doorDate}>{session.format}</Editable>
@@ -394,7 +398,10 @@ export function TeamSlide({ index }) {
       <div className={`${s.grid} ${s.grid6}`}>
         {SESSIONS.map((session) => (
           <div key={session.id} className={`${s.card} ${s.helper}`}>
-            <span className={s.helperAvatar}>{session.icon}</span>
+            <span className={s.helperAvatar} style={{ '--avatar-accent': session.accent }} aria-label={`Photo placeholder for ${session.lead}`}>
+              <strong>{initials(session.lead)}</strong>
+              <small>Photo</small>
+            </span>
             <Editable as="h3" id={`team.${session.id}.name`}>{session.lead}</Editable>
             <Editable as="p" id={`team.${session.id}.role`}>{session.shortTitle}</Editable>
           </div>
@@ -406,17 +413,16 @@ export function TeamSlide({ index }) {
 
 export function DisclaimerSlide({ index }) {
   const items = [
-    ['advisory', '🎓', 'Educational, not consulting', "This is an educational, hands-on workshop series. Microsoft's role is advisory and facilitative on a best-effort basis. It is not a consulting engagement, managed service, implementation project, or delivery of a finished product. Exercises are for learning only and should not be used in production without your own review, testing, security, privacy and compliance approvals."],
-    ['data', '🔒', 'No sensitive data', 'Do not use real customer data, personal data, confidential information, production credentials, production systems or business-critical repositories during the workshops. Use sample, synthetic or non-sensitive materials only.'],
-    ['outputs', '🧪', 'Sample artifacts only', 'Any workshop outputs are sample and learning artifacts only. You are responsible for reviewing, adapting, testing, securing and approving any later use outside the workshop.'],
+    ['advisory', 'Educational, not consulting', "This is an educational, hands-on workshop series. Microsoft's role is advisory and facilitative on a best-effort basis. It is not a consulting engagement, managed service, implementation project, or delivery of a finished product. Exercises are for learning only and should not be used in production without your own review, testing, security, privacy and compliance approvals."],
+    ['data', 'No sensitive data', 'Do not use real customer data, personal data, confidential information, production credentials, production systems or business-critical repositories during the workshops. Use sample, synthetic or non-sensitive materials only.'],
+    ['outputs', 'Sample artifacts only', 'Any workshop outputs are sample and learning artifacts only. You are responsible for reviewing, adapting, testing, securing and approving any later use outside the workshop.'],
   ]
   return (
     <Frame index={index} id="disclaimer" orbs={['orbIce', 'orbHolly']}>
       <Header id="disclaimer" eyebrow="Please note" title="Workshop disclaimer" />
       <div className={`${s.grid} ${s.grid3} ${s.small}`}>
-        {items.map(([k, icon, title, desc]) => (
+        {items.map(([k, title, desc]) => (
           <div key={k} className={s.card}>
-            <span className={s.icon}>{icon}</span>
             <Editable as="h3" id={`disclaimer.${k}.title`}>{title}</Editable>
             <Editable as="p" id={`disclaimer.${k}.desc`} multiline>{desc}</Editable>
           </div>
