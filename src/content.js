@@ -1,5 +1,5 @@
 // Shared public content for the landing site and the deck.
-// Session topics, leads and dates are confirmed.
+// Session topics, owners, dates and times are confirmed.
 
 export const BOOTCAMP = {
   name: 'Agentic Data Engineering Winter Bootcamp',
@@ -9,7 +9,7 @@ export const BOOTCAMP = {
     'Six practical paths across analytics, engineering, open source, SQL, NoSQL and AI applications.',
   season: 'Winter 2026/27',
   kickoffDate: '2026-12-04',
-  kickoffLabel: 'Friday, 4 December 2026 · time TBA',
+  kickoffLabel: 'Friday, 4 December 2026 · programme starts at 09:00',
   // Add an ISO 8601 time with offset when the start time is confirmed.
   kickoff: null,
   footer: 'Agentic Data Engineering Winter Bootcamp',
@@ -23,7 +23,9 @@ export const SESSIONS = [
     shortTitle: 'Agentic AI Foundations',
     track: 'Foundation',
     subtitle: 'From Vibe Coding to Agentic Engineering',
-    lead: 'Remco van Dam',
+    owner: 'Remco van Dam',
+    ownerInitials: 'RD',
+    time: '09:00',
     audience: 'Everyone',
     format: 'Hands-on setup',
     scheduleMark: 'AI',
@@ -38,7 +40,7 @@ export const SESSIONS = [
       'Configure your environment with the skills, tools and connections your agents need',
       'Leave with a working Agentic Engineering foundation ready for the rest of the day',
     ],
-    tools: ['GitHub Copilot', 'Agents', 'Agent Skills', 'MCP', 'CLIs'],
+    tools: ['GitHub Copilot', 'Agents', 'Agent Skills', 'Skills for Fabric', 'MCP', 'CLIs'],
   },
   {
     id: 'analysts',
@@ -47,7 +49,9 @@ export const SESSIONS = [
     shortTitle: 'Agentic AI for Analysts',
     track: 'Analyst',
     subtitle: 'From Data to Insights, Apps & Action',
-    lead: 'Zeeshan Ali',
+    owner: 'Zeeshan Ali',
+    ownerInitials: 'ZA',
+    time: '10:00',
     audience: 'Analysts & app builders',
     format: 'Insights, apps & action',
     scheduleMark: 'BI',
@@ -64,7 +68,15 @@ export const SESSIONS = [
       'Connect semantic models with Microsoft 365 Copilot',
       'Experience how Agentic AI changes the analyst workflow from data → insight → action',
     ],
-    tools: ['Semantic models', 'Interactive reports', 'Rayfin', 'Microsoft 365 Copilot'],
+    tools: [
+      'Semantic models',
+      'Interactive reports',
+      'Rayfin',
+      'Microsoft 365 Copilot',
+      'Microsoft IQ',
+      'Fabric IQ',
+      'Data Agents',
+    ],
   },
   {
     id: 'lakehouse',
@@ -73,7 +85,9 @@ export const SESSIONS = [
     shortTitle: 'Lakehouse Design',
     track: 'Lakehouse',
     subtitle: 'Design and Build a Lakehouse with AI Agents',
-    lead: 'Arash Nezami',
+    owner: 'Arash Nezami',
+    ownerInitials: 'AN',
+    time: '11:00',
     audience: 'Data engineers',
     format: 'Lakehouse design',
     scheduleMark: 'LH',
@@ -93,27 +107,29 @@ export const SESSIONS = [
   {
     id: 'open-source',
     number: '04',
-    title: 'Agentic AI for Open-Source Data Engineers: dbt and Airflow',
-    shortTitle: 'dbt & Airflow',
+    title: 'Agentic AI for Open-Source Data Engineers: DBT and Airflow',
+    shortTitle: 'DBT & Airflow',
     track: 'Open source',
     subtitle: 'Build, Orchestrate & Transform with Agents',
-    lead: 'Remco van Dam',
+    owner: 'Remco van Dam',
+    ownerInitials: 'RD',
+    time: '12:30',
     audience: 'Open-source data engineers',
-    format: 'dbt + Airflow',
+    format: 'DBT + Airflow',
     scheduleMark: 'OS',
     accent: '#55d6a9',
     spotlight: 'What happens when your favourite open-source data engineering tools meet Agentic AI?',
     overview:
-      'In this hands-on challenge, you’ll use AI agents to build and operate a modern data engineering workflow using familiar open-source technologies. Instead of manually writing every pipeline, transformation and command, you’ll let agents help you design, build, run and troubleshoot your data workloads.\n\nYou’ll work with technologies such as dbt, Apache Airflow, Python, SQL, Git and CLI-based tooling, while using Agent Skills and MCP to give your agents the knowledge and tools they need.',
+      'In this hands-on challenge, you’ll use AI agents to build and operate a modern data engineering workflow using familiar open-source technologies. Instead of manually writing every pipeline, transformation and command, you’ll let agents help you design, build, run and troubleshoot your data workloads.\n\nYou’ll work with technologies such as DBT, Apache Airflow, Python, SQL, Git and CLI-based tooling, while using Agent Skills and MCP to give your agents the knowledge and tools they need.',
     outcomes: [
-      'Build and transform data using dbt, Python and SQL',
+      'Build and transform data using DBT, Python and SQL',
       'Orchestrate data workflows with Apache Airflow',
       'Use GitHub Copilot and agents throughout the engineering workflow',
       'Use Agent Skills to teach agents how to work with your tools and environment',
       'Use MCP and CLIs to let agents interact with your data platform',
       'Experience what Agentic Data Engineering looks like with the open-source tools you already know',
     ],
-    tools: ['dbt', 'Apache Airflow', 'Python', 'SQL', 'Git', 'Agent Skills', 'MCP'],
+    tools: ['DBT', 'Apache Airflow', 'Python', 'SQL', 'Git', 'Agent Skills', 'MCP'],
   },
   {
     id: 'sql',
@@ -122,7 +138,9 @@ export const SESSIONS = [
     shortTitle: 'SQL Developers & Admins',
     track: 'SQL / DBA',
     subtitle: 'From Database Operations to AI-Assisted SQL Engineering',
-    lead: 'Ajinkya Soitkar',
+    owner: 'Ajinkya Soitkar',
+    ownerInitials: 'AS',
+    time: '13:30',
     audience: 'SQL developers & DBAs',
     format: 'Database Hub',
     scheduleMark: 'SQL',
@@ -148,7 +166,9 @@ export const SESSIONS = [
     shortTitle: 'NoSQL Developers & Admins',
     track: 'NoSQL',
     subtitle: 'Build Your Own AI Chat App using Cosmos DB NoSQL',
-    lead: 'René Bremer',
+    owner: 'René Bremer',
+    ownerInitials: 'RB',
+    time: '14:30',
     audience: 'NoSQL developers at scale',
     format: 'AI chat application',
     scheduleMark: 'NoSQL',
@@ -168,28 +188,23 @@ export const SESSIONS = [
   },
 ]
 
-const SESSION_DATES = [
-  ['2026-12-04', 'Fri 4 Dec 2026'],
-  ['2026-12-11', 'Fri 11 Dec 2026'],
-  ['2026-12-18', 'Fri 18 Dec 2026'],
-  ['2027-01-08', 'Fri 8 Jan 2027'],
-  ['2027-01-15', 'Fri 15 Jan 2027'],
-  ['2027-01-22', 'Fri 22 Jan 2027'],
+export const SESSION_DATES = [
+  { id: '2026-12-04', label: 'Friday, 4 December 2026', short: '4 Dec', day: '04', month: 'DEC' },
+  { id: '2026-12-11', label: 'Friday, 11 December 2026', short: '11 Dec', day: '11', month: 'DEC' },
+  { id: '2026-12-18', label: 'Friday, 18 December 2026', short: '18 Dec', day: '18', month: 'DEC' },
+  { id: '2027-01-08', label: 'Friday, 8 January 2027', short: '8 Jan', day: '08', month: 'JAN' },
+  { id: '2027-01-15', label: 'Friday, 15 January 2027', short: '15 Jan', day: '15', month: 'JAN' },
+  { id: '2027-01-22', label: 'Friday, 22 January 2027', short: '22 Jan', day: '22', month: 'JAN' },
 ]
 
-export const SCHEDULE = SESSIONS.map((session, index) => ({
-  ...session,
-  dateIso: SESSION_DATES[index][0],
-  date: SESSION_DATES[index][1],
-  status: session.id === 'foundations' ? 'foundations first' : 'confirmed',
-}))
+export const registrationSlotId = (dateId, session) => `${dateId}|${session.time}|${session.id}`
 
 export const PERSONAS = [
   {
     id: 'de', icon: '🛠️', label: 'Data engineers',
     desc: 'Pipelines, transformations, orchestration and trusted data products.',
     does: 'Design, build and operate data workflows with agents working from your requirements and repository context.',
-    stack: ['Lakehouse', 'dbt', 'Airflow', 'Python', 'SQL'],
+    stack: ['Lakehouse', 'DBT', 'Airflow', 'Python', 'SQL'],
   },
   {
     id: 'da', icon: '📊', label: 'Data analysts',
@@ -202,6 +217,69 @@ export const PERSONAS = [
     desc: 'Describe the outcome in plain English.',
     does: 'Describe the question you need answered and turn it into a spec that an agent can build from.',
     stack: ['Specs', 'Metrics', 'Reports', 'Applications'],
+  },
+  {
+    id: 'dbdev', icon: '🧩', label: 'Database developers',
+    desc: 'Schema design, SQL development, performance and application data access.',
+    does: 'Use agents to understand database context, develop and review SQL, investigate query plans and improve application data workflows.',
+    stack: ['SQL', 'Schemas', 'Query plans', 'GitHub Copilot'],
+  },
+  {
+    id: 'dba', icon: '🛡️', label: 'Database administrators',
+    desc: 'Operations, reliability, troubleshooting and safe optimization.',
+    does: 'Combine operational expertise with AI-assisted investigation while keeping approval, validation and production decisions with the DBA.',
+    stack: ['Database Hub', 'Monitoring', 'Performance', 'Governance'],
+  },
+]
+
+export const TEAM = [
+  {
+    id: 'nathan',
+    name: 'Nathan Brahmbhatt',
+    initials: 'NB',
+    role: 'Host',
+    focus: 'Bootcamp host and programme coordination',
+    accent: '#ff4d61',
+  },
+  {
+    id: 'remco',
+    name: 'Remco van Dam',
+    initials: 'RD',
+    role: 'Session owner',
+    focus: 'Foundations · Open-source Data Engineering',
+    accent: '#8fd8ff',
+  },
+  {
+    id: 'zeeshan',
+    name: 'Zeeshan Ali',
+    initials: 'ZA',
+    role: 'Session owner',
+    focus: 'Agentic AI for Analysts',
+    accent: '#d97cff',
+  },
+  {
+    id: 'arash',
+    name: 'Arash Nezami',
+    initials: 'AN',
+    role: 'Session owner',
+    focus: 'Lakehouse Design',
+    accent: '#ffb454',
+  },
+  {
+    id: 'ajinkya',
+    name: 'Ajinkya Soitkar',
+    initials: 'AS',
+    role: 'Session owner',
+    focus: 'SQL Developers & Admins',
+    accent: '#7ea7ff',
+  },
+  {
+    id: 'rene',
+    name: 'René Bremer',
+    initials: 'RB',
+    role: 'Session owner',
+    focus: 'NoSQL Developers & Admins',
+    accent: '#4fd1e8',
   },
 ]
 
@@ -285,9 +363,9 @@ export const TERMINAL_SCRIPTS = [
   },
   {
     workspace: '~/open-data-stack',
-    prompt: 'Add a tested dbt model and an Airflow DAG for the daily orders workflow',
+    prompt: 'Add a tested DBT model and an Airflow DAG for the daily orders workflow',
     lines: [
-      { kind: 'info', text: 'Reading repository context', meta: 'dbt · Airflow · SQL' },
+      { kind: 'info', text: 'Reading repository context', meta: 'DBT · Airflow · SQL' },
       { kind: 'ok', text: 'orders_daily model', meta: 'tests passing' },
       { kind: 'ok', text: 'daily_orders DAG', meta: 'dependencies linked' },
       { kind: 'ok', text: 'documentation', meta: 'lineage updated' },
@@ -327,6 +405,24 @@ export const PREP = [
   { id: 'data', icon: '🔒', title: 'Sample data only', desc: 'No customer, personal or production data. Synthetic or public data only.' },
 ]
 
+export const READINESS_PATHS = [
+  {
+    id: 'ready',
+    title: 'Already fully ready',
+    desc: 'If every check passes before the event, you may skip Agentic AI Foundations and register for a local environment.',
+  },
+  {
+    id: 'setup',
+    title: 'Able to install locally',
+    desc: 'Choose “I will install the tools locally” and attend Agentic AI Foundations to complete and verify the setup.',
+  },
+  {
+    id: 'cloud',
+    title: 'Unsure or unable to install',
+    desc: 'Choose “I need a cloud development environment”. Only 200 environments are available, so a place is not guaranteed.',
+  },
+]
+
 export const SETUP_RESOURCES = [
   { id: 'az', label: 'Azure CLI', check: 'az version', login: 'az login --tenant <tenant-id>', href: 'https://learn.microsoft.com/cli/azure/install-azure-cli' },
   { id: 'gh', label: 'GitHub CLI', check: 'gh --version', login: 'gh auth login', href: 'https://cli.github.com/' },
@@ -341,11 +437,11 @@ export const SETUP_RESOURCES = [
 export const FAQ = [
   {
     q: 'What are the session topics?',
-    a: 'Agentic AI foundations, consuming data as an analyst, lakehouse design, dbt and Airflow, SQL development and administration, and building an AI chat application with NoSQL.',
+    a: 'Agentic AI foundations, consuming data as an analyst, lakehouse design, DBT and Airflow, SQL development and administration, and building an AI chat application with NoSQL.',
   },
   {
     q: 'When does it start?',
-    a: 'The sessions run on Friday 4, 11 and 18 December 2026, followed by Friday 8, 15 and 22 January 2027. Session start times will be added when confirmed.',
+    a: 'The complete six-session programme runs on Friday 4, 11 and 18 December 2026, followed by Friday 8, 15 and 22 January 2027. Sessions start at 09:00, 10:00, 11:00, 12:30, 13:30 and 14:30.',
   },
   {
     q: 'Do I need to be a developer?',
@@ -367,17 +463,26 @@ export const FAQ = [
 
 export const REGISTER_STEPS = [
   'Sign in with your personal GitHub.com account',
-  'Confirm the sessions you plan to attend and add your company details',
+  'Choose the dates and session times you plan to attend, then add your company details',
   'Receive setup guidance and access information by email',
 ]
 
 export const REGISTRATION = {
   eyebrow: 'Registration',
   title: 'Join the Agentic Data Winter Bootcamp.',
-  subtitle: 'Sign in with GitHub, confirm your sessions and provide the details needed for event access.',
+  subtitle: 'Sign in with GitHub, choose the dates and session times you want to attend, and provide the details needed for event access.',
+  slotHelp: 'Every date runs the same six-session programme. Select any date and session-time combination you plan to attend.',
   environments: [
-    { id: 'local', label: 'I will install the tools locally' },
-    { id: 'cloud', label: 'I need a cloud development environment' },
+    {
+      id: 'local',
+      label: 'I will install the tools locally',
+      desc: 'Choose this if your setup is already ready or you will attend Foundations to complete it.',
+    },
+    {
+      id: 'cloud',
+      label: 'I need a cloud development environment',
+      desc: 'Only 200 cloud environments are available. Selecting this option does not guarantee a place.',
+    },
   ],
   consent:
     'I consent to Microsoft using my company, company email, session choices, GitHub.com username and environment preference to administer the bootcamp, provision access, communicate with me and improve the programme. Registration data is deleted after the administration period.',

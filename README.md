@@ -1,4 +1,4 @@
-# ❄️ Agentic Data Engineering Winter Bootcamp
+# Agentic Data Engineering Winter Bootcamp
 
 Interactive public website and DECKIO slide deck for the Agentic Data Engineering Winter Bootcamp, built for the wider data community across analytics, engineering, open source, SQL, NoSQL and AI applications.
 
@@ -8,6 +8,8 @@ Interactive public website and DECKIO slide deck for the Agentic Data Engineerin
 | --- | --- |
 | `#/` | Landing site with the confirmed lineup, schedule, data visuals, foundations setup, FAQ and registration |
 | `#/deck` | DECKIO presentation with session deep-dives and an embedded GitHub-authenticated registration panel |
+
+The complete six-session agenda runs on 4, 11 and 18 December 2026 and 8, 15 and 22 January 2027. The daily session times are 09:00, 10:00, 11:00, 12:30, 13:30 and 14:30.
 
 ## Develop
 
@@ -31,7 +33,7 @@ The website is hosted as one Azure Static Web App. The landing experience, deck,
 Azure Static Web Apps hosts the complete public experience and provides built-in GitHub authentication. The custom themed form:
 
 1. reads the verified GitHub identity from `/.auth/me`;
-2. submits the registration to the protected `/api/register` function;
+2. submits the selected date and session-time combinations to the protected `/api/register` function;
 3. forwards validated data to Power Automate;
 4. upserts the registration into a restricted Microsoft List.
 

@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
-import { Logos, Mascot, Snowflake } from '../winter/Decor.jsx'
-import { SnowToggle } from '../winter/Snowfall.jsx'
-import { AgentTerminal, Countdown, ScheduleQuery } from '../data/DataViz.jsx'
+import { GitHubMark, Logos, Mascot } from '../winter/Decor.jsx'
+import { AgentTerminal, Countdown, ScheduleBoard } from '../data/DataViz.jsx'
 import SetupWizard from '../setup/SetupWizard.jsx'
 import RegistrationForm from '../registration/RegistrationForm.jsx'
 import {
-  BOOTCAMP, FAQ, PERSONAS, PILLARS, PREP, REGISTRATION, SESSIONS,
+  BOOTCAMP, FAQ, PERSONAS, PILLARS, PREP, READINESS_PATHS, REGISTRATION, SESSIONS,
 } from '../content.js'
 import s from './Site.module.css'
 
@@ -145,15 +144,15 @@ function ProgrammeReveal() {
               <div className={s.sessionSummary}>
                 <span className={s.sessionNumber}>{session.number}</span>
                 <span className={s.sessionHeading}>
-                  <span className={s.sessionAudience}>{session.audience}</span>
+                  <span className={s.sessionAudience}>{session.time} · {session.audience}</span>
                   <strong>{session.title}</strong>
                   <small>{session.subtitle}</small>
                 </span>
                 <span className={s.sessionLead}>
-                  <span className={s.sessionHeadshot} aria-hidden="true"><i /><b /></span>
+                  <span className={s.sessionHeadshot} aria-hidden="true">{session.ownerInitials}</span>
                   <span className={s.sessionLeadCopy}>
-                    <small>Session lead</small>
-                    <strong>{session.lead}</strong>
+                    <small>Session owner</small>
+                    <strong>{session.owner}</strong>
                   </span>
                 </span>
               </div>
@@ -232,7 +231,7 @@ function PrepChecklist() {
   )
 }
 
-export default function Site({ snow, onToggleSnow }) {
+export default function Site() {
   const rootRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)
   useReveal(rootRef)
@@ -254,10 +253,7 @@ export default function Site({ snow, onToggleSnow }) {
       <header className={`${s.nav} ${scrolled ? s.navScrolled : ''}`}>
         <button type="button" className={s.brand} onClick={() => go('top')}>
           <span className={s.brandMark}>
-            <span className={s.brandDataGlyph}>
-              <Snowflake className={s.brandFlake} />
-              <span className={s.brandDataPackets} aria-hidden="true"><i /><i /><i /></span>
-            </span>
+            <GitHubMark className={s.brandLogo} />
           </span>
           <span className={s.brandText}><small>Agentic Data</small><strong>Winter Bootcamp</strong></span>
         </button>
@@ -267,7 +263,6 @@ export default function Site({ snow, onToggleSnow }) {
           ))}
         </nav>
         <div className={s.navActions}>
-          <SnowToggle enabled={snow} onToggle={onToggleSnow} />
           <a className={`${s.btnGhost} ${s.navDeck}`} href={DECK_URL}>▶ Deck</a>
         </div>
       </header>
@@ -276,7 +271,7 @@ export default function Site({ snow, onToggleSnow }) {
         <section id="top" className={`${s.panel} ${s.heroPanel}`} data-panel>
           <div className={s.hero}>
           <div className={s.heroText}>
-            <span className={s.pill}>❄️ {BOOTCAMP.season} · Online · Free · For the data community</span>
+            <span className={s.pill}>{BOOTCAMP.season} · Online · Free · For the data community</span>
             <h1>
               Agentic Data Engineering <span className={s.highlight}>Winter Bootcamp</span>
             </h1>
@@ -284,7 +279,7 @@ export default function Site({ snow, onToggleSnow }) {
               <strong>{BOOTCAMP.tagline}</strong> {BOOTCAMP.subtitle}
             </p>
             <div className={s.ctaRow}>
-              <a className={s.btnGhost} href={DECK_URL}>▶ Present the deck</a>
+              <button type="button" className={s.btnGhost} onClick={() => go('why')}>More info</button>
               <button type="button" className={s.btnGhost} onClick={() => go('lineup')}>See the lineup</button>
               <button type="button" className={s.btnPrimary} onClick={() => go('join')}>Register now</button>
             </div>
@@ -332,7 +327,7 @@ export default function Site({ snow, onToggleSnow }) {
           idx="02"
           eyebrow="The lineup"
           title="Unwrap the programme."
-          subtitle="Open the gift, then explore each session, its lead and what you will learn."
+          subtitle="Open the gift, then explore each session, its owner and what you will learn."
           className={s.lineupPanel}
         >
           <ProgrammeReveal />
@@ -342,10 +337,10 @@ export default function Site({ snow, onToggleSnow }) {
           id="schedule"
           idx="03"
           eyebrow="Schedule"
-          title="Six Fridays. One connected programme."
-          subtitle="Every session adds a different view of agentic AI. Join the complete series to connect analytics, engineering, open source, SQL, NoSQL and AI applications."
+          title="Six dates. The same complete programme."
+          subtitle="All six sessions run on every date. Choose the date and session times that work for you when registering."
         >
-          <ScheduleQuery />
+          <ScheduleBoard />
         </Section>
 
         <Section
@@ -353,10 +348,21 @@ export default function Site({ snow, onToggleSnow }) {
           idx="04"
           eyebrow="Get ready"
           title="Pre-flight checks"
-          subtitle="Run the foundations setup, sign in, then tick off the checks. Checklist progress stays in this browser only."
+          subtitle="This setup is required for the hands-on day. If every check already passes, you may skip Agentic AI Foundations; otherwise use that session to complete the setup."
           className={s.preflightPanel}
         >
           <div className={s.setupStack}>
+            <div className={s.readinessPaths}>
+              {READINESS_PATHS.map((path, index) => (
+                <article key={path.id}>
+                  <span>{String(index + 1).padStart(2, '0')}</span>
+                  <div>
+                    <strong>{path.title}</strong>
+                    <p>{path.desc}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
             <div className={s.preflightBlock}>
               <div className={s.preflightLabel}><span>01</span><strong>Readiness checklist</strong></div>
               <PrepChecklist />

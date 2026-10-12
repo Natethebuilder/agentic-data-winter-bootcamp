@@ -1,6 +1,17 @@
 const { createHash } = require('node:crypto')
 
-const SESSION_IDS = new Set(['foundations', 'analysts', 'lakehouse', 'open-source', 'sql', 'nosql'])
+const SESSION_DATES = ['2026-12-04', '2026-12-11', '2026-12-18', '2027-01-08', '2027-01-15', '2027-01-22']
+const SESSION_TIMES = {
+  foundations: '09:00',
+  analysts: '10:00',
+  lakehouse: '11:00',
+  'open-source': '12:30',
+  sql: '13:30',
+  nosql: '14:30',
+}
+const SESSION_IDS = new Set(
+  SESSION_DATES.flatMap((date) => Object.entries(SESSION_TIMES).map(([session, time]) => `${date}|${time}|${session}`)),
+)
 const ENVIRONMENTS = new Set(['local', 'cloud'])
 
 function response(status, body) {
@@ -48,7 +59,7 @@ module.exports = async function register(context, req) {
     return
   }
   if (!sessions.length || sessions.length !== requestedSessions.length) {
-    context.res = response(400, { error: 'Choose at least one session.' })
+    context.res = response(400, { error: 'Choose at least one valid date and session time.' })
     return
   }
   if (!environment || body.consent !== true) {

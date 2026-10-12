@@ -14,7 +14,7 @@ Create a restricted list named `Agentic Data Bootcamp Registrations`. Limit acce
 | `GitHubUsername` | Single line of text | Yes | Verified GitHub handle |
 | `Company` | Single line of text | Yes | Maximum 160 characters |
 | `CompanyEmail` | Single line of text | Yes | Lower-case email address |
-| `Sessions` | Multiple lines of text | Yes | Store the JSON session ID array or a semicolon-delimited value |
+| `Sessions` | Multiple lines of text | Yes | Selected date/time/session slots, serialized as JSON or a semicolon-delimited value |
 | `Environment` | Choice | Yes | `local` or `cloud` |
 | `Consent` | Yes/No | Yes | Must be `Yes` |
 | `UpdatedAt` | Date and time | Yes | ISO timestamp supplied by the API |
@@ -70,6 +70,23 @@ Turn on version history. Do not expose the list publicly, and define a deletion 
 
 Do not log the request body or send registration details to chat channels. Keep the HTTP trigger URL and optional shared secret only in Azure Static Web Apps application settings.
 
+### Data event slot format
+
+The Data registration client validates selections against the six event dates and six daily session times before calling the shared flow. Each selected slot uses this readable format:
+
+```text
+YYYY-MM-DD|HH:MM|session-id
+```
+
+For example:
+
+```text
+2026-12-04|09:00|foundations
+2027-01-22|14:30|nosql
+```
+
+The existing `sessions` array and SharePoint `Sessions` column are reused, so no Power Automate request-schema or List-schema change is required.
+
 ## Shared event routing
 
 The deployed valid-secret branch first evaluates `Route_registration`. Its non-Software path evaluates the nested `Route_foundry` condition before falling back to the legacy Data actions:
@@ -101,7 +118,7 @@ The website and registration experience share the same Azure Static Web Apps ori
 2. Confirm the registration API redirects or rejects an unauthenticated request.
 3. Sign in with GitHub and verify the displayed handle matches the signed-in account.
 4. Submit a test registration and confirm one List row is created.
-5. Submit again with different session choices and confirm the same row is updated.
+5. Submit again with different date and session-time choices and confirm the same row is updated.
 6. Confirm neither the browser response nor Azure Function logs contain the company email or full submitted payload.
 
 Live verification completed:

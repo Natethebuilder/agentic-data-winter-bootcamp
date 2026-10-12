@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
-import { PIPELINE, SCHEDULE, TERMINAL_SCRIPTS } from '../content.js'
+import { useEffect, useState } from 'react'
+import { PIPELINE, SESSION_DATES, SESSIONS, TERMINAL_SCRIPTS } from '../content.js'
 import d from './Data.module.css'
 
 const BASE = import.meta.env.BASE_URL
@@ -221,73 +221,39 @@ export function MedallionFlow({ compact = false, className = '' }) {
   )
 }
 
-/* ── Schedule rendered as a query and result grid ── */
-export function ScheduleQuery() {
-  const ref = useRef(null)
-  const timer = useRef(null)
-  const [run, setRun] = useState(0)
-  const [loading, setLoading] = useState(false)
-  const [ms, setMs] = useState(0)
-
-  const execute = () => {
-    setLoading(true)
-    clearTimeout(timer.current)
-    timer.current = setTimeout(() => {
-      setLoading(false)
-      setRun((r) => r + 1)
-      setMs(18 + Math.floor(Math.random() * 40))
-    }, 650)
-  }
-
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return undefined
-    const io = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) { execute(); io.disconnect() }
-    }, { threshold: 0.3 })
-    io.observe(el)
-    return () => { io.disconnect(); clearTimeout(timer.current) }
-  }, [])
-
+/* ── Six repeated event dates and the shared full-day agenda ── */
+export function ScheduleBoard() {
   return (
-    <div className={d.query} ref={ref}>
-      <div className={d.qBar}>
-        <span className={d.qTab}>schedule.sql</span>
-        <button type="button" className={d.qRun} onClick={execute} disabled={loading}>
-          {loading ? 'Running…' : '▶ Run'}
-        </button>
+    <div className={d.scheduleBoard}>
+      <div className={d.dateRail} aria-label="Bootcamp dates">
+        {SESSION_DATES.map((date) => (
+          <article key={date.id} className={d.dateCard}>
+            <span>{date.month}</span>
+            <strong>{date.day}</strong>
+            <small>Full programme</small>
+          </article>
+        ))}
       </div>
-      <pre className={d.qCode}>
-        <code>
-          <span className={d.kw}>SELECT</span> session, focus, lead, session_date, status{'\n'}
-          <span className={d.kw}>FROM</span> <span className={d.tbl}>winter_bootcamp.schedule</span>{'\n'}
-          <span className={d.kw}>ORDER BY</span> session;
-        </code>
-      </pre>
-      <div className={`${d.qProgress} ${loading ? d.qProgressOn : ''}`} />
-      <div className={d.qGridWrap}>
-        <table className={d.qGrid}>
-          <thead>
-            <tr>
-              <th className={d.num}>session</th><th>focus</th><th>lead</th><th>session_date</th><th>status</th>
-            </tr>
-          </thead>
-          <tbody key={run}>
-            {run > 0 && SCHEDULE.map((session, i) => (
-              <tr key={session.id} style={{ animationDelay: `${i * 70}ms` }}>
-                <td className={d.num}>{session.number}</td>
-                <td>{session.shortTitle}</td>
-                <td>{session.lead}</td>
-                <td>{session.date === 'Date TBA' ? <span className={d.null} title="Date to be announced">NULL</span> : session.date}</td>
-                <td><span className={d.pending}>{session.status}</span></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <div className={d.qFoot}>
-        <span>{run > 0 ? `${SCHEDULE.length} rows · ${ms} ms` : 'Not run yet'}</span>
-        <span>Foundations prepares the environment for every lab</span>
+      <div className={d.agenda}>
+        <div className={d.agendaHead}>
+          <div>
+            <span>Every event date</span>
+            <strong>Six-session daily agenda</strong>
+          </div>
+          <p>Select any combination of dates and session times during registration.</p>
+        </div>
+        <div className={d.agendaGrid}>
+          {SESSIONS.map((session) => (
+            <article key={session.id} className={d.agendaSlot} style={{ '--slot-accent': session.accent }}>
+              <time dateTime={session.time}>{session.time}</time>
+              <div>
+                <span>{session.number} · {session.track}</span>
+                <strong>{session.shortTitle}</strong>
+                <small>Owner · {session.owner}</small>
+              </div>
+            </article>
+          ))}
+        </div>
       </div>
     </div>
   )

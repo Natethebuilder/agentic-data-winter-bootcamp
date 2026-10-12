@@ -1,39 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
-
-const STORAGE_KEY = 'winter-bootcamp:snow-v2'
-
-export function useSnowPreference() {
-  const [enabled, setEnabled] = useState(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY)
-      if (stored !== null) return stored === 'on'
-      return true
-    } catch {
-      return true
-    }
-  })
-
-  useEffect(() => {
-    try { localStorage.setItem(STORAGE_KEY, enabled ? 'on' : 'off') } catch { /* ignore */ }
-  }, [enabled])
-
-  return [enabled, setEnabled]
-}
-
-export function SnowToggle({ enabled, onToggle, className = '' }) {
-  return (
-    <button
-      type="button"
-      className={`snow-toggle ${className}`}
-      onClick={onToggle}
-      aria-pressed={enabled}
-      title={enabled ? 'Stop the snow' : 'Let it snow'}
-    >
-      <span aria-hidden="true">{enabled ? '❄️' : '☀️'}</span>
-      <span className="snow-toggle-label">{enabled ? 'Snow on' : 'Snow off'}</span>
-    </button>
-  )
-}
+import { useEffect, useRef } from 'react'
 
 export default function Snowfall({ enabled = true, density = 1 }) {
   const canvasRef = useRef(null)
