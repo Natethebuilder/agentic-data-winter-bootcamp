@@ -17,7 +17,7 @@ The public registration page stores submissions in Microsoft 365 through one sha
 | `Company` | Single line of text | Company or organisation |
 | `CompanyEmail` | Single line of text | Normalized communication address |
 | `SessionSelections` | Choice, multiple selections | Filterable date/time/session selections |
-| `Sessions` | Multiple lines of text | Temporary semicolon-delimited compatibility copy |
+| `Sessions` | Multiple lines of text | Temporary compatibility summary; `SessionSelections` is authoritative |
 | `Environment` | Choice | `local` or `cloud` |
 | `OrganizationAccessStatus` | Choice | `Pending`, `Invitation queued`, `Invitation sent`, `Joined`, or `Issue` |
 | `CloudEnvironmentStatus` | Choice | `Not requested`, `Requested`, `Allocated`, `Ready`, `Waitlisted`, or `Issue` |
@@ -104,11 +104,12 @@ The flow:
 4. Returns HTTP `400` for a missing or unrecognized event ID instead of silently using the Data List.
 5. Queries the event List with `RegistrationId eq '<registrationId>'` and top count `1`.
 6. Updates the first matching item or creates a new item.
-7. Writes both filterable `SessionSelections` and the temporary `Sessions` compatibility copy.
-8. Sets `OrganizationAccessStatus` to `Pending` when creating a registration.
-9. Sets `CloudEnvironmentStatus` to `Requested` for cloud requests and `Not requested` for local requests.
-10. Preserves operational status progress on later registration updates.
-11. Returns HTTP `202` for accepted registrations.
+7. Converts the submitted string array into SharePoint choice objects and writes the complete values to filterable `SessionSelections`.
+8. Writes a compact count summary to the temporary `Sessions` compatibility field.
+9. Sets `OrganizationAccessStatus` to `Pending` when creating a registration.
+10. Sets `CloudEnvironmentStatus` to `Requested` for cloud requests and `Not requested` for local requests.
+11. Preserves operational status progress on later updates and initializes blank legacy statuses to the correct defaults.
+12. Returns HTTP `202` for accepted registrations.
 
 | Event | `eventId` | SharePoint target |
 | --- | --- | --- |
