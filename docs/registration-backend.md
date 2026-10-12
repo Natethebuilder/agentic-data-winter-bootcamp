@@ -108,7 +108,7 @@ The flow:
 8. Writes a compact count summary to the temporary `Sessions` compatibility field.
 9. Sets `OrganizationAccessStatus` to `Pending` when creating a registration.
 10. Sets `CloudEnvironmentStatus` to `Requested` for cloud requests and `Not requested` for local requests.
-11. Preserves operational status progress on later registration updates.
+11. Preserves operational status progress on later updates and initializes blank legacy statuses to the correct defaults.
 12. Returns HTTP `202` for accepted registrations.
 
 | Event | `eventId` | SharePoint target |
