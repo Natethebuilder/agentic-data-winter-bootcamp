@@ -4,7 +4,7 @@ import { AgentTerminal, Countdown, ScheduleBoard } from '../data/DataViz.jsx'
 import SetupWizard from '../setup/SetupWizard.jsx'
 import RegistrationForm from '../registration/RegistrationForm.jsx'
 import {
-  BOOTCAMP, FAQ, GITHUB_ACCESS, PERSONAS, PILLARS, PREP, READINESS_PATHS, REGISTRATION, SESSIONS,
+  BOOTCAMP, FAQ, PERSONAS, PILLARS, PREP, READINESS_PATHS, REGISTRATION, SESSIONS,
 } from '../content.js'
 import s from './Site.module.css'
 
@@ -317,14 +317,6 @@ export default function Site() {
                 <p>{p.desc}</p>
               </article>
             ))}
-          </div>
-          <div className={s.ticketCallout}>
-            <span aria-hidden="true">GH</span>
-            <div>
-              <small>{GITHUB_ACCESS.eyebrow}</small>
-              <h3>{GITHUB_ACCESS.title}</h3>
-              <p>{GITHUB_ACCESS.description}</p>
-            </div>
           </div>
           <PersonaPicker />
         </Section>
