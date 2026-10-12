@@ -115,8 +115,7 @@ The flow:
 12. Sets `OrganizationAccessStatus` to `Pending` when creating a registration.
 13. Sets `CloudEnvironmentStatus` to `Requested` for cloud requests and `Not requested` for local requests.
 14. Protects the HTTP trigger and sensitive SharePoint action inputs/outputs from Power Automate run-history disclosure.
-15. Processes one trigger run at a time so concurrent submissions cannot both pass the duplicate check before either row is created.
-16. Returns HTTP `202` for accepted registrations.
+15. Returns HTTP `202` for accepted registrations.
 
 | Event | `eventId` | SharePoint target |
 | --- | --- | --- |
