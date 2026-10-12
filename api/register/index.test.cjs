@@ -66,11 +66,15 @@ test('forwards validated slots in a deterministic upsert payload', async () => {
   assert.equal(context.res.status, 202)
   assert.equal(String(received.url), 'https://flow.example.test/register')
   assert.equal(received.options.headers['x-registration-secret'], 'test-only-secret')
-  assert.equal(received.body.email, 'builder@example.com')
+  assert.equal(received.body.companyEmail, 'builder@example.com')
   assert.equal(received.body.eventId, 'agentic-data-winter-bootcamp')
-  assert.equal(received.body.githubUserId, 'not-collected')
-  assert.equal(received.body.githubUsername, 'not-collected')
-  assert.deepEqual(received.body.sessions, validBody().sessions)
+  assert.deepEqual(received.body.sessionSelections, validBody().sessions)
+  assert.equal(received.body.environmentPreference, 'cloud')
+  assert.equal('githubUserId' in received.body, false)
+  assert.equal('githubUsername' in received.body, false)
+  assert.equal('email' in received.body, false)
+  assert.equal('sessions' in received.body, false)
+  assert.equal('environment' in received.body, false)
   assert.equal(
     received.body.registrationId,
     createHash('sha256').update(`agentic-data-winter-bootcamp:${registrationToken}`).digest('hex'),
