@@ -1,6 +1,6 @@
 # Shared registration backend
 
-The registration page uses Azure Static Web Apps GitHub authentication and stores submissions in Microsoft 365 through one shared Power Automate flow and a private Microsoft List per event. Microsoft Forms is not used because an embedded form cannot inherit the site theme and does not expose a supported API for custom response submission.
+The public registration page stores submissions in Microsoft 365 through one shared Power Automate flow and a private Microsoft List per event. GitHub OAuth is not used for registration. Microsoft Forms is not used because an embedded form cannot inherit the site theme and does not expose a supported API for custom response submission.
 
 ## Microsoft List
 
@@ -8,10 +8,10 @@ Create a restricted list named `Agentic Data Bootcamp Registrations`. Limit acce
 
 | Column | Type | Required | Notes |
 | --- | --- | --- | --- |
-| `Title` | Single line of text | Yes | GitHub username |
+| `Title` | Single line of text | Yes | Legacy field currently receives `not-collected` |
 | `RegistrationId` | Single line of text | Yes | Unique, indexed; SHA-256 identifier supplied by the API |
-| `GitHubUserId` | Single line of text | Yes | Static Web Apps provider identifier |
-| `GitHubUsername` | Single line of text | Yes | Verified GitHub handle |
+| `GitHubUserId` | Single line of text | Yes | Legacy compatibility field set to `not-collected` |
+| `GitHubUsername` | Single line of text | Yes | Legacy compatibility field set to `not-collected` |
 | `Company` | Single line of text | Yes | Maximum 160 characters |
 | `CompanyEmail` | Single line of text | Yes | Lower-case email address |
 | `Sessions` | Multiple lines of text | Yes | Selected date/time/session slots, serialized as JSON or a semicolon-delimited value |
@@ -20,6 +20,18 @@ Create a restricted list named `Agentic Data Bootcamp Registrations`. Limit acce
 | `UpdatedAt` | Date and time | Yes | ISO timestamp supplied by the API |
 
 Turn on version history. Do not expose the list publicly, and define a deletion date after the bootcamp administration period.
+
+## Registration identity and email confirmation
+
+The form asks the attendee to enter the company email address twice. The browser and API normalize both values to lower case and reject the registration unless they match. This reduces typing mistakes but does not prove ownership of the mailbox.
+
+GitHub identity is not collected. On the first successful registration, the API generates an opaque UUID registration token and returns it to the browser. The browser stores the token in local storage and sends it with later submissions. The API calculates:
+
+```text
+SHA256(eventId + ":" + registrationToken)
+```
+
+This allows the same browser to update its registration without using the email address as an authentication credential. Clearing browser storage or registering from a different browser can create another row.
 
 ## Power Automate flow
 
@@ -58,7 +70,9 @@ Turn on version history. Do not expose the list publicly, and define a deletion 
 }
 ```
 
-3. Keep `eventId` optional while the original Data client remains deployed without it.
+The deployed flow and Lists still require `githubUserId` and `githubUsername`. Current clients send the literal value `not-collected` in both fields for compatibility; no GitHub identity is requested or derived.
+
+3. Keep `eventId` optional for flow-schema compatibility. All current clients send an explicit event ID.
 4. Reject the request unless the `x-registration-secret` header exactly matches the secret stored in the flow.
 5. Route `agentic-software-development-winter-bootcamp` to the Software Development List.
 6. In the non-Software path, route `foundry-agentic-development-winter-bootcamp` to the Foundry Agentic Development List.
@@ -93,11 +107,11 @@ The deployed valid-secret branch first evaluates `Route_registration`. Its non-S
 
 | Event | `eventId` behavior | SharePoint target |
 | --- | --- | --- |
-| Agentic Data Winter Bootcamp | Missing or unrecognized `eventId` uses the legacy fallback | `Agentic Data Bootcamp Registrations` |
+| Agentic Data Winter Bootcamp | `agentic-data-winter-bootcamp` reaches the legacy Data fallback; missing or unrecognized values also use that fallback | `Agentic Data Bootcamp Registrations` |
 | Agentic Software Development Winter Bootcamp | `agentic-software-development-winter-bootcamp` | `Agentic Software Development Bootcamp Registrations` |
 | Foundry Agentic Development Winter Bootcamp | `foundry-agentic-development-winter-bootcamp` | `Foundry Agentic Development Bootcamp Registrations` |
 
-The Data API and its existing registration ID calculation remain unchanged so existing participants continue to update their original rows rather than receiving duplicate registrations. New event APIs must include a constant `eventId` and calculate registration IDs within that event namespace.
+All event APIs include a constant `eventId` and calculate registration IDs within that event namespace using the browser-held registration token.
 
 ## Azure Static Web Apps
 
@@ -108,25 +122,19 @@ Deploy the repository with the settings in the root `README.md`. Add these appli
 | `REGISTRATION_FLOW_URL` | Yes | Shared Power Automate HTTP trigger URL |
 | `REGISTRATION_FLOW_SHARED_SECRET` | Yes | Shared secret validated before event routing |
 
-GitHub authentication is enabled by the platform route `/.auth/login/github`. The client reads only the provider, username and application-scoped user ID from `/.auth/me`. The API independently requires the authenticated `x-ms-client-principal` header and never accepts a username from the browser request body.
+The website and registration experience share the same Azure Static Web Apps origin. `/api/register` is public, validates all fields server-side, requires the server-side Power Automate shared secret for downstream storage and never exposes that secret to the browser. The GitHub login route is explicitly disabled.
 
-The website and registration experience share the same Azure Static Web Apps origin. Registration links scroll to the embedded form, and GitHub sign-in returns to `/?register=1`.
+## Golden Ticket access
+
+Registration does not immediately add the attendee to GitHub. A few days before the event starts, the event invitation supplies the Golden Ticket link used to join the event GitHub organization. The environment includes $100 worth of AI credits for GitHub Copilot.
 
 ## Verification
 
 1. Open the Azure-hosted website in a private browser session.
-2. Confirm the registration API redirects or rejects an unauthenticated request.
-3. Sign in with GitHub and verify the displayed handle matches the signed-in account.
-4. Submit a test registration and confirm one List row is created.
-5. Submit again with different date and session-time choices and confirm the same row is updated.
+2. Confirm the GitHub OAuth login route returns `404`.
+3. Confirm mismatched company-email entries are rejected.
+4. Submit a test registration and confirm one List row is created with both legacy GitHub fields set to `not-collected`.
+5. Submit again from the same browser with different date and session-time choices and confirm the same row is updated.
 6. Confirm neither the browser response nor Azure Function logs contain the company email or full submitted payload.
 
-Live verification completed:
-
-- An invalid shared secret returned HTTP `401` and created no List item.
-- A GitHub-authenticated submission returned the registration success state and created one List item.
-- A repeat submission kept the List at one item and advanced `UpdatedAt`, confirming the update branch executed instead of creating a duplicate.
-- A Software Development submission executed only the Software branch and skipped the Data actions.
-- Repeating that Software Development submission executed `Update_software_registration`, skipped `Create_software_registration`, kept its dedicated List at one row, and advanced `UpdatedAt`.
-- A Foundry submission executed `Create_foundry_registration` and skipped every Software and Data action.
-- Repeating that Foundry submission executed `Update_foundry_registration`, skipped `Create_foundry_registration`, kept its dedicated List at one row, and advanced `UpdatedAt`.
+The previous GitHub-authenticated create/update checks are historical and were completed before the Golden Ticket registration migration.

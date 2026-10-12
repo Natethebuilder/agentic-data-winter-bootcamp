@@ -4,7 +4,7 @@ import { AgentTerminal, Countdown, ScheduleBoard } from '../data/DataViz.jsx'
 import SetupWizard from '../setup/SetupWizard.jsx'
 import RegistrationForm from '../registration/RegistrationForm.jsx'
 import {
-  BOOTCAMP, FAQ, PERSONAS, PILLARS, PREP, READINESS_PATHS, REGISTRATION, SESSIONS,
+  BOOTCAMP, FAQ, GOLDEN_TICKET, PERSONAS, PILLARS, PREP, READINESS_PATHS, REGISTRATION, SESSIONS,
 } from '../content.js'
 import s from './Site.module.css'
 
@@ -271,7 +271,7 @@ export default function Site() {
         <section id="top" className={`${s.panel} ${s.heroPanel}`} data-panel>
           <div className={s.hero}>
           <div className={s.heroText}>
-            <span className={s.pill}>{BOOTCAMP.season} · Online · Free · For the data community</span>
+            <span className={s.pill}>{BOOTCAMP.season} · Online · Free · $100 AI credits included</span>
             <h1>
               Agentic Data Engineering <span className={s.highlight}>Winter Bootcamp</span>
             </h1>
@@ -317,6 +317,14 @@ export default function Site() {
                 <p>{p.desc}</p>
               </article>
             ))}
+          </div>
+          <div className={s.ticketCallout}>
+            <span aria-hidden="true">GT</span>
+            <div>
+              <small>{GOLDEN_TICKET.eyebrow}</small>
+              <h3>{GOLDEN_TICKET.title}</h3>
+              <p>{GOLDEN_TICKET.description}</p>
+            </div>
           </div>
           <PersonaPicker />
         </Section>

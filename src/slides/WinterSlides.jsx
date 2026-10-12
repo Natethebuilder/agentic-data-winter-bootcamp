@@ -4,7 +4,7 @@ import { BottomBar, Editable, Slide, useSlides } from '@deckio/deck-engine'
 import RegistrationForm from '../registration/RegistrationForm.jsx'
 import { ChristmasLights, Logos, Mascot } from '../winter/Decor.jsx'
 import {
-  BOOTCAMP, PERSONAS, PILLARS, PREP, REGISTER_STEPS, SESSION_DATES, SESSIONS, TEAM,
+  BOOTCAMP, GOLDEN_TICKET, PERSONAS, PILLARS, PREP, REGISTER_STEPS, SESSION_DATES, SESSIONS, TEAM,
 } from '../content.js'
 import s from './Slides.module.css'
 
@@ -99,7 +99,7 @@ export function OfferingSlide({ index }) {
         {[
           ['online', 'Online', 'Join live from anywhere'],
           ['weeks', 'Winter Fridays', '4 Dec 2026 – 22 Jan 2027'],
-          ['levels', 'All levels', 'From first prompt to squads'],
+          ['credits', '$100 AI credits', 'Included with Golden Ticket'],
           ['cost', 'Free', 'Only your time'],
           ['team', 'Delivered by', 'Microsoft Solution Engineers & Architects'],
         ].map(([k, v, l]) => (
@@ -350,7 +350,7 @@ export function RegisterSlide({ index }) {
         id="register"
         eyebrow="Ready to join?"
         title="How to register"
-        subtitle="Registration is open. Sign in with GitHub; it takes about two minutes."
+        subtitle="Registration is open. Confirm your company email; no GitHub sign-in is required."
       />
       <div className={s.registerSlideGrid}>
         <div className={s.points}>
@@ -362,10 +362,10 @@ export function RegisterSlide({ index }) {
           ))}
         </div>
         <div className={s.registerPrompt}>
-          <span className={s.registerPromptMark}>GH</span>
+          <span className={s.registerPromptMark}>GT</span>
           <div>
-            <strong>Registration is open</strong>
-            <p>Sign in with GitHub to verify your handle and choose your sessions.</p>
+            <strong>{GOLDEN_TICKET.eyebrow}</strong>
+            <p>The organization invitation and $100 of GitHub Copilot AI credits arrive a few days before the event.</p>
           </div>
           <button type="button" onClick={() => setRegistrationOpen(true)}>Open registration</button>
         </div>
@@ -392,7 +392,7 @@ export function RegisterSlide({ index }) {
               </div>
               <button type="button" aria-label="Close registration" onClick={() => setRegistrationOpen(false)}>×</button>
             </div>
-            <RegistrationForm postLoginRedirect="/?deckRegister=1#/deck" />
+            <RegistrationForm />
           </div>
         </div>,
         document.body,

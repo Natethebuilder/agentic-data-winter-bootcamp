@@ -7,7 +7,7 @@ Interactive public website and DECKIO slide deck for the Agentic Data Engineerin
 | Route | Experience |
 | --- | --- |
 | `#/` | Landing site with the confirmed lineup, schedule, data visuals, foundations setup, FAQ and registration |
-| `#/deck` | DECKIO presentation with session deep-dives and an embedded GitHub-authenticated registration panel |
+| `#/deck` | DECKIO presentation with session deep-dives and an embedded registration panel |
 
 The complete six-session agenda runs on 4, 11 and 18 December 2026 and 8, 15 and 22 January 2027. The daily session times are 09:00, 10:00, 11:00, 12:30, 13:30 and 14:30.
 
@@ -19,7 +19,7 @@ npm run dev
 npm run build
 ```
 
-The website is hosted as one Azure Static Web App. The landing experience, deck, GitHub authentication and registration API all use the same origin.
+The website is hosted as one Azure Static Web App. The landing experience, deck and registration API all use the same origin.
 
 ## Content and participant setup
 
@@ -30,12 +30,14 @@ The website is hosted as one Azure Static Web App. The landing experience, deck,
 
 ## Registration architecture
 
-Azure Static Web Apps hosts the complete public experience and provides built-in GitHub authentication. The custom themed form:
+Azure Static Web Apps hosts the complete public experience. The custom themed form:
 
-1. reads the verified GitHub identity from `/.auth/me`;
-2. submits the selected date and session-time combinations to the protected `/api/register` function;
-3. forwards validated data to Power Automate;
+1. collects company details, a twice-entered company email, selected date/session-time combinations, environment preference and consent;
+2. stores an opaque registration token in the attendee's browser so that browser can safely update the same registration;
+3. forwards validated data to Power Automate through the server-side `/api/register` function;
 4. upserts the registration into a restricted Microsoft List.
+
+A few days before the event, the attendee receives a Golden Ticket invitation containing the link to join the event GitHub organization. The environment includes $100 worth of GitHub Copilot AI credits.
 
 See [docs/registration-backend.md](docs/registration-backend.md) for the List, flow and application settings.
 

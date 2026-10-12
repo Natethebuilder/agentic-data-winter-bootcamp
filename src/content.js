@@ -304,6 +304,13 @@ export const PILLARS = [
   },
 ]
 
+export const GOLDEN_TICKET = {
+  eyebrow: 'GitHub Golden Ticket',
+  title: 'Event organization access and $100 of GitHub Copilot AI credits.',
+  description:
+    'A few days before the event starts, registered attendees will receive an invitation containing the link to join the event GitHub organization. The Golden Ticket environment includes $100 worth of AI credits to use with GitHub Copilot.',
+}
+
 export const PIPELINE = [
   {
     id: 'src', label: 'Sources', sub: 'csv · api · sql', color: '#8fd8ff',
@@ -397,7 +404,7 @@ export const TERMINAL_SCRIPTS = [
 ]
 
 export const PREP = [
-  { id: 'github', icon: '🐙', title: 'GitHub account verified', desc: 'Sign in through the registration page so your exact GitHub handle is captured.' },
+  { id: 'github', icon: '🐙', title: 'GitHub account ready', desc: 'Use the GitHub.com account that will accept the Golden Ticket organization invitation.' },
   { id: 'core-cli', icon: '⌨️', title: 'Azure, GitHub and Copilot CLIs', desc: 'The foundations setup checks az, gh and GitHub Copilot CLI.' },
   { id: 'fabric-cli', icon: '🧊', title: 'Python 3.10–3.13 and Fabric CLI', desc: 'The setup script audits both and can install Python 3.13 and ms-fabric-cli when requested.' },
   { id: 'agent-tools', icon: '🧰', title: 'Skills and MCP servers', desc: 'Install Azure Skills, Skills for Fabric, Microsoft Learn MCP and GitHub MCP.' },
@@ -453,24 +460,28 @@ export const FAQ = [
   },
   {
     q: 'What does it cost?',
-    a: 'Only your time. The bootcamp is delivered online by Microsoft Solution Engineers and Architects.',
+    a: 'The bootcamp is free. The Golden Ticket environment also includes $100 worth of AI credits to use with GitHub Copilot.',
+  },
+  {
+    q: 'How do I access the GitHub environment?',
+    a: 'A few days before the event starts, your event invitation will include a Golden Ticket link to join the dedicated GitHub organization.',
   },
   {
     q: 'How do I register?',
-    a: 'Sign in with GitHub on the registration page. Your verified GitHub handle is attached automatically, then you choose sessions and provide your company details.',
+    a: 'Provide and confirm your company email, choose the dates and session times you plan to attend, and select your development environment. No GitHub sign-in is required on this website.',
   },
 ]
 
 export const REGISTER_STEPS = [
-  'Sign in with your personal GitHub.com account',
-  'Choose the dates and session times you plan to attend, then add your company details',
-  'Receive setup guidance and access information by email',
+  'Enter and confirm your company email address',
+  'Choose the dates, session times and development environment you need',
+  'Receive the Golden Ticket organization link a few days before the event',
 ]
 
 export const REGISTRATION = {
   eyebrow: 'Registration',
   title: 'Join the Agentic Data Winter Bootcamp.',
-  subtitle: 'Sign in with GitHub, choose the dates and session times you want to attend, and provide the details needed for event access.',
+  subtitle: 'Confirm your company email, choose the dates and session times you want to attend, and provide the details needed for event access.',
   slotHelp: 'Every date runs the same six-session programme. Select any date and session-time combination you plan to attend.',
   environments: [
     {
@@ -485,5 +496,5 @@ export const REGISTRATION = {
     },
   ],
   consent:
-    'I consent to Microsoft using my company, company email, session choices, GitHub.com username and environment preference to administer the bootcamp, provision access, communicate with me and improve the programme. Registration data is deleted after the administration period.',
+    'I consent to Microsoft using my company, company email, session choices and environment preference to administer the bootcamp, send the Golden Ticket organization invitation, provision access, communicate with me and improve the programme. Registration data is deleted after the administration period.',
 }
