@@ -46,7 +46,7 @@
   border: 1px solid color-mix(in srgb, var(--ice) 40%, transparent);
   box-shadow: 0 0 18px -4px color-mix(in srgb, var(--ice) 60%, transparent);
 }
-.brandLogo { width: 22px; height: 22px; object-fit: contain; }
+.brandLogo { width: 23px; height: 23px; color: var(--ice); }
 .brandText { display: flex; flex-direction: column; line-height: 1.1; }
 .brandText small { font: 600 10.5px/1.2 ui-monospace, monospace; letter-spacing: 1.6px; text-transform: uppercase; color: var(--ice); }
 .brandText strong { font-size: 16px; font-weight: 800; letter-spacing: -0.3px; color: var(--frost); }

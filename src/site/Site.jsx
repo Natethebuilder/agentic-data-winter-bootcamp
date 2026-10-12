@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { GitHubMark, Logos, Mascot } from '../winter/Decor.jsx'
+import { DataMark, Logos, Mascot } from '../winter/Decor.jsx'
 import { AgentTerminal, Countdown, ScheduleBoard } from '../data/DataViz.jsx'
 import SetupWizard from '../setup/SetupWizard.jsx'
 import RegistrationForm from '../registration/RegistrationForm.jsx'
@@ -13,8 +13,8 @@ const NAV = [
   ['lineup', 'Lineup'],
   ['schedule', 'Schedule'],
   ['prepare', 'Get ready'],
-  ['faq', 'FAQ'],
   ['join', 'Register'],
+  ['faq', 'FAQ'],
 ]
 
 const PREP_KEY = 'winter-bootcamp:prep'
@@ -253,7 +253,7 @@ export default function Site() {
       <header className={`${s.nav} ${scrolled ? s.navScrolled : ''}`}>
         <button type="button" className={s.brand} onClick={() => go('top')}>
           <span className={s.brandMark}>
-            <GitHubMark className={s.brandLogo} />
+            <DataMark className={s.brandLogo} />
           </span>
           <span className={s.brandText}><small>Agentic Data</small><strong>Winter Bootcamp</strong></span>
         </button>
@@ -374,7 +374,17 @@ export default function Site() {
           </div>
         </Section>
 
-        <Section id="faq" idx="05" eyebrow="FAQ" title="Frequently asked questions">
+        <Section
+          id="join"
+          idx="05"
+          eyebrow={REGISTRATION.eyebrow}
+          title={REGISTRATION.title}
+          subtitle={REGISTRATION.subtitle}
+        >
+          <RegistrationForm />
+        </Section>
+
+        <Section id="faq" idx="06" eyebrow="FAQ" title="Frequently asked questions">
           <div className={s.faq}>
             {FAQ.map((f) => (
               <details key={f.q} className={s.faqItem}>
@@ -383,16 +393,6 @@ export default function Site() {
               </details>
             ))}
           </div>
-        </Section>
-
-        <Section
-          id="join"
-          idx="06"
-          eyebrow={REGISTRATION.eyebrow}
-          title={REGISTRATION.title}
-          subtitle={REGISTRATION.subtitle}
-        >
-          <RegistrationForm />
         </Section>
 
         <footer className={s.footer}>

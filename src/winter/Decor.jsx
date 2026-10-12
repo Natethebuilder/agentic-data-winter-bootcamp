@@ -62,6 +62,14 @@ export function Logos({ className = '', size = 'md' }) {
   )
 }
 
-export function GitHubMark({ className = '' }) {
-  return <img src={`${BASE}logos/github-mark.svg`} alt="" className={className} />
+export function DataMark({ className = '' }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" aria-hidden="true" fill="none">
+      <ellipse cx="12" cy="5" rx="7.5" ry="3" fill="currentColor" opacity="0.95" />
+      <path d="M4.5 5v5c0 1.65 3.36 3 7.5 3s7.5-1.35 7.5-3V5" stroke="currentColor" strokeWidth="1.8" />
+      <path d="M4.5 10v5c0 1.65 3.36 3 7.5 3s7.5-1.35 7.5-3v-5" stroke="currentColor" strokeWidth="1.8" />
+      <path d="M4.5 15v3.5c0 1.65 3.36 3 7.5 3s7.5-1.35 7.5-3V15" stroke="currentColor" strokeWidth="1.8" />
+      <path d="m15.5 8 1.25 1.25L19.5 6.5" stroke="var(--green)" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
 }

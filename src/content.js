@@ -288,7 +288,7 @@ export const PILLARS = [
     id: 'handson',
     icon: '🧪',
     title: 'Built around real data work',
-    desc: 'Work across analytics, engineering, databases, open source and AI applications—not toy examples.',
+    desc: 'Work across analytics, engineering, databases, open source and AI applications.',
   },
   {
     id: 'spec',
