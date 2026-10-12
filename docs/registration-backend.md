@@ -106,10 +106,10 @@ The flow:
 3. Routes Software, Foundry, and Data through explicit conditions.
 4. Returns HTTP `400` for a missing or unrecognized event ID instead of silently using the Data List.
 5. Queries the event List with `RegistrationId eq '<registrationId>'` and top count `1`.
-6. For a matching token, updates the existing row while preserving its `CompanyEmail`, email key, and registration ID.
+6. For a matching token, updates the existing row while preserving its `CompanyEmail` and registration ID. If the submitted email matches that immutable value, the flow can replace a legacy email-valued `Title` with the server-derived email key; a different submitted email cannot change `Title`.
 7. Resets `OrganizationAccessStatus` to `Pending` when the company changes; otherwise preserves existing progress.
 8. Resets `CloudEnvironmentStatus` to `Requested` or `Not requested` when the environment changes; otherwise preserves existing progress.
-9. For a new token, queries the hidden `Title` email key before creating. An existing event/email is left unchanged and receives the same generic HTTP `202` response, preventing registration enumeration.
+9. For a new token, queries the hidden `Title` email key before creating. During migration, the same query also checks immutable `CompanyEmail` so legacy rows remain protected before their `Title` is converted. An existing event/email is left unchanged and receives the same generic HTTP `202` response, preventing registration enumeration.
 10. Converts the submitted string array into SharePoint choice objects and writes the complete values to filterable `SessionSelections`.
 11. Writes a compact count summary to the temporary `Sessions` compatibility field.
 12. Sets `OrganizationAccessStatus` to `Pending` when creating a registration.
