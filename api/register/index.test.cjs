@@ -79,5 +79,37 @@ test('forwards validated slots in a deterministic upsert payload', async () => {
     received.body.registrationId,
     createHash('sha256').update(`agentic-data-winter-bootcamp:${registrationToken}`).digest('hex'),
   )
+  assert.equal(
+    received.body.registrationEmailKey,
+    createHash('sha256').update('agentic-data-winter-bootcamp:builder@example.com').digest('hex'),
+  )
   assert.equal(context.res.body.registrationToken, registrationToken)
+  assert.equal('registrationEmailKey' in context.res.body, false)
+})
+
+test('derives the email key from normalized input and ignores caller values', async () => {
+  configuredEnvironment()
+  const payloads = []
+  global.fetch = async (url, options) => {
+    payloads.push(JSON.parse(options.body))
+    return { ok: true }
+  }
+
+  const normalized = validBody()
+  normalized.email = '  BUILDER@EXAMPLE.COM '
+  normalized.emailConfirmation = 'builder@example.com'
+  normalized.registrationEmailKey = 'caller-controlled'
+  await register({}, request(normalized))
+
+  const sameEmail = validBody()
+  await register({}, request(sameEmail))
+
+  const differentEmail = validBody()
+  differentEmail.email = 'another@example.com'
+  differentEmail.emailConfirmation = 'another@example.com'
+  await register({}, request(differentEmail))
+
+  assert.equal(payloads[0].registrationEmailKey, payloads[1].registrationEmailKey)
+  assert.notEqual(payloads[0].registrationEmailKey, payloads[2].registrationEmailKey)
+  assert.notEqual(payloads[0].registrationEmailKey, normalized.registrationEmailKey)
 })
