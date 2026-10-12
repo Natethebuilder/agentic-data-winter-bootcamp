@@ -16,6 +16,10 @@ const SESSION_IDS = new Set(
 const ENVIRONMENTS = new Set(['local', 'cloud'])
 const REGISTRATION_TOKEN = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 
+function eventScopedHash(value) {
+  return createHash('sha256').update(`${EVENT_ID}:${value}`).digest('hex')
+}
+
 function response(status, body) {
   return {
     status,
@@ -84,7 +88,8 @@ module.exports = async function register(context, req) {
   const registrationToken = suppliedToken || randomUUID()
   const payload = {
     eventId: EVENT_ID,
-    registrationId: createHash('sha256').update(`${EVENT_ID}:${registrationToken}`).digest('hex'),
+    registrationId: eventScopedHash(registrationToken),
+    registrationEmailKey: eventScopedHash(email),
     company,
     companyEmail: email,
     sessionSelections: sessions,
