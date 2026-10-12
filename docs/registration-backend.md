@@ -1,140 +1,158 @@
 # Shared registration backend
 
-The public registration page stores submissions in Microsoft 365 through one shared Power Automate flow and a private Microsoft List per event. GitHub OAuth is not used for registration. Microsoft Forms is not used because an embedded form cannot inherit the site theme and does not expose a supported API for custom response submission.
+The public registration page stores submissions in Microsoft 365 through one shared Power Automate flow and a private SharePoint List per event. GitHub OAuth and GitHub identity are not used for registration.
 
-## Microsoft List
+## Data registration List
 
-Create a restricted list named `Agentic Data Bootcamp Registrations`. Limit access to the bootcamp operations team and use these columns:
+- Site: `https://microsofteur.sharepoint.com/teams/AgenticDataWinterBootcamp`
+- List: `Agentic Data Bootcamp Registrations`
+- List ID: `7fa51ef2-dc09-4364-a48d-26fe3bd262d7`
+- Access: restricted to the bootcamp operations team
+- Version history: enabled
 
-| Column | Type | Required | Notes |
-| --- | --- | --- | --- |
-| `Title` | Single line of text | Yes | Legacy field currently receives `not-collected` |
-| `RegistrationId` | Single line of text | Yes | Unique, indexed; SHA-256 identifier supplied by the API |
-| `GitHubUserId` | Single line of text | Yes | Legacy compatibility field set to `not-collected` |
-| `GitHubUsername` | Single line of text | Yes | Legacy compatibility field set to `not-collected` |
-| `Company` | Single line of text | Yes | Maximum 160 characters |
-| `CompanyEmail` | Single line of text | Yes | Lower-case email address |
-| `Sessions` | Multiple lines of text | Yes | Selected date/time/session slots, serialized as JSON or a semicolon-delimited value |
-| `Environment` | Choice | Yes | `local` or `cloud` |
-| `Consent` | Yes/No | Yes | Must be `Yes` |
-| `UpdatedAt` | Date and time | Yes | ISO timestamp supplied by the API |
+| Column | Type | Purpose |
+| --- | --- | --- |
+| `Title` | Single line of text | Standard SharePoint field; receives the company email and can be hidden from the operational view |
+| `RegistrationId` | Single line of text | Unique, indexed event-scoped identifier |
+| `Company` | Single line of text | Company or organisation |
+| `CompanyEmail` | Single line of text | Normalized communication address |
+| `SessionSelections` | Choice, multiple selections | Filterable date/time/session selections |
+| `Sessions` | Multiple lines of text | Temporary semicolon-delimited compatibility copy |
+| `Environment` | Choice | `local` or `cloud` |
+| `OrganizationAccessStatus` | Choice | `Pending`, `Invitation queued`, `Invitation sent`, `Joined`, or `Issue` |
+| `CloudEnvironmentStatus` | Choice | `Not requested`, `Requested`, `Allocated`, `Ready`, `Waitlisted`, or `Issue` |
+| `Consent` | Yes/No | Explicit data consent |
+| `UpdatedAt` | Date and time | Latest submitted timestamp |
 
-Turn on version history. Do not expose the list publicly, and define a deletion date after the bootcamp administration period.
+`GitHubUserId` and `GitHubUsername` are obsolete and should not exist in the final List schema. Define a retention and deletion date after the bootcamp administration period.
 
-## Registration identity and email confirmation
+### Data schedule values
 
-The form asks the attendee to enter the company email address twice. The browser and API normalize both values to lower case and reject the registration unless they match. This reduces typing mistakes but does not prove ownership of the mailbox.
-
-GitHub identity is not collected. On the first successful registration, the API generates an opaque UUID registration token and returns it to the browser. The browser stores the token in local storage and sends it with later submissions. The API calculates:
-
-```text
-SHA256(eventId + ":" + registrationToken)
-```
-
-This allows the same browser to update its registration without using the email address as an authentication credential. Clearing browser storage or registering from a different browser can create another row.
-
-## Power Automate flow
-
-1. Create an automated cloud flow with **When an HTTP request is received**.
-2. Use this request schema:
-
-```json
-{
-  "type": "object",
-  "required": [
-    "registrationId",
-    "githubUserId",
-    "githubUsername",
-    "company",
-    "email",
-    "sessions",
-    "environment",
-    "consent",
-    "updatedAt"
-  ],
-  "properties": {
-    "eventId": { "type": "string" },
-    "registrationId": { "type": "string" },
-    "githubUserId": { "type": "string" },
-    "githubUsername": { "type": "string" },
-    "company": { "type": "string" },
-    "email": { "type": "string" },
-    "sessions": {
-      "type": "array",
-      "items": { "type": "string" }
-    },
-    "environment": { "type": "string" },
-    "consent": { "type": "boolean" },
-    "updatedAt": { "type": "string" }
-  }
-}
-```
-
-The deployed flow and Lists still require `githubUserId` and `githubUsername`. Current clients send the literal value `not-collected` in both fields for compatibility; no GitHub identity is requested or derived.
-
-3. Keep `eventId` optional for flow-schema compatibility. All current clients send an explicit event ID.
-4. Reject the request unless the `x-registration-secret` header exactly matches the secret stored in the flow.
-5. Route `agentic-software-development-winter-bootcamp` to the Software Development List.
-6. In the non-Software path, route `foundry-agentic-development-winter-bootcamp` to the Foundry Agentic Development List.
-7. Route missing or unrecognized `eventId` values to the unchanged Data branch for backward compatibility.
-8. In each event branch, use **Get items** with the filter query `RegistrationId eq '<registrationId>'` and top count `1`.
-9. If a row exists, update it. Otherwise, create it. This makes repeat submissions an upsert instead of creating duplicates.
-10. Return HTTP `202` for an accepted registration and HTTP `401` for a failed shared-secret check.
-11. Apply a flow run-history retention policy appropriate for registration data and restrict flow ownership to the operations team.
-
-Do not log the request body or send registration details to chat channels. Keep the HTTP trigger URL and optional shared secret only in Azure Static Web Apps application settings.
-
-### Data event slot format
-
-The Data registration client validates selections against the six event dates and six daily session times before calling the shared flow. Each selected slot uses this readable format:
+`SessionSelections` contains the 36 valid combinations of six dates and six daily session times:
 
 ```text
 YYYY-MM-DD|HH:MM|session-id
 ```
 
-For example:
+Dates:
+
+- `2026-12-04`
+- `2026-12-11`
+- `2026-12-18`
+- `2027-01-08`
+- `2027-01-15`
+- `2027-01-22`
+
+Daily sessions:
+
+- `09:00|foundations`
+- `10:00|analysts`
+- `11:00|lakehouse`
+- `12:30|open-source`
+- `13:30|sql`
+- `14:30|nosql`
+
+## Registration identity
+
+The attendee enters the company email twice. The browser and API normalize both values to lower case and reject the submission unless they match. This reduces typing errors but does not verify ownership of the mailbox.
+
+On the first successful registration, the API returns an opaque UUID token that the browser stores locally. The API derives:
 
 ```text
-2026-12-04|09:00|foundations
-2027-01-22|14:30|nosql
+SHA256(eventId + ":" + registrationToken)
 ```
 
-The existing `sessions` array and SharePoint `Sessions` column are reused, so no Power Automate request-schema or List-schema change is required.
+The same browser can therefore update the same row without treating the email address as an authentication credential. Clearing browser storage or changing browser/device can create another row.
 
-## Shared event routing
+## API-to-flow contract
 
-The deployed valid-secret branch first evaluates `Route_registration`. Its non-Software path evaluates the nested `Route_foundry` condition before falling back to the legacy Data actions:
+All three current APIs send:
 
-| Event | `eventId` behavior | SharePoint target |
+```json
+{
+  "eventId": "agentic-data-winter-bootcamp",
+  "registrationId": "event-scoped SHA-256 value",
+  "company": "Example organisation",
+  "companyEmail": "person@example.com",
+  "sessionSelections": ["2026-12-04|09:00|foundations"],
+  "environmentPreference": "local",
+  "consent": true,
+  "updatedAt": "2026-01-01T12:00:00.000Z"
+}
+```
+
+During deployment migration, the flow also accepts the previous aliases:
+
+- `email` for `companyEmail`
+- `sessions` for `sessionSelections`
+- `environment` for `environmentPreference`
+
+The flow uses `coalesce(...)` only for this controlled compatibility window. New clients must use the canonical names.
+
+## Power Automate flow
+
+- Environment ID: `839eace6-59ab-4243-97ec-a5b8fcc104e4`
+- Flow ID: `8f1a64e0-d0b6-4d1a-aafc-b96e6df4d311`
+- Display name: `Agentic Winter Bootcamps Registration Upsert`
+- State: `Started`
+
+The flow:
+
+1. Rejects requests whose `x-registration-secret` header is invalid with HTTP `401`.
+2. Requires an explicit `eventId`.
+3. Routes Software, Foundry, and Data through explicit conditions.
+4. Returns HTTP `400` for a missing or unrecognized event ID instead of silently using the Data List.
+5. Queries the event List with `RegistrationId eq '<registrationId>'` and top count `1`.
+6. Updates the first matching item or creates a new item.
+7. Writes both filterable `SessionSelections` and the temporary `Sessions` compatibility copy.
+8. Sets `OrganizationAccessStatus` to `Pending` when creating a registration.
+9. Sets `CloudEnvironmentStatus` to `Requested` for cloud requests and `Not requested` for local requests.
+10. Preserves operational status progress on later registration updates.
+11. Returns HTTP `202` for accepted registrations.
+
+| Event | `eventId` | SharePoint target |
 | --- | --- | --- |
-| Agentic Data Winter Bootcamp | `agentic-data-winter-bootcamp` reaches the legacy Data fallback; missing or unrecognized values also use that fallback | `Agentic Data Bootcamp Registrations` |
+| Agentic Data Winter Bootcamp | `agentic-data-winter-bootcamp` | `Agentic Data Bootcamp Registrations` |
 | Agentic Software Development Winter Bootcamp | `agentic-software-development-winter-bootcamp` | `Agentic Software Development Bootcamp Registrations` |
 | Foundry Agentic Development Winter Bootcamp | `foundry-agentic-development-winter-bootcamp` | `Foundry Agentic Development Bootcamp Registrations` |
 
-All event APIs include a constant `eventId` and calculate registration IDs within that event namespace using the browser-held registration token.
+Do not log request bodies or send registration data to chat channels. Keep the trigger URL and shared secret only in Azure Static Web Apps application settings.
+
+## Operational view
+
+The default operational view should prioritize:
+
+1. `CompanyEmail`
+2. `Company`
+3. `SessionSelections`
+4. `Environment`
+5. `OrganizationAccessStatus`
+6. `CloudEnvironmentStatus`
+7. `Consent`
+8. `UpdatedAt`
+
+Hide `Title`, `RegistrationId`, and `Sessions` from the default view where practical; keep them available for support and compatibility.
 
 ## Azure Static Web Apps
 
-Deploy the repository with the settings in the root `README.md`. Add these application settings:
+| Setting | Purpose |
+| --- | --- |
+| `REGISTRATION_FLOW_URL` | Shared Power Automate HTTP trigger URL |
+| `REGISTRATION_FLOW_SHARED_SECRET` | Server-side secret checked before routing |
 
-| Name | Required | Value |
-| --- | --- | --- |
-| `REGISTRATION_FLOW_URL` | Yes | Shared Power Automate HTTP trigger URL |
-| `REGISTRATION_FLOW_SHARED_SECRET` | Yes | Shared secret validated before event routing |
+The website, deck, and `/api/register` function share one origin. The API validates attendee input, never exposes the shared secret, and the disabled GitHub login route returns `404`.
 
-The website and registration experience share the same Azure Static Web Apps origin. `/api/register` is public, validates all fields server-side, requires the server-side Power Automate shared secret for downstream storage and never exposes that secret to the browser. The GitHub login route is explicitly disabled.
+## GitHub organization access
 
-## Golden Ticket access
-
-Registration does not immediately add the attendee to GitHub. A few days before the event starts, the event invitation supplies the Golden Ticket link used to join the event GitHub organization. The environment includes $100 worth of AI credits for GitHub Copilot.
+Registration does not immediately add an attendee to GitHub. A few days before the event, the event invitation provides the link for joining the event GitHub organization. The event environment includes $100 worth of GitHub Copilot AI credits.
 
 ## Verification
 
-1. Open the Azure-hosted website in a private browser session.
-2. Confirm the GitHub OAuth login route returns `404`.
-3. Confirm mismatched company-email entries are rejected.
-4. Submit a test registration and confirm one List row is created with both legacy GitHub fields set to `not-collected`.
-5. Submit again from the same browser with different date and session-time choices and confirm the same row is updated.
-6. Confirm neither the browser response nor Azure Function logs contain the company email or full submitted payload.
-
-The previous GitHub-authenticated create/update checks are historical and were completed before the Golden Ticket registration migration.
+1. Confirm the GitHub OAuth route returns `404`.
+2. Confirm mismatched company-email entries are rejected.
+3. Confirm API tests reject invalid sessions, invalid environments, and missing backend settings.
+4. Submit a registration only with explicit approval because it creates or updates SharePoint data.
+5. Confirm the correct event branch runs, one row is upserted, and the operational statuses initialize correctly.
+6. Repeat from the same browser and confirm the same row is updated while status progress is preserved.
+7. Confirm missing or unknown `eventId` values return HTTP `400`.
+8. Confirm invalid shared secrets return HTTP `401`.

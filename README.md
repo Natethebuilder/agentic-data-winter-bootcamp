@@ -34,10 +34,10 @@ Azure Static Web Apps hosts the complete public experience. The custom themed fo
 
 1. collects company details, a twice-entered company email, selected date/session-time combinations, environment preference and consent;
 2. stores an opaque registration token in the attendee's browser so that browser can safely update the same registration;
-3. forwards validated data to Power Automate through the server-side `/api/register` function;
-4. upserts the registration into a restricted Microsoft List.
+3. forwards the canonical `companyEmail`, `sessionSelections` and `environmentPreference` fields through the server-side `/api/register` function;
+4. upserts the registration into a restricted Microsoft List without collecting GitHub identity.
 
-A few days before the event, the attendee receives a Golden Ticket invitation containing the link to join the event GitHub organization. The environment includes $100 worth of GitHub Copilot AI credits.
+A few days before the event, the attendee receives an invitation containing the link to join the event GitHub organization. The event environment includes $100 worth of GitHub Copilot AI credits.
 
 See [docs/registration-backend.md](docs/registration-backend.md) for the List, flow and application settings.
 
