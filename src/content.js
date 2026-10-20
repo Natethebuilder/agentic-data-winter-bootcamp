@@ -19,10 +19,11 @@ export const SESSIONS = [
   {
     id: 'foundations',
     number: '01',
-    title: 'Agentic AI Foundations',
-    shortTitle: 'Agentic AI Foundations',
+    title: 'Agentic Data Engineering Foundations',
+    shortTitle: 'Agentic Data Engineering Foundations',
     track: 'Foundation',
     subtitle: 'From Vibe Coding to Agentic Engineering',
+    ownerId: 'remco',
     owner: 'Remco van Dam',
     ownerInitials: 'RD',
     time: '09:00',
@@ -49,6 +50,7 @@ export const SESSIONS = [
     shortTitle: 'Agentic AI for Analysts',
     track: 'Analyst',
     subtitle: 'From Data to Insights, Apps & Action',
+    ownerId: 'zeeshan',
     owner: 'Zeeshan Ali',
     ownerInitials: 'ZA',
     time: '10:00',
@@ -85,6 +87,7 @@ export const SESSIONS = [
     shortTitle: 'Lakehouse Design',
     track: 'Lakehouse',
     subtitle: 'Design and Build a Lakehouse with AI Agents',
+    ownerId: 'arash',
     owner: 'Arash Nezami',
     ownerInitials: 'AN',
     time: '11:00',
@@ -111,6 +114,7 @@ export const SESSIONS = [
     shortTitle: 'DBT & Airflow',
     track: 'Open source',
     subtitle: 'Build, Orchestrate & Transform with Agents',
+    ownerId: 'remco',
     owner: 'Remco van Dam',
     ownerInitials: 'RD',
     time: '12:30',
@@ -138,6 +142,7 @@ export const SESSIONS = [
     shortTitle: 'SQL Developers & Admins',
     track: 'SQL / DBA',
     subtitle: 'From Database Operations to AI-Assisted SQL Engineering',
+    ownerId: 'ajinkya',
     owner: 'Ajinkya Soitkar',
     ownerInitials: 'AS',
     time: '13:30',
@@ -166,6 +171,7 @@ export const SESSIONS = [
     shortTitle: 'NoSQL Developers & Admins',
     track: 'NoSQL',
     subtitle: 'Build Your Own AI Chat App using Cosmos DB NoSQL',
+    ownerId: 'rene',
     owner: 'René Bremer',
     ownerInitials: 'RB',
     time: '14:30',
@@ -240,6 +246,7 @@ export const TEAM = [
     role: 'Host',
     focus: 'Bootcamp host and programme coordination',
     accent: '#ff4d61',
+    photo: 'speakers/nathan.jpg',
   },
   {
     id: 'remco',
@@ -264,6 +271,7 @@ export const TEAM = [
     role: 'Session owner',
     focus: 'Lakehouse Design',
     accent: '#ffb454',
+    photo: 'speakers/arash.jpg',
   },
   {
     id: 'ajinkya',
@@ -272,6 +280,7 @@ export const TEAM = [
     role: 'Session owner',
     focus: 'SQL Developers & Admins',
     accent: '#7ea7ff',
+    photo: 'speakers/ajinkya.jpg',
   },
   {
     id: 'rene',
@@ -280,8 +289,12 @@ export const TEAM = [
     role: 'Session owner',
     focus: 'NoSQL Developers & Admins',
     accent: '#4fd1e8',
+    photo: 'speakers/rene.jpg',
   },
 ]
+
+export const sessionOwner = (session) =>
+  TEAM.find((person) => person.id === session.ownerId) ?? { name: session.owner, initials: session.ownerInitials }
 
 export const PILLARS = [
   {
@@ -416,12 +429,12 @@ export const READINESS_PATHS = [
   {
     id: 'ready',
     title: 'Already fully ready',
-    desc: 'If every check passes before the event, you may skip Agentic AI Foundations and register for a local environment.',
+    desc: 'If every check passes before the event, you may skip Agentic Data Engineering Foundations and register for a local environment.',
   },
   {
     id: 'setup',
     title: 'Able to install locally',
-    desc: 'Choose “I will install the tools locally” and attend Agentic AI Foundations to complete and verify the setup.',
+    desc: 'Choose “I will install the tools locally” and attend Agentic Data Engineering Foundations to complete and verify the setup.',
   },
   {
     id: 'cloud',
@@ -444,7 +457,7 @@ export const SETUP_RESOURCES = [
 export const FAQ = [
   {
     q: 'What are the session topics?',
-    a: 'Agentic AI foundations, consuming data as an analyst, lakehouse design, DBT and Airflow, SQL development and administration, and building an AI chat application with NoSQL.',
+    a: 'Agentic Data Engineering foundations, consuming data as an analyst, lakehouse design, DBT and Airflow, SQL development and administration, and building an AI chat application with NoSQL.',
   },
   {
     q: 'When does it start?',
