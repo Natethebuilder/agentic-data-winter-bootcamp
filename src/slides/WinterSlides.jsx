@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { BottomBar, Editable, Slide, useSlides } from '@deckio/deck-engine'
 import RegistrationForm from '../registration/RegistrationForm.jsx'
+import SpeakerAvatar from '../speakers/SpeakerAvatar.jsx'
 import { ChristmasLights, Logos, Mascot } from '../winter/Decor.jsx'
 import {
-  BOOTCAMP, GITHUB_ACCESS, PERSONAS, PILLARS, PREP, REGISTER_STEPS, SESSION_DATES, SESSIONS, TEAM,
+  BOOTCAMP, GITHUB_ACCESS, PERSONAS, PILLARS, PREP, REGISTER_STEPS, SESSION_DATES, SESSIONS, TEAM, sessionOwner,
 } from '../content.js'
 import s from './Slides.module.css'
 
@@ -47,6 +48,72 @@ function Header({ id, eyebrow, title, subtitle }) {
   )
 }
 
+const stopPropagation = (event) => event.stopPropagation()
+
+// Portaled above the deck. Stopping propagation keeps keys, clicks and swipes inside the
+// dialog from reaching the deck's document-level navigation listeners.
+function RegistrationDialog({ onClose }) {
+  const titleId = useId()
+  const dialogRef = useRef(null)
+
+  useEffect(() => {
+    const closeOnEscape = (event) => {
+      if (event.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', closeOnEscape, true)
+    return () => window.removeEventListener('keydown', closeOnEscape, true)
+  }, [onClose])
+
+  useEffect(() => {
+    dialogRef.current?.focus()
+  }, [])
+
+  return createPortal(
+    <div
+      className={s.registrationOverlay}
+      role="presentation"
+      onPointerDown={stopPropagation}
+      onTouchStart={stopPropagation}
+      onTouchEnd={stopPropagation}
+      onClick={onClose}
+    >
+      <div
+        ref={dialogRef}
+        className={s.registrationModal}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        tabIndex={-1}
+        onClick={stopPropagation}
+        onKeyDown={stopPropagation}
+      >
+        <div className={s.registrationModalHeader}>
+          <div>
+            <span>Agentic Data Winter Bootcamp</span>
+            <h2 id={titleId}>Bootcamp registration</h2>
+          </div>
+          <button type="button" aria-label="Close registration" onClick={onClose}>×</button>
+        </div>
+        <RegistrationForm />
+      </div>
+    </div>,
+    document.body,
+  )
+}
+
+function RegistrationButton({ className, initiallyOpen = false, children }) {
+  const [open, setOpen] = useState(initiallyOpen)
+  const close = useCallback(() => setOpen(false), [])
+  return (
+    <>
+      <button type="button" className={className} aria-haspopup="dialog" onClick={() => setOpen(true)}>
+        {children}
+      </button>
+      {open && <RegistrationDialog onClose={close} />}
+    </>
+  )
+}
+
 export function WinterTitleSlide({ index }) {
   return (
     <Slide index={index} className={s.slide}>
@@ -64,6 +131,12 @@ export function WinterTitleSlide({ index }) {
           <Editable as="p" id="title.subtitle" multiline className={s.subtitle}>
             {`${BOOTCAMP.tagline} ${BOOTCAMP.subtitle}`}
           </Editable>
+          <div className={s.heroCta}>
+            <RegistrationButton className={s.heroRegister}>
+              Register now <span aria-hidden="true">→</span>
+            </RegistrationButton>
+            <Editable as="span" id="title.ctaNote" className={s.heroCtaNote}>Free · $100 AI credits included</Editable>
+          </div>
         </div>
         <Mascot className={s.heroMascot} />
       </div>
@@ -277,9 +350,16 @@ function SessionDetailSlide({ index, session }) {
               <p>{session.spotlight}</p>
             </div>
             <div className={`${s.detailPanel} ${s.detailToolbox}`}>
-              <div>
-                <span className={s.detailLabel}>Session owner</span>
-                <strong>{session.owner}</strong>
+              <div className={s.detailOwner}>
+                <SpeakerAvatar
+                  person={sessionOwner(session)}
+                  className={s.detailOwnerAvatar}
+                  style={{ '--avatar-accent': session.accent }}
+                />
+                <div>
+                  <span className={s.detailLabel}>Session owner</span>
+                  <strong>{session.owner}</strong>
+                </div>
               </div>
               <div className={s.detailTools}>{session.tools.map((tool) => <span key={tool}>{tool}</span>)}</div>
             </div>
@@ -324,7 +404,7 @@ export function SurveySlide({ index }) {
 }
 
 export function RegisterSlide({ index }) {
-  const [registrationOpen, setRegistrationOpen] = useState(
+  const [openOnLoad] = useState(
     () => new URLSearchParams(window.location.search).get('deckRegister') === '1',
   )
 
@@ -334,15 +414,6 @@ export function RegisterSlide({ index }) {
     url.searchParams.delete('deckRegister')
     window.history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`)
   }, [])
-
-  useEffect(() => {
-    if (!registrationOpen) return undefined
-    const closeOnEscape = (event) => {
-      if (event.key === 'Escape') setRegistrationOpen(false)
-    }
-    window.addEventListener('keydown', closeOnEscape, true)
-    return () => window.removeEventListener('keydown', closeOnEscape, true)
-  }, [registrationOpen])
 
   return (
     <Frame index={index} id="register" orbs={['orbIce', 'orbHolly']}>
@@ -367,36 +438,9 @@ export function RegisterSlide({ index }) {
             <strong>{GITHUB_ACCESS.eyebrow}</strong>
             <p>The organization invitation and $100 of GitHub Copilot AI credits arrive a few days before the event.</p>
           </div>
-          <button type="button" onClick={() => setRegistrationOpen(true)}>Open registration</button>
+          <RegistrationButton initiallyOpen={openOnLoad}>Open registration</RegistrationButton>
         </div>
       </div>
-      {registrationOpen && createPortal(
-        <div
-          className={s.registrationOverlay}
-          role="presentation"
-          onPointerDown={(event) => event.stopPropagation()}
-          onClick={() => setRegistrationOpen(false)}
-        >
-          <div
-            className={s.registrationModal}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="deck-registration-title"
-            onClick={(event) => event.stopPropagation()}
-            onKeyDown={(event) => event.stopPropagation()}
-          >
-            <div className={s.registrationModalHeader}>
-              <div>
-                <span>Agentic Data Winter Bootcamp</span>
-                <h2 id="deck-registration-title">Bootcamp registration</h2>
-              </div>
-              <button type="button" aria-label="Close registration" onClick={() => setRegistrationOpen(false)}>×</button>
-            </div>
-            <RegistrationForm />
-          </div>
-        </div>,
-        document.body,
-      )}
     </Frame>
   )
 }
@@ -413,9 +457,7 @@ export function TeamSlide({ index }) {
       <div className={`${s.grid} ${s.grid6}`}>
         {TEAM.map((person) => (
           <div key={person.id} className={`${s.card} ${s.helper}`}>
-            <span className={s.helperAvatar} style={{ '--avatar-accent': person.accent }} aria-label={person.name}>
-              {person.initials}
-            </span>
+            <SpeakerAvatar person={person} className={s.helperAvatar} style={{ '--avatar-accent': person.accent }} />
             <Editable as="h3" id={`team.${person.id}.name`}>{person.name}</Editable>
             <span className={s.helperRole}>{person.role}</span>
             <Editable as="p" id={`team.${person.id}.topic`} className={s.helperTopic}>{person.focus}</Editable>

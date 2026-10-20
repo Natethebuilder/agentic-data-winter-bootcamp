@@ -3,8 +3,9 @@ import { DataMark, Logos, Mascot } from '../winter/Decor.jsx'
 import { AgentTerminal, Countdown, ScheduleBoard } from '../data/DataViz.jsx'
 import SetupWizard from '../setup/SetupWizard.jsx'
 import RegistrationForm from '../registration/RegistrationForm.jsx'
+import SpeakerAvatar from '../speakers/SpeakerAvatar.jsx'
 import {
-  BOOTCAMP, FAQ, PERSONAS, PILLARS, PREP, READINESS_PATHS, REGISTRATION, SESSIONS,
+  BOOTCAMP, FAQ, PERSONAS, PILLARS, PREP, READINESS_PATHS, REGISTRATION, SESSIONS, sessionOwner,
 } from '../content.js'
 import s from './Site.module.css'
 
@@ -149,7 +150,7 @@ function ProgrammeReveal() {
                   <small>{session.subtitle}</small>
                 </span>
                 <span className={s.sessionLead}>
-                  <span className={s.sessionHeadshot} aria-hidden="true">{session.ownerInitials}</span>
+                  <SpeakerAvatar person={sessionOwner(session)} className={s.sessionHeadshot} />
                   <span className={s.sessionLeadCopy}>
                     <small>Session owner</small>
                     <strong>{session.owner}</strong>
@@ -348,7 +349,7 @@ export default function Site() {
           idx="04"
           eyebrow="Get ready"
           title="Pre-flight checks"
-          subtitle="This setup is required for the hands-on day. If every check already passes, you may skip Agentic AI Foundations; otherwise use that session to complete the setup."
+          subtitle="This setup is required for the hands-on day. If every check already passes, you may skip Agentic Data Engineering Foundations; otherwise use that session to complete the setup."
           className={s.preflightPanel}
         >
           <div className={s.setupStack}>

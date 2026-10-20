@@ -118,6 +118,29 @@
   background: color-mix(in srgb, var(--ice) 8%, transparent);
   font-size: 13px; font-weight: 600; color: var(--frost);
 }
+.heroCta { display: flex; align-items: center; flex-wrap: wrap; gap: 14px 20px; margin-top: 30px; }
+.heroRegister {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 30px;
+  border: 0;
+  border-radius: 999px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--holly), #c81e36);
+  box-shadow: 0 12px 32px rgba(255, 77, 97, 0.4);
+  font: inherit;
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.heroRegister span { transition: transform 0.2s ease; }
+.heroRegister:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(255, 77, 97, 0.55); }
+.heroRegister:hover span { transform: translateX(3px); }
+.heroRegister:focus-visible { outline: 2px solid var(--ice); outline-offset: 3px; }
+.heroCtaNote { color: var(--muted-foreground); font-size: 14px; font-weight: 600; }
 
 @keyframes bob {
   0%, 100% { transform: translateY(0) rotate(-2deg); }
@@ -231,7 +254,9 @@
 .detailPanel li::marker { color: var(--green); }
 .detailChallenge p { margin-top: 9px; color: var(--frost); font-size: 14px; line-height: 1.46; }
 .detailToolbox { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-.detailToolbox > div:first-child { display: flex; flex-direction: column; gap: 5px; flex-shrink: 0; }
+.detailOwner { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.detailOwner > div { display: flex; flex-direction: column; gap: 5px; }
+.detailOwnerAvatar { width: 46px; height: 46px; flex: 0 0 46px; font: 900 13px/1 ui-monospace, monospace; }
 .detailToolbox strong { font-size: 15px; color: var(--frost); }
 .detailTools { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 5px; }
 .detailTools span {
@@ -428,6 +453,7 @@
   background: var(--night);
   box-shadow: 0 30px 90px rgba(0, 0, 0, 0.65);
 }
+.registrationModal:focus { outline: none; }
 .registrationModalHeader {
   position: sticky;
   top: -22px;
@@ -465,15 +491,17 @@
 
 /* ── Team ── */
 .helper { align-items: center; text-align: center; }
-.helperAvatar {
-  width: 76px; height: 76px; border-radius: 50%;
+.helperAvatar, .detailOwnerAvatar {
+  border-radius: 50%;
+  overflow: hidden;
   display: grid;
   place-items: center;
   background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--avatar-accent) 24%, var(--card)), var(--card));
   border: 2px solid color-mix(in srgb, var(--avatar-accent) 62%, transparent);
   color: var(--avatar-accent);
-  font: 900 21px/1 ui-monospace, monospace;
 }
+.helperAvatar img, .detailOwnerAvatar img { width: 100%; height: 100%; display: block; object-fit: cover; }
+.helperAvatar { width: 88px; height: 88px; font: 900 22px/1 ui-monospace, monospace; }
 .helperRole { color: var(--ice); font: 700 10px/1.2 ui-monospace, monospace; letter-spacing: 1px; text-transform: uppercase; }
 .helperTopic { font-size: 11px !important; }
 
@@ -517,6 +545,9 @@
   .hero { grid-template-columns: 1fr; gap: 20px; }
   .hero h1 { font-size: 40px; letter-spacing: -1.4px; margin: 12px 0 14px; }
   .heroMascot { display: none; }
+  .heroCta { flex-direction: column; align-items: stretch; gap: 10px; margin-top: 20px; }
+  .heroRegister { justify-content: center; padding: 15px 22px; font-size: 17px; }
+  .heroCtaNote { text-align: center; font-size: 13px; }
   .heroLogos { position: static; padding: 0 var(--content-gutter); margin-top: 20px; }
   .heroLogos img { height: 32px; }
   .pill { font-size: 12px; }
@@ -595,7 +626,7 @@
     padding: 14px;
   }
   .registrationModalHeader h2 { font-size: 20px; }
-  .helperAvatar { width: 60px; height: 60px; }
+  .helperAvatar { width: 64px; height: 64px; }
   .helperAvatar i { top: 10px; width: 20px; height: 20px; }
   .helperAvatar b { bottom: 6px; width: 40px; height: 23px; }
 
@@ -608,6 +639,12 @@
 @media (max-width: 760px) {
   .grid2, .grid3, .grid4, .audienceGrid { grid-template-columns: 1fr; }
   .grid6 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+/* Landscape phones: keep the cover CTA on one compact row so the logos stay above the fold */
+@media (max-height: 500px) {
+  .heroCta { flex-direction: row; align-items: center; gap: 8px 16px; margin-top: 14px; }
+  .heroRegister { padding: 11px 22px; font-size: 16px; }
+  .heroCtaNote { text-align: left; }
 }
 
 /* Touch screens: press feedback instead of sticky hover */

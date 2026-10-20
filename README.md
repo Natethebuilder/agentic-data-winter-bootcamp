@@ -24,6 +24,7 @@ The website is hosted as one Azure Static Web App. The landing experience, deck 
 ## Content and participant setup
 
 - Update the shared site and deck content in `src/content.js`.
+- Speaker headshots live in `public/speakers/` as square JPGs and are referenced by `photo` in `TEAM`. People without a photo show their initials.
 - Update slide composition in `src/slides/WinterSlides.jsx` and ordering in `deck.config.js`.
 - The participant audit script is published at `setup/prepare-agentic-data.ps1`.
 - Audit mode is read-only. Tool installation, Microsoft npm proxy configuration and sign-in require explicit script switches.
