@@ -246,7 +246,7 @@ export function TimetableSlide({ index }) {
         id="timetable"
         eyebrow="Programme schedule"
         title="Six dates. The same six-session day."
-        subtitle="Every date offers the complete programme. Choose the date and session times that work for you."
+        subtitle="Every date runs all six sessions. Pick as many as you like, on as many dates as you like."
       />
       <div className={s.scheduleDates}>
         {SESSION_DATES.map((date) => (

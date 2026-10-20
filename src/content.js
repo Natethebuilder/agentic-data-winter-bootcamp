@@ -495,7 +495,8 @@ export const REGISTRATION = {
   eyebrow: 'Registration',
   title: 'Join the Agentic Data Winter Bootcamp.',
   subtitle: 'Confirm your company email, choose the dates and session times you want to attend, and provide the details needed for event access.',
-  slotHelp: 'Every date runs the same six-session programme. Select any date and session-time combination you plan to attend.',
+  slotLead: 'Pick as many sessions as you like, on as many dates as you like.',
+  slotHelp: 'Every date runs the same six sessions, so you can mix and match, for example Foundations on 4 December and Lakehouse Design on 11 December. Switch dates with the tabs below; sessions you have ticked on other dates stay selected.',
   environments: [
     {
       id: 'local',

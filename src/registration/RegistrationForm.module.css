@@ -39,6 +39,7 @@
 .sessionField, .environment { min-width: 0; max-width: 100%; border: 0; margin: 24px 0 0; padding: 0; }
 .sessionField legend, .environment legend { margin-bottom: 12px; }
 .sessionHint { margin: -4px 0 14px; color: var(--muted-foreground); font-size: 13px; line-height: 1.5; }
+.sessionHint strong { display: block; margin-bottom: 2px; color: var(--frost); font-size: 14px; }
 .dateTabs {
   min-width: 0;
   max-width: 100%;

@@ -339,7 +339,7 @@ export default function Site() {
           idx="03"
           eyebrow="Schedule"
           title="Six dates. The same complete programme."
-          subtitle="All six sessions run on every date. Choose the date and session times that work for you when registering."
+          subtitle="All six sessions run on every date. When you register, pick as many sessions as you like, on as many dates as you like."
         >
           <ScheduleBoard />
         </Section>
