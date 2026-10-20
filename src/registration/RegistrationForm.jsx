@@ -109,7 +109,7 @@ export default function RegistrationForm() {
 
       <fieldset className={s.sessionField}>
         <legend>Choose your dates and session times</legend>
-        <p className={s.sessionHint}>{REGISTRATION.slotHelp}</p>
+        <p className={s.sessionHint}><strong>{REGISTRATION.slotLead}</strong> {REGISTRATION.slotHelp}</p>
         <div className={s.dateTabs} role="tablist" aria-label="Choose a bootcamp date">
           {SESSION_DATES.map((date) => {
             const count = slots.filter((slot) => slot.startsWith(`${date.id}|`)).length
