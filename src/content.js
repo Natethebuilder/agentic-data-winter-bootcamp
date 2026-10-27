@@ -255,6 +255,7 @@ export const TEAM = [
     role: 'Session owner',
     focus: 'Foundations · Open-source Data Engineering',
     accent: '#8fd8ff',
+    photo: 'speakers/remco.jpg',
   },
   {
     id: 'zeeshan',
@@ -263,6 +264,7 @@ export const TEAM = [
     role: 'Session owner',
     focus: 'Agentic AI for Analysts',
     accent: '#d97cff',
+    photo: 'speakers/zeeshan.jpg',
   },
   {
     id: 'arash',
