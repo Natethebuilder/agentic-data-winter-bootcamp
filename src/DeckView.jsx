@@ -3,10 +3,13 @@ import '@deckio/deck-engine/styles/editable.css'
 import project from '../deck.config.js'
 import { useRef } from 'react'
 import { ChristmasLights, Mascot } from './winter/Decor.jsx'
+import { TeamSlide } from './slides/WinterSlides.jsx'
 
 function FloatingCopilot() {
   const { current, totalSlides } = useSlides()
   if (current <= 0 || current === totalSlides - 1) return null
+  // On laptop-sized screens the mascot would cover the text of the last team card.
+  if (project.slides[current] === TeamSlide) return null
   return <Mascot className="floating-copilot" />
 }
 

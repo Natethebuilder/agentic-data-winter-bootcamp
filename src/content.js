@@ -240,15 +240,6 @@ export const PERSONAS = [
 
 export const TEAM = [
   {
-    id: 'nathan',
-    name: 'Nathan Brahmbhatt',
-    initials: 'NB',
-    role: 'Host',
-    focus: 'Bootcamp host and programme coordination',
-    accent: '#ff4d61',
-    photo: 'speakers/nathan.jpg',
-  },
-  {
     id: 'remco',
     name: 'Remco van Dam',
     initials: 'RD',
@@ -292,6 +283,15 @@ export const TEAM = [
     focus: 'NoSQL Developers & Admins',
     accent: '#4fd1e8',
     photo: 'speakers/rene.jpg',
+  },
+  {
+    id: 'nathan',
+    name: 'Nathan Brahmbhatt',
+    initials: 'NB',
+    role: 'Host',
+    focus: 'Bootcamp host and programme coordination',
+    accent: '#ff4d61',
+    photo: 'speakers/nathan.jpg',
   },
 ]
 
