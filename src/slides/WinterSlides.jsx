@@ -452,7 +452,7 @@ export function TeamSlide({ index }) {
         id="team"
         eyebrow="Brought to you by"
         title="Your Team"
-        subtitle="Your host and session owners from the Microsoft data and AI community."
+        subtitle="Your session owners and host from the Microsoft data and AI community."
       />
       <div className={`${s.grid} ${s.grid6}`}>
         {TEAM.map((person) => (

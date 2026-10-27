@@ -240,21 +240,13 @@ export const PERSONAS = [
 
 export const TEAM = [
   {
-    id: 'nathan',
-    name: 'Nathan Brahmbhatt',
-    initials: 'NB',
-    role: 'Host',
-    focus: 'Bootcamp host and programme coordination',
-    accent: '#ff4d61',
-    photo: 'speakers/nathan.jpg',
-  },
-  {
     id: 'remco',
     name: 'Remco van Dam',
     initials: 'RD',
     role: 'Session owner',
     focus: 'Foundations · Open-source Data Engineering',
     accent: '#8fd8ff',
+    photo: 'speakers/remco.jpg',
   },
   {
     id: 'zeeshan',
@@ -263,6 +255,7 @@ export const TEAM = [
     role: 'Session owner',
     focus: 'Agentic AI for Analysts',
     accent: '#d97cff',
+    photo: 'speakers/zeeshan.jpg',
   },
   {
     id: 'arash',
@@ -290,6 +283,15 @@ export const TEAM = [
     focus: 'NoSQL Developers & Admins',
     accent: '#4fd1e8',
     photo: 'speakers/rene.jpg',
+  },
+  {
+    id: 'nathan',
+    name: 'Nathan Brahmbhatt',
+    initials: 'NB',
+    role: 'Host',
+    focus: 'Bootcamp host and programme coordination',
+    accent: '#ff4d61',
+    photo: 'speakers/nathan.jpg',
   },
 ]
 
