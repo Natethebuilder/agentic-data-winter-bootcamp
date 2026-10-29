@@ -523,6 +523,72 @@
 .thanksDuck { width: 110px; animation: bob 5s ease-in-out infinite; }
 .thanksCopilot { width: 150px; animation: bob 6s ease-in-out -2s infinite; }
 
+/* ── Registration and prerequisite states (api/site-state.json) ── */
+.heroSoon, .registerSoonBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--gold) 55%, transparent);
+  background: color-mix(in srgb, var(--gold) 10%, transparent);
+  color: var(--gold);
+  font-weight: 800;
+}
+.heroSoon { padding: 15px 26px; font-size: 17px; }
+.registerSoonBadge { grid-column: 1 / -1; justify-content: center; padding: 12px 20px; }
+.heroSoon i, .registerSoonBadge i, .soonCard small i {
+  width: 8px; height: 8px; flex-shrink: 0;
+  border-radius: 50%;
+  background: currentColor;
+  animation: soonPulse 1.6s ease-in-out infinite;
+}
+@keyframes soonPulse { 50% { opacity: 0.25; } }
+.registerPromptSoon {
+  border-color: color-mix(in srgb, var(--gold) 42%, var(--border));
+  background:
+    radial-gradient(260px 160px at 100% 0%, color-mix(in srgb, var(--gold) 14%, transparent), transparent 70%),
+    color-mix(in srgb, var(--card) 90%, transparent);
+}
+.registerPromptSoon .registerPromptMark {
+  border: 1px solid color-mix(in srgb, var(--gold) 58%, transparent);
+  background: color-mix(in srgb, var(--gold) 11%, var(--night));
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1;
+}
+.soonCard {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 22px;
+  max-width: 880px;
+  padding: 28px 30px;
+  border-radius: 20px;
+  border: 1px solid color-mix(in srgb, var(--gold) 42%, var(--border));
+  background:
+    radial-gradient(520px 200px at 100% 0%, color-mix(in srgb, var(--gold) 12%, transparent), transparent 72%),
+    color-mix(in srgb, var(--card) 90%, transparent);
+}
+.soonMark {
+  width: 66px; height: 66px;
+  display: grid; place-items: center;
+  border-radius: 18px;
+  border: 1px solid color-mix(in srgb, var(--gold) 58%, transparent);
+  background: color-mix(in srgb, var(--gold) 11%, var(--night));
+  font-size: 29px;
+  line-height: 1;
+}
+.soonCard small {
+  display: inline-flex; align-items: center; gap: 7px;
+  color: var(--gold);
+  font: 700 11px/1.2 ui-monospace, monospace; letter-spacing: 1.4px; text-transform: uppercase;
+}
+.soonCard h3 { margin-top: 8px; color: var(--frost); font-size: 24px; line-height: 1.25; }
+.soonCard p { margin-top: 8px; color: var(--muted-foreground); font-size: 16px; line-height: 1.55; }
+@media (prefers-reduced-motion: reduce) {
+  .heroSoon i, .registerSoonBadge i, .soonCard small i { animation: none; }
+}
+
 /* ── Phones: slides scroll vertically instead of scaling to fit ── */
 @media (max-width: 760px), (max-height: 500px) {
   .slide {
@@ -547,6 +613,7 @@
   .heroMascot { display: none; }
   .heroCta { flex-direction: column; align-items: stretch; gap: 10px; margin-top: 20px; }
   .heroRegister { justify-content: center; padding: 15px 22px; font-size: 17px; }
+  .heroSoon { justify-content: center; padding: 14px 20px; font-size: 16px; }
   .heroCtaNote { text-align: center; font-size: 13px; }
   .heroLogos { position: static; padding: 0 var(--content-gutter); margin-top: 20px; }
   .heroLogos img { height: 32px; }
@@ -613,6 +680,10 @@
   .stepNum { width: 30px; height: 30px; }
   .registerSlideGrid { grid-template-columns: 1fr; }
   .registerPrompt { padding: 18px; }
+  .soonCard { grid-template-columns: 1fr; gap: 14px; padding: 18px; }
+  .soonMark { width: 54px; height: 54px; font-size: 24px; }
+  .soonCard h3 { font-size: 20px; }
+  .soonCard p { font-size: 14.5px; }
   .registrationOverlay { padding: 10px; }
   .registrationModal {
     width: calc(100vw - 20px);
@@ -644,6 +715,7 @@
 @media (max-height: 500px) {
   .heroCta { flex-direction: row; align-items: center; gap: 8px 16px; margin-top: 14px; }
   .heroRegister { padding: 11px 22px; font-size: 16px; }
+  .heroSoon { padding: 10px 20px; font-size: 15px; }
   .heroCtaNote { text-align: left; }
 }
 

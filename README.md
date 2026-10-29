@@ -11,6 +11,26 @@ Interactive public website and DECKIO slide deck for the Agentic Data Engineerin
 
 The complete six-session agenda runs on 4, 11 and 18 December 2026 and 8, 15 and 22 January 2027. The daily session times are 09:00, 10:00, 11:00, 12:30, 13:30 and 14:30.
 
+## Site states
+
+`api/site-state.json` switches the public experience. The website, the deck and the registration API all read it.
+
+```json
+{
+  "registration": 1,
+  "prerequisites": "ready"
+}
+```
+
+| Setting | Value | Effect |
+| --- | --- | --- |
+| `registration` | `1` | Registration is open. |
+| `registration` | `2` | Every register entry point on the website and in the deck says registration will open soon, and the API refuses submissions. The form, API and flow stay in place, so switching back to `1` restores registration. |
+| `prerequisites` | `"ready"` | The Get ready section and the deck's setup slide show the readiness checklist and guided setup. |
+| `prerequisites` | `"soon"` | The Get ready section and the deck's setup slide say this information will be shared soon. |
+
+Unknown values fall back to `1` and `"ready"`. To switch, edit `api/site-state.json`, commit the change and push to `main` to deploy it.
+
 ## Develop
 
 ```bash

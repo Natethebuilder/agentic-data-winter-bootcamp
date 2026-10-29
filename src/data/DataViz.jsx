@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { PIPELINE, SESSION_DATES, SESSIONS, TERMINAL_SCRIPTS } from '../content.js'
+import { PIPELINE, REGISTRATION_SOON, SESSION_DATES, SESSIONS, TERMINAL_SCRIPTS } from '../content.js'
+import { REGISTRATION_OPEN } from '../siteState.js'
 import d from './Data.module.css'
 
 const BASE = import.meta.env.BASE_URL
@@ -240,7 +241,7 @@ export function ScheduleBoard() {
             <span>Every event date</span>
             <strong>Six-session daily agenda</strong>
           </div>
-          <p>Select any combination of dates and session times during registration.</p>
+          <p>{REGISTRATION_OPEN ? 'Select any combination of dates and session times during registration.' : REGISTRATION_SOON.agendaNote}</p>
         </div>
         <div className={d.agendaGrid}>
           {SESSIONS.map((session) => (

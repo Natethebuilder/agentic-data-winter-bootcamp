@@ -5,8 +5,10 @@ import RegistrationForm from '../registration/RegistrationForm.jsx'
 import SpeakerAvatar from '../speakers/SpeakerAvatar.jsx'
 import { ChristmasLights, Logos, Mascot } from '../winter/Decor.jsx'
 import {
-  BOOTCAMP, GITHUB_ACCESS, PERSONAS, PILLARS, PREP, REGISTER_STEPS, SESSION_DATES, SESSIONS, TEAM, sessionOwner,
+  BOOTCAMP, GITHUB_ACCESS, PERSONAS, PILLARS, PREP, PREREQUISITES, REGISTER_STEPS, REGISTRATION_SOON, SESSION_DATES,
+  SESSIONS, TEAM, sessionOwner,
 } from '../content.js'
+import { PREREQUISITES_STATE, REGISTRATION_OPEN } from '../siteState.js'
 import s from './Slides.module.css'
 
 const LIGHTS = 34
@@ -132,9 +134,13 @@ export function WinterTitleSlide({ index }) {
             {`${BOOTCAMP.tagline} ${BOOTCAMP.subtitle}`}
           </Editable>
           <div className={s.heroCta}>
-            <RegistrationButton className={s.heroRegister}>
-              Register now <span aria-hidden="true">→</span>
-            </RegistrationButton>
+            {REGISTRATION_OPEN ? (
+              <RegistrationButton className={s.heroRegister}>
+                Register now <span aria-hidden="true">→</span>
+              </RegistrationButton>
+            ) : (
+              <span className={s.heroSoon} role="status"><i aria-hidden="true" />{REGISTRATION_SOON.cta}</span>
+            )}
             <Editable as="span" id="title.ctaNote" className={s.heroCtaNote}>Free · $100 AI credits included</Editable>
           </div>
         </div>
@@ -246,7 +252,9 @@ export function TimetableSlide({ index }) {
         id="timetable"
         eyebrow="Programme schedule"
         title="Six dates. The same six-session day."
-        subtitle="Every date runs all six sessions. Pick as many as you like, on as many dates as you like."
+        subtitle={REGISTRATION_OPEN
+          ? 'Every date runs all six sessions. Pick as many as you like, on as many dates as you like.'
+          : REGISTRATION_SOON.timetableSubtitle}
       />
       <div className={s.scheduleDates}>
         {SESSION_DATES.map((date) => (
@@ -276,6 +284,28 @@ export function TimetableSlide({ index }) {
 }
 
 export function SetupSlide({ index }) {
+  if (PREREQUISITES_STATE === 'soon') {
+    const soon = PREREQUISITES.soon
+    return (
+      <Frame index={index} id="setup" orbs={['orbIce', 'orbHolly']}>
+        <Header
+          id="setup"
+          eyebrow="Get ready"
+          title={soon.deckTitle}
+          subtitle={soon.subtitle}
+        />
+        <div className={s.soonCard} role="status">
+          <span className={s.soonMark} aria-hidden="true">{soon.mark}</span>
+          <div>
+            <small><i aria-hidden="true" />{soon.label}</small>
+            <Editable as="h3" id="setup.soon.heading">{soon.heading}</Editable>
+            <Editable as="p" id="setup.soon.body" multiline>{soon.body}</Editable>
+          </div>
+        </div>
+      </Frame>
+    )
+  }
+
   return (
     <Frame index={index} id="setup" orbs={['orbIce', 'orbHolly']}>
       <Header
@@ -405,7 +435,7 @@ export function SurveySlide({ index }) {
 
 export function RegisterSlide({ index }) {
   const [openOnLoad] = useState(
-    () => new URLSearchParams(window.location.search).get('deckRegister') === '1',
+    () => REGISTRATION_OPEN && new URLSearchParams(window.location.search).get('deckRegister') === '1',
   )
 
   useEffect(() => {
@@ -420,8 +450,10 @@ export function RegisterSlide({ index }) {
       <Header
         id="register"
         eyebrow="Ready to join?"
-        title="How to register"
-        subtitle="Registration is open. Confirm your company email; no GitHub sign-in is required."
+        title={REGISTRATION_OPEN ? 'How to register' : REGISTRATION_SOON.title}
+        subtitle={REGISTRATION_OPEN
+          ? 'Registration is open. Confirm your company email; no GitHub sign-in is required.'
+          : REGISTRATION_SOON.deckSubtitle}
       />
       <div className={s.registerSlideGrid}>
         <div className={s.points}>
@@ -432,13 +464,19 @@ export function RegisterSlide({ index }) {
             </div>
           ))}
         </div>
-        <div className={s.registerPrompt}>
-          <span className={s.registerPromptMark}>GH</span>
+        <div className={REGISTRATION_OPEN ? s.registerPrompt : `${s.registerPrompt} ${s.registerPromptSoon}`}>
+          <span className={s.registerPromptMark} aria-hidden={REGISTRATION_OPEN ? undefined : true}>
+            {REGISTRATION_OPEN ? 'GH' : REGISTRATION_SOON.mark}
+          </span>
           <div>
-            <strong>{GITHUB_ACCESS.eyebrow}</strong>
-            <p>The organization invitation and $100 of GitHub Copilot AI credits arrive a few days before the event.</p>
+            <strong>{REGISTRATION_OPEN ? GITHUB_ACCESS.eyebrow : REGISTRATION_SOON.heading}</strong>
+            <p>{REGISTRATION_OPEN
+              ? 'The organization invitation and $100 of GitHub Copilot AI credits arrive a few days before the event.'
+              : REGISTRATION_SOON.body}</p>
           </div>
-          <RegistrationButton initiallyOpen={openOnLoad}>Open registration</RegistrationButton>
+          {REGISTRATION_OPEN
+            ? <RegistrationButton initiallyOpen={openOnLoad}>Open registration</RegistrationButton>
+            : <span className={s.registerSoonBadge} role="status"><i aria-hidden="true" />{REGISTRATION_SOON.badge}</span>}
         </div>
       </div>
     </Frame>
@@ -452,7 +490,7 @@ export function TeamSlide({ index }) {
         id="team"
         eyebrow="Brought to you by"
         title="Your Team"
-        subtitle="Your session owners and host from the Microsoft data and AI community."
+        subtitle="Your session owners and organizer from the Microsoft data and AI community."
       />
       <div className={`${s.grid} ${s.grid6}`}>
         {TEAM.map((person) => (
@@ -460,7 +498,7 @@ export function TeamSlide({ index }) {
             <SpeakerAvatar person={person} className={s.helperAvatar} style={{ '--avatar-accent': person.accent }} />
             <Editable as="h3" id={`team.${person.id}.name`}>{person.name}</Editable>
             <span className={s.helperRole}>{person.role}</span>
-            <Editable as="p" id={`team.${person.id}.topic`} className={s.helperTopic}>{person.focus}</Editable>
+            {person.focus && <Editable as="p" id={`team.${person.id}.topic`} className={s.helperTopic}>{person.focus}</Editable>}
           </div>
         ))}
       </div>
