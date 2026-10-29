@@ -452,7 +452,7 @@ export function TeamSlide({ index }) {
         id="team"
         eyebrow="Brought to you by"
         title="Your Team"
-        subtitle="Your session owners and host from the Microsoft data and AI community."
+        subtitle="Your session owners and organizer from the Microsoft data and AI community."
       />
       <div className={`${s.grid} ${s.grid6}`}>
         {TEAM.map((person) => (
@@ -460,7 +460,7 @@ export function TeamSlide({ index }) {
             <SpeakerAvatar person={person} className={s.helperAvatar} style={{ '--avatar-accent': person.accent }} />
             <Editable as="h3" id={`team.${person.id}.name`}>{person.name}</Editable>
             <span className={s.helperRole}>{person.role}</span>
-            <Editable as="p" id={`team.${person.id}.topic`} className={s.helperTopic}>{person.focus}</Editable>
+            {person.focus && <Editable as="p" id={`team.${person.id}.topic`} className={s.helperTopic}>{person.focus}</Editable>}
           </div>
         ))}
       </div>
