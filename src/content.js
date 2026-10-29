@@ -1,5 +1,6 @@
 // Shared public content for the landing site and the deck.
 // Session topics, owners, dates and times are confirmed.
+import { PREREQUISITES_STATE, REGISTRATION_OPEN } from './siteState.js'
 
 export const BOOTCAMP = {
   name: 'Agentic Data Engineering Winter Bootcamp',
@@ -426,6 +427,23 @@ export const PREP = [
   { id: 'data', icon: '🔒', title: 'Sample data only', desc: 'No customer, personal or production data. Synthetic or public data only.' },
 ]
 
+// Prerequisites, by PREREQUISITES_STATE in api/site-state.json.
+export const PREREQUISITES = {
+  ready: {
+    title: 'Pre-flight checks',
+    subtitle: 'This setup is required for the hands-on day. If every check already passes, you may skip Agentic Data Engineering Foundations; otherwise use that session to complete the setup.',
+  },
+  soon: {
+    title: 'Pre-flight checks',
+    subtitle: 'Everything you need to get ready for the hands-on sessions will be published here.',
+    deckTitle: 'Prerequisites are on their way',
+    mark: '⏳',
+    label: 'Coming soon',
+    heading: 'This information will be shared soon.',
+    body: 'We will publish the readiness checklist and guided setup for the hands-on sessions here before the event. Agentic Data Engineering Foundations will also walk you through the setup.',
+  },
+}
+
 export const READINESS_PATHS = [
   {
     id: 'ready',
@@ -470,7 +488,9 @@ export const FAQ = [
   },
   {
     q: 'Is it hands-on?',
-    a: 'Yes, where possible. Each session has clear prerequisites. If you meet them, build along. If not, follow the presenter live.',
+    a: PREREQUISITES_STATE === 'ready'
+      ? 'Yes, where possible. Each session has clear prerequisites. If you meet them, build along. If not, follow the presenter live.'
+      : 'Yes, where possible. The prerequisites for each session will be shared soon. If you meet them, build along. If not, follow the presenter live.',
   },
   {
     q: 'What does it cost?',
@@ -482,7 +502,9 @@ export const FAQ = [
   },
   {
     q: 'How do I register?',
-    a: 'Provide and confirm your company email, choose the dates and session times you plan to attend, and select your development environment. No GitHub sign-in is required on this website.',
+    a: REGISTRATION_OPEN
+      ? 'Provide and confirm your company email, choose the dates and session times you plan to attend, and select your development environment. No GitHub sign-in is required on this website.'
+      : 'Registration will open soon. When it does, you provide and confirm your company email, choose the dates and session times you plan to attend, and select your development environment. No GitHub sign-in is required on this website.',
   },
 ]
 
@@ -512,4 +534,23 @@ export const REGISTRATION = {
   ],
   consent:
     'I consent to Microsoft using my company, company email, session choices and environment preference to administer the bootcamp, send the GitHub organization invitation, provision access, communicate with me and improve the programme. Registration data is deleted after the administration period.',
+}
+
+// Shown everywhere registration appears while registration is 2 in api/site-state.json.
+export const REGISTRATION_SOON = {
+  eyebrow: 'Registration',
+  title: 'Registration will open soon.',
+  subtitle: 'We are putting the finishing touches on the programme. Check back soon to choose your dates, sessions and development environment.',
+  badge: 'Opening soon',
+  heading: 'Registration will open soon',
+  body: 'All six sessions run on every date, so once registration opens you can pick as many sessions as you like, on as many dates as you like.',
+  cta: 'Registration opens soon',
+  nav: 'Registration',
+  lineup: 'See the lineup',
+  schedule: 'View the schedule',
+  scheduleSubtitle: 'All six sessions run on every date. Once registration opens, pick as many sessions as you like, on as many dates as you like.',
+  agendaNote: 'Once registration opens, select any combination of dates and session times.',
+  timetableSubtitle: 'Every date runs all six sessions. Once registration opens, pick as many as you like, on as many dates as you like.',
+  deckSubtitle: 'When registration opens, follow these three steps. No GitHub sign-in is required.',
+  mark: '📅',
 }

@@ -5,16 +5,19 @@ import SetupWizard from '../setup/SetupWizard.jsx'
 import RegistrationForm from '../registration/RegistrationForm.jsx'
 import SpeakerAvatar from '../speakers/SpeakerAvatar.jsx'
 import {
-  BOOTCAMP, FAQ, PERSONAS, PILLARS, PREP, READINESS_PATHS, REGISTRATION, SESSIONS, sessionOwner,
+  BOOTCAMP, FAQ, PERSONAS, PILLARS, PREP, PREREQUISITES, READINESS_PATHS, REGISTRATION, REGISTRATION_SOON, SESSIONS,
+  sessionOwner,
 } from '../content.js'
+import { PREREQUISITES_STATE, REGISTRATION_OPEN } from '../siteState.js'
 import s from './Site.module.css'
 
+// The optional third entry is a status hint shown as a pulsing dot, a tooltip and the accessible name.
 const NAV = [
   ['why', 'Why join'],
   ['lineup', 'Lineup'],
   ['schedule', 'Schedule'],
   ['prepare', 'Get ready'],
-  ['join', 'Register'],
+  REGISTRATION_OPEN ? ['join', 'Register'] : ['join', REGISTRATION_SOON.nav, REGISTRATION_SOON.cta],
   ['faq', 'FAQ'],
 ]
 
@@ -232,6 +235,21 @@ function PrepChecklist() {
   )
 }
 
+// Stands in for a section's interactive content while that part of the programme is not open yet.
+function SoonPanel({ mark, label, heading, body, children }) {
+  return (
+    <div className={s.soonPanel} role="status">
+      <span className={s.soonMark} aria-hidden="true">{mark}</span>
+      <div>
+        <small><i aria-hidden="true" />{label}</small>
+        <h3>{heading}</h3>
+        <p>{body}</p>
+      </div>
+      {children && <div className={s.soonActions}>{children}</div>}
+    </div>
+  )
+}
+
 export default function Site() {
   const rootRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)
@@ -259,8 +277,10 @@ export default function Site() {
           <span className={s.brandText}><small>Agentic Data</small><strong>Winter Bootcamp</strong></span>
         </button>
         <nav className={s.navLinks} aria-label="Sections">
-          {NAV.map(([id, label]) => (
-            <button key={id} type="button" className={active === id ? s.navActive : ''} aria-current={active === id ? 'true' : undefined} onClick={() => go(id)}>{label}</button>
+          {NAV.map(([id, label, hint]) => (
+            <button key={id} type="button" className={active === id ? s.navActive : ''} aria-current={active === id ? 'true' : undefined} aria-label={hint} title={hint} onClick={() => go(id)}>
+              {label}{hint && <i className={s.navSoon} aria-hidden="true" />}
+            </button>
           ))}
         </nav>
         <div className={s.navActions}>
@@ -282,7 +302,9 @@ export default function Site() {
             <div className={s.ctaRow}>
               <button type="button" className={s.btnGhost} onClick={() => go('why')}>More info</button>
               <button type="button" className={s.btnGhost} onClick={() => go('lineup')}>See the lineup</button>
-              <button type="button" className={s.btnPrimary} onClick={() => go('join')}>Register now</button>
+              <button type="button" className={s.btnPrimary} onClick={() => go('join')}>
+                {REGISTRATION_OPEN ? 'Register now' : REGISTRATION_SOON.cta}
+              </button>
             </div>
             <Countdown
               target={BOOTCAMP.kickoff}
@@ -339,7 +361,9 @@ export default function Site() {
           idx="03"
           eyebrow="Schedule"
           title="Six dates. The same complete programme."
-          subtitle="All six sessions run on every date. When you register, pick as many sessions as you like, on as many dates as you like."
+          subtitle={REGISTRATION_OPEN
+            ? 'All six sessions run on every date. When you register, pick as many sessions as you like, on as many dates as you like.'
+            : REGISTRATION_SOON.scheduleSubtitle}
         >
           <ScheduleBoard />
         </Section>
@@ -348,41 +372,60 @@ export default function Site() {
           id="prepare"
           idx="04"
           eyebrow="Get ready"
-          title="Pre-flight checks"
-          subtitle="This setup is required for the hands-on day. If every check already passes, you may skip Agentic Data Engineering Foundations; otherwise use that session to complete the setup."
+          title={PREREQUISITES[PREREQUISITES_STATE].title}
+          subtitle={PREREQUISITES[PREREQUISITES_STATE].subtitle}
           className={s.preflightPanel}
         >
-          <div className={s.setupStack}>
-            <div className={s.readinessPaths}>
-              {READINESS_PATHS.map((path, index) => (
-                <article key={path.id}>
-                  <span>{String(index + 1).padStart(2, '0')}</span>
-                  <div>
-                    <strong>{path.title}</strong>
-                    <p>{path.desc}</p>
-                  </div>
-                </article>
-              ))}
+          {PREREQUISITES_STATE === 'ready' ? (
+            <div className={s.setupStack}>
+              <div className={s.readinessPaths}>
+                {READINESS_PATHS.map((path, index) => (
+                  <article key={path.id}>
+                    <span>{String(index + 1).padStart(2, '0')}</span>
+                    <div>
+                      <strong>{path.title}</strong>
+                      <p>{path.desc}</p>
+                    </div>
+                  </article>
+                ))}
+              </div>
+              <div className={s.preflightBlock}>
+                <div className={s.preflightLabel}><span>01</span><strong>Readiness checklist</strong></div>
+                <PrepChecklist />
+              </div>
+              <div className={s.preflightBlock}>
+                <div className={s.preflightLabel}><span>02</span><strong>Guided setup</strong></div>
+                <SetupWizard />
+              </div>
             </div>
-            <div className={s.preflightBlock}>
-              <div className={s.preflightLabel}><span>01</span><strong>Readiness checklist</strong></div>
-              <PrepChecklist />
-            </div>
-            <div className={s.preflightBlock}>
-              <div className={s.preflightLabel}><span>02</span><strong>Guided setup</strong></div>
-              <SetupWizard />
-            </div>
-          </div>
+          ) : (
+            <SoonPanel
+              mark={PREREQUISITES.soon.mark}
+              label={PREREQUISITES.soon.label}
+              heading={PREREQUISITES.soon.heading}
+              body={PREREQUISITES.soon.body}
+            />
+          )}
         </Section>
 
         <Section
           id="join"
           idx="05"
-          eyebrow={REGISTRATION.eyebrow}
-          title={REGISTRATION.title}
-          subtitle={REGISTRATION.subtitle}
+          eyebrow={REGISTRATION_OPEN ? REGISTRATION.eyebrow : REGISTRATION_SOON.eyebrow}
+          title={REGISTRATION_OPEN ? REGISTRATION.title : REGISTRATION_SOON.title}
+          subtitle={REGISTRATION_OPEN ? REGISTRATION.subtitle : REGISTRATION_SOON.subtitle}
         >
-          <RegistrationForm />
+          {REGISTRATION_OPEN ? <RegistrationForm /> : (
+            <SoonPanel
+              mark={REGISTRATION_SOON.mark}
+              label={REGISTRATION_SOON.badge}
+              heading={REGISTRATION_SOON.heading}
+              body={REGISTRATION_SOON.body}
+            >
+              <button type="button" className={s.btnGhost} onClick={() => go('lineup')}>{REGISTRATION_SOON.lineup}</button>
+              <button type="button" className={s.btnGhost} onClick={() => go('schedule')}>{REGISTRATION_SOON.schedule}</button>
+            </SoonPanel>
+          )}
         </Section>
 
         <Section id="faq" idx="06" eyebrow="FAQ" title="Frequently asked questions">

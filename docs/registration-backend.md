@@ -140,6 +140,17 @@ The default operational view should prioritize:
 
 Hide `Title`, `RegistrationId`, and `Sessions` from the default view where practical; keep them available for support and compatibility.
 
+## Site states
+
+`api/site-state.json` switches registration on and off without removing the working form, API or flow. The website and deck read it when they are built, and `/api/register` reads it when the function starts, so a change takes effect on the next deployment.
+
+| `registration` | Website and deck | API |
+| --- | --- | --- |
+| `1` | The registration form is open | Validates and forwards submissions to the flow |
+| `2` | Every register entry point says registration will open soon | Returns HTTP `403` before validation, without calling the flow, so nothing reaches SharePoint |
+
+The same file sets `prerequisites` to `"ready"` (the readiness checklist and guided setup) or `"soon"` (this information will be shared soon). Unknown values fall back to `1` and `"ready"`. To switch, edit `api/site-state.json`, commit the change and push to `main` to deploy it.
+
 ## Azure Static Web Apps
 
 | Setting | Purpose |
@@ -157,7 +168,7 @@ Registration does not immediately add an attendee to GitHub. A few days before t
 
 1. Confirm the GitHub OAuth route returns `404`.
 2. Confirm mismatched company-email entries are rejected.
-3. Confirm API tests reject invalid sessions, invalid environments, and missing backend settings.
+3. Confirm API tests reject invalid sessions, invalid environments, and missing backend settings, and that the state-2 test returns HTTP `403` without calling the flow.
 4. Submit a registration only with explicit approval because it creates or updates SharePoint data.
 5. Confirm the correct event branch runs, one row is upserted, and the operational statuses initialize correctly.
 6. Repeat from the same browser and confirm the same row is updated, its email remains unchanged, and material company/environment changes reset only the relevant operational status.

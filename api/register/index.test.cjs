@@ -2,6 +2,7 @@ const assert = require('node:assert/strict')
 const { createHash } = require('node:crypto')
 const test = require('node:test')
 const register = require('./index.js')
+const siteState = require('../site-state.json')
 
 const registrationToken = '123e4567-e89b-42d3-a456-426614174000'
 
@@ -42,6 +43,26 @@ test('rejects unknown or duplicate date and session slots', async () => {
   body.sessions = ['2026-12-04|09:00|foundations', '2026-12-04|09:00|foundations']
   await register(context, request(body))
   assert.equal(context.res.status, 400)
+})
+
+test('refuses registrations while registration is paused (state 2)', async () => {
+  configuredEnvironment()
+  let called = false
+  global.fetch = async () => {
+    called = true
+    return { ok: true }
+  }
+  const original = siteState.registration
+  siteState.registration = 2
+  try {
+    const context = {}
+    await register(context, request(validBody()))
+    assert.equal(context.res.status, 403)
+    assert.deepEqual(context.res.body, { error: 'Registration will open soon.' })
+    assert.equal(called, false)
+  } finally {
+    siteState.registration = original
+  }
 })
 
 test('requires the shared backend URL', async () => {
