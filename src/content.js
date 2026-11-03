@@ -321,9 +321,9 @@ export const PILLARS = [
 
 export const GITHUB_ACCESS = {
   eyebrow: 'GitHub organization access',
-  title: 'Event organization access and $100 of GitHub Copilot AI credits.',
+  title: 'Event organization access and GitHub Copilot AI credits.',
   description:
-    'A few days before the event starts, registered attendees will receive an invitation containing the link to join the event GitHub organization. The event environment includes $100 worth of AI credits to use with GitHub Copilot.',
+    'A few days before the event starts, registered attendees will receive an invitation containing the link to join the event GitHub organization. AI credits to use with GitHub Copilot are provided in the event environment.',
 }
 
 export const PIPELINE = [
@@ -494,7 +494,7 @@ export const FAQ = [
   },
   {
     q: 'What does it cost?',
-    a: 'The bootcamp is free. The event GitHub environment also includes $100 worth of AI credits to use with GitHub Copilot.',
+    a: 'The bootcamp is free. AI credits to use with GitHub Copilot are provided in the event GitHub environment.',
   },
   {
     q: 'How do I access the GitHub environment?',

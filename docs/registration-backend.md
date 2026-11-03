@@ -162,7 +162,7 @@ The website, deck, and `/api/register` function share one origin. The API valida
 
 ## GitHub organization access
 
-Registration does not immediately add an attendee to GitHub. A few days before the event, the event invitation provides the link for joining the event GitHub organization. The event environment includes $100 worth of GitHub Copilot AI credits.
+Registration does not immediately add an attendee to GitHub. A few days before the event, the event invitation provides the link for joining the event GitHub organization. GitHub Copilot AI credits are provided in the event environment.
 
 ## Verification
 
