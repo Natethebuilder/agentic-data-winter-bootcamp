@@ -160,9 +160,11 @@ The same file sets `prerequisites` to `"ready"` (the readiness checklist and gui
 
 The website, deck, and `/api/register` function share one origin. The API validates attendee input, never exposes the shared secret or email key, and the disabled GitHub login route returns `404`. Static Web Apps sends a restrictive Content Security Policy and denies framing.
 
+The API waits up to 30 seconds for the flow, below the 45-second Static Web Apps API request limit. The flow normally answers in 1–3 seconds, but Power Automate can occasionally take several seconds just to accept a request. A shorter wait showed attendees an error even though the flow had saved their registration.
+
 ## GitHub organization access
 
-Registration does not immediately add an attendee to GitHub. A few days before the event, the event invitation provides the link for joining the event GitHub organization. The event environment includes $100 worth of GitHub Copilot AI credits.
+Registration does not immediately add an attendee to GitHub. A few days before the event, the event invitation provides the link for joining the event GitHub organization. GitHub Copilot AI credits are provided in the event environment.
 
 ## Verification
 

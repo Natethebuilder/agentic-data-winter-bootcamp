@@ -58,7 +58,7 @@ Azure Static Web Apps hosts the complete public experience. The custom themed fo
 3. forwards the canonical `companyEmail`, `sessionSelections` and `environmentPreference` fields through the server-side `/api/register` function;
 4. upserts the registration into a restricted Microsoft List without collecting GitHub identity.
 
-A few days before the event, the attendee receives an invitation containing the link to join the event GitHub organization. The event environment includes $100 worth of GitHub Copilot AI credits.
+A few days before the event, the attendee receives an invitation containing the link to join the event GitHub organization. GitHub Copilot AI credits are provided in the event environment.
 
 See [docs/registration-backend.md](docs/registration-backend.md) for the List, flow and application settings.
 

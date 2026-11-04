@@ -16,6 +16,9 @@ const SESSION_IDS = new Set(
 )
 const ENVIRONMENTS = new Set(['local', 'cloud'])
 const REGISTRATION_TOKEN = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+// Power Automate can take several seconds just to accept a request, so wait well beyond its
+// usual 1-3 s while staying under the 45 s Static Web Apps API request limit.
+const FLOW_TIMEOUT_MS = 30_000
 
 function eventScopedHash(value) {
   return createHash('sha256').update(`${EVENT_ID}:${value}`).digest('hex')
@@ -114,7 +117,7 @@ module.exports = async function register(context, req) {
         'x-registration-secret': flowSecret,
       },
       body: JSON.stringify(payload),
-      signal: AbortSignal.timeout(10_000),
+      signal: AbortSignal.timeout(FLOW_TIMEOUT_MS),
     })
   } catch {
     context.res = response(502, { error: 'Registration storage is temporarily unavailable.' })

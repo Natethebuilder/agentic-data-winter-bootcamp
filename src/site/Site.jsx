@@ -292,7 +292,7 @@ export default function Site() {
         <section id="top" className={`${s.panel} ${s.heroPanel}`} data-panel>
           <div className={s.hero}>
           <div className={s.heroText}>
-            <span className={s.pill}>{BOOTCAMP.season} · Online · Free · $100 AI credits included</span>
+            <span className={s.pill}>{BOOTCAMP.season} · Online · Free · AI credits provided</span>
             <h1>
               Agentic Data Engineering <span className={s.highlight}>Winter Bootcamp</span>
             </h1>
