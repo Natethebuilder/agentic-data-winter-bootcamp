@@ -108,6 +108,28 @@ test('forwards validated slots in a deterministic upsert payload', async () => {
   assert.equal('registrationEmailKey' in context.res.body, false)
 })
 
+test('gives a slow flow time to answer within the 45 s Static Web Apps limit', async () => {
+  configuredEnvironment()
+  const timeout = AbortSignal.timeout
+  let timeoutMs
+  AbortSignal.timeout = (ms) => {
+    timeoutMs = ms
+    return timeout.call(AbortSignal, ms)
+  }
+  global.fetch = async () => ({ ok: true })
+
+  const context = {}
+  try {
+    await register(context, request(validBody()))
+  } finally {
+    AbortSignal.timeout = timeout
+  }
+
+  assert.equal(context.res.status, 202)
+  assert.ok(timeoutMs >= 20_000)
+  assert.ok(timeoutMs < 45_000)
+})
+
 test('derives the email key from normalized input and ignores caller values', async () => {
   configuredEnvironment()
   const payloads = []
