@@ -226,6 +226,83 @@ button[title="Back to home"] { top: 36px !important; }
 
 [class*="exportGroup"] { top: 36px !important; }
 
+/* ── Persistent slide navigation (replaces the engine's auto-hiding arrows) ── */
+[class*="_navBtn_"],
+[class*="_keyHint_"] { display: none !important; }
+
+.deck-navbar {
+  position: fixed;
+  left: 50%;
+  bottom: calc(54px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  z-index: 9100;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--foreground) 10%, transparent);
+  background: color-mix(in srgb, var(--night) 55%, transparent);
+  backdrop-filter: blur(8px);
+  max-width: calc(100vw - 24px);
+  opacity: 0.72;
+  transition: opacity 0.2s;
+}
+.deck-navbar:hover,
+.deck-navbar:focus-within { opacity: 1; }
+.deck-navbar-btn,
+.deck-navbar-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 32px;
+  min-height: 32px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 0;
+  background: transparent;
+  color: var(--foreground);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.2s, transform 0.15s;
+}
+.deck-navbar-btn:hover:not(:disabled),
+.deck-navbar-close:hover { background: color-mix(in srgb, var(--foreground) 10%, transparent); }
+.deck-navbar-btn:active:not(:disabled) { transform: scale(0.96); }
+.deck-navbar-btn:focus-visible,
+.deck-navbar-close:focus-visible { outline: 2px solid var(--ice); outline-offset: 1px; }
+.deck-navbar-btn:disabled { opacity: 0.3; cursor: default; }
+.deck-navbar-close {
+  padding: 0;
+  font-size: 16px;
+  line-height: 1;
+  color: var(--muted-foreground);
+}
+.deck-navbar-status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  padding: 0 2px;
+  text-align: center;
+  line-height: 1.2;
+}
+.deck-navbar-count { font-size: 12px; font-weight: 500; color: var(--foreground); white-space: nowrap; }
+.deck-navbar-hint { font-size: 10.5px; color: var(--muted-foreground); white-space: nowrap; }
+.deck-navbar-hint-touch { display: none; }
+@media (hover: none) and (pointer: coarse) {
+  .deck-navbar { opacity: 0.85; }
+  .deck-navbar-btn, .deck-navbar-close { min-width: 40px; min-height: 40px; }
+  .deck-navbar-hint-keys { display: none; }
+  .deck-navbar-hint-touch { display: inline; }
+}
+html[data-export-mode="capture"] .deck-navbar { display: none; }
+
 /* ── Deck on phones: portrait + short landscape ───────────────────────── */
 @media (max-width: 760px), (max-height: 500px) {
   .deck { --content-gutter: 20px; }
@@ -235,15 +312,11 @@ button[title="Back to home"] { top: 36px !important; }
   button[title="Back to home"] { display: none !important; }
   .deck-chrome { top: 34px; left: 12px; gap: 8px; opacity: 0.9; }
   .deck-home-link { padding: 6px 12px; font-size: 12px; }
-  [class*="_navBtn_"] {
-    top: auto !important;
-    bottom: calc(14px + env(safe-area-inset-bottom, 0px));
-    transform: none !important;
-    width: 44px; height: 44px;
-    opacity: 0.85;
-    background: color-mix(in srgb, var(--card) 82%, transparent);
-  }
-  [class*="_prev_"] { left: 14px !important; }
-  [class*="_next_"] { right: 14px !important; }
+  .deck-navbar { bottom: calc(12px + env(safe-area-inset-bottom, 0px)); }
+  .deck-navbar-btn { padding: 0 10px; }
   .slide > [class^="_bar_"], .slide-overflow-warn { display: none; }
+}
+
+@media (max-width: 380px) {
+  .deck-navbar-btn:not(.deck-navbar-next) .deck-navbar-label { display: none; }
 }
