@@ -24,12 +24,13 @@ The complete six-session agenda runs on 4, 11 and 18 December 2026 and 8, 15 and
 
 | Setting | Value | Effect |
 | --- | --- | --- |
-| `registration` | `1` | Registration is open. |
+| `registration` | `1` | Registration is open. This is the only value that accepts registrations. |
 | `registration` | `2` | Every register entry point on the website and in the deck says registration will open soon, and the API refuses submissions. The form, API and flow stay in place, so switching back to `1` restores registration. |
+| `registration` | `3` | Every register entry point on the website and in the deck says registration is closed, the form is not shown, and the API refuses submissions. |
 | `prerequisites` | `"ready"` | The Get ready section and the deck's setup slide show the readiness checklist and guided setup. |
 | `prerequisites` | `"soon"` | The Get ready section and the deck's setup slide say this information will be shared soon. |
 
-Unknown values fall back to `1` and `"ready"`. To switch, edit `api/site-state.json`, commit the change and push to `main` to deploy it.
+Unknown `registration` values are treated as `3` (closed), so a missing or mistyped value never opens registration. Unknown `prerequisites` values fall back to `"ready"`. To switch, edit `api/site-state.json`, commit the change and push to `main` to deploy it.
 
 ## Develop
 
@@ -39,7 +40,7 @@ npm run dev
 npm run build
 ```
 
-The website is hosted as one Azure Static Web App. The landing experience, deck and registration API all use the same origin.
+The website is hosted as one Azure Static Web App. The landing experience, deck and registration API all use the same origin. The Inter font is self-hosted from `@fontsource/inter`, so pages make no requests to Google Fonts; `npm run build` fails if any output references them.
 
 ## Content and participant setup
 
@@ -54,13 +55,13 @@ The website is hosted as one Azure Static Web App. The landing experience, deck 
 Azure Static Web Apps hosts the complete public experience. The custom themed form:
 
 1. collects company details, a twice-entered company email, selected date/session-time combinations, environment preference and consent;
-2. stores an opaque registration token in the attendee's browser so that browser can safely update the same registration;
-3. forwards the canonical `companyEmail`, `sessionSelections` and `environmentPreference` fields through the server-side `/api/register` function;
-4. upserts the registration into a restricted Microsoft List without collecting GitHub identity.
+2. stores an opaque registration token in the attendee's browser so that browser can update the same registration when the same company email is entered, and offers **Not you? Start a new registration** to forget the token on a shared device;
+3. forwards the canonical `companyEmail`, `sessionSelections` and `environmentPreference` fields, plus the server-side consent wording version, through the server-side `/api/register` function;
+4. creates or updates the registration in a restricted Microsoft List without collecting GitHub identity. An email address that is already registered is never overwritten from another browser, and the confirmation does not reveal whether it was already registered.
 
 A few days before the event, the attendee receives an invitation containing the link to join the event GitHub organization. GitHub Copilot AI credits are provided in the event environment.
 
-See [docs/registration-backend.md](docs/registration-backend.md) for the List, flow and application settings.
+See [docs/registration-backend.md](docs/registration-backend.md) for the List, flow contract, consent wording versions and application settings.
 
 ## Deploy
 
