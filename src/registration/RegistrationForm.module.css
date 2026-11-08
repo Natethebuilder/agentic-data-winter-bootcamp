@@ -22,6 +22,35 @@
 }
 .ticketNotice strong { display: block; font-size: 17px; }
 .ticketNotice p { margin-top: 5px; color: var(--muted-foreground); font-size: 13px; line-height: 1.5; }
+.returning {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+  margin-top: 16px;
+  padding: 11px 14px;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--ice) 30%, var(--border));
+  background: color-mix(in srgb, var(--ice) 7%, transparent);
+  color: var(--muted-foreground);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.returning button {
+  appearance: none;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--ice) 55%, transparent);
+  background: transparent;
+  color: var(--ice);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.returning button:hover { background: color-mix(in srgb, var(--ice) 12%, transparent); }
+.returning button:focus-visible { outline: 2px solid var(--ice); outline-offset: 2px; }
+.returning button:disabled { opacity: .48; cursor: not-allowed; }
 .fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 20px; }
 .fields label { display: flex; flex-direction: column; gap: 7px; }
 .companyField { grid-column: 1 / -1; }

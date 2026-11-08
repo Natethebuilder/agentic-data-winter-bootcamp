@@ -4,12 +4,23 @@ import s from './RegistrationForm.module.css'
 
 const TOKEN_KEY = 'agentic-data-winter-bootcamp:registration-token'
 
+// The API answers "received" for both a new registration and an email address that was already
+// registered, so the confirmation must not claim which one happened.
+const CONFIRMATIONS = {
+  received: 'Thanks, we\u2019ve received your registration. If this email address was already registered, your original registration is unchanged. To change it, contact the Microsoft contact who invited you. GitHub organization access details will be sent a few days before the event.',
+  updated: 'Thanks, your registration has been updated. GitHub organization access details will be sent a few days before the event.',
+}
+
 function readRegistrationToken() {
   try { return localStorage.getItem(TOKEN_KEY) || '' } catch { return '' }
 }
 
 function saveRegistrationToken(token) {
   try { localStorage.setItem(TOKEN_KEY, token) } catch { /* ignore */ }
+}
+
+function clearRegistrationToken() {
+  try { localStorage.removeItem(TOKEN_KEY) } catch { /* ignore */ }
 }
 
 export default function RegistrationForm() {
@@ -23,6 +34,7 @@ export default function RegistrationForm() {
   const [consent, setConsent] = useState(false)
   const [status, setStatus] = useState('idle')
   const [message, setMessage] = useState('')
+  const [outcome, setOutcome] = useState('')
 
   const normalizedEmail = email.trim().toLowerCase()
   const normalizedConfirmation = emailConfirmation.trim().toLowerCase()
@@ -35,16 +47,33 @@ export default function RegistrationForm() {
     current.includes(id) ? current.filter((item) => item !== id) : [...current, id]
   ))
 
+  // For shared devices: forget this browser's registration and start again with an empty form.
+  const startNewRegistration = () => {
+    clearRegistrationToken()
+    setRegistrationToken('')
+    setSlots([])
+    setActiveDate(SESSION_DATES[0].id)
+    setCompany('')
+    setEmail('')
+    setEmailConfirmation('')
+    setEnvironment('local')
+    setConsent(false)
+    setStatus('idle')
+    setMessage('')
+    setOutcome('')
+  }
+
   const submit = async (event) => {
     event.preventDefault()
     if (!valid || status === 'submitting') return
     setStatus('submitting')
     setMessage('')
+    setOutcome('')
     try {
       let result
       if (import.meta.env.DEV) {
         await new Promise((resolve) => setTimeout(resolve, 500))
-        result = { registrationToken: registrationToken || crypto.randomUUID() }
+        result = { outcome: registrationToken ? 'updated' : 'received', registrationToken: registrationToken || crypto.randomUUID() }
       } else {
         const response = await fetch('/api/register', {
           method: 'POST',
@@ -59,15 +88,18 @@ export default function RegistrationForm() {
             consent,
           }),
         })
-        result = await response.json()
+        result = await response.json().catch(() => ({}))
+        // Includes 409 registration-email-mismatch: the stored token is kept and the API's message shown.
         if (!response.ok) throw new Error(result.error || 'Registration could not be saved')
       }
       if (result.registrationToken) {
         saveRegistrationToken(result.registrationToken)
         setRegistrationToken(result.registrationToken)
       }
+      const confirmed = result.outcome === 'updated' ? 'updated' : 'received'
+      setOutcome(confirmed)
       setStatus('success')
-      setMessage('Thanks. Your registration is saved. GitHub organization access details will be sent a few days before the event.')
+      setMessage(CONFIRMATIONS[confirmed])
     } catch (error) {
       setStatus('error')
       setMessage(error.message)
@@ -83,6 +115,15 @@ export default function RegistrationForm() {
           <p>A few days before the event, your invitation will include the link to join the event GitHub organization. GitHub Copilot AI credits are provided in the environment.</p>
         </div>
       </div>
+
+      {registrationToken && (
+        <div className={s.returning}>
+          <p>This browser has sent a registration before.</p>
+          <button type="button" onClick={startNewRegistration} disabled={status === 'submitting'}>
+            Not you? Start a new registration
+          </button>
+        </div>
+      )}
 
       <div className={s.fields}>
         <label className={s.companyField}>
@@ -166,7 +207,7 @@ export default function RegistrationForm() {
 
       <div className={s.submitRow}>
         <button type="submit" disabled={!valid || status === 'submitting' || status === 'success'}>
-          {status === 'submitting' ? 'Saving…' : status === 'success' ? 'Registered ✓' : 'Submit registration'}
+          {status === 'submitting' ? 'Saving…' : status === 'success' ? (outcome === 'updated' ? 'Updated ✓' : 'Received ✓') : 'Submit registration'}
         </button>
         <small>No GitHub sign-in is required. The organization invitation is sent to your confirmed company email.</small>
       </div>

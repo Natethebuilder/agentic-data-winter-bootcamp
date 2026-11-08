@@ -5,10 +5,10 @@ import RegistrationForm from '../registration/RegistrationForm.jsx'
 import SpeakerAvatar from '../speakers/SpeakerAvatar.jsx'
 import { ChristmasLights, Logos, Mascot } from '../winter/Decor.jsx'
 import {
-  BOOTCAMP, GITHUB_ACCESS, PERSONAS, PILLARS, PREP, PREREQUISITES, REGISTER_STEPS, REGISTRATION_SOON, SESSION_DATES,
+  BOOTCAMP, GITHUB_ACCESS, PERSONAS, PILLARS, PREP, PREREQUISITES, REGISTER_STEPS, REGISTRATION_NOT_OPEN, SESSION_DATES,
   SESSIONS, TEAM, sessionOwner,
 } from '../content.js'
-import { PREREQUISITES_STATE, REGISTRATION_OPEN } from '../siteState.js'
+import { PREREQUISITES_STATE, REGISTRATION_OPEN, REGISTRATION_STATE } from '../siteState.js'
 import s from './Slides.module.css'
 
 const LIGHTS = 34
@@ -139,7 +139,7 @@ export function WinterTitleSlide({ index }) {
                 Register now <span aria-hidden="true">→</span>
               </RegistrationButton>
             ) : (
-              <span className={s.heroSoon} role="status"><i aria-hidden="true" />{REGISTRATION_SOON.cta}</span>
+              <span className={s.heroSoon} role="status"><i aria-hidden="true" />{REGISTRATION_NOT_OPEN.cta}</span>
             )}
             <Editable as="span" id="title.ctaNote" className={s.heroCtaNote}>Free · AI credits provided</Editable>
           </div>
@@ -254,7 +254,7 @@ export function TimetableSlide({ index }) {
         title="Six dates. The same six-session day."
         subtitle={REGISTRATION_OPEN
           ? 'Every date runs all six sessions. Pick as many as you like, on as many dates as you like.'
-          : REGISTRATION_SOON.timetableSubtitle}
+          : REGISTRATION_NOT_OPEN.timetableSubtitle}
       />
       <div className={s.scheduleDates}>
         {SESSION_DATES.map((date) => (
@@ -445,38 +445,43 @@ export function RegisterSlide({ index }) {
     window.history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`)
   }, [])
 
+  // The registration steps no longer apply once registration is closed.
+  const showSteps = REGISTRATION_STATE !== 3
+
   return (
     <Frame index={index} id="register" orbs={['orbIce', 'orbHolly']}>
       <Header
         id="register"
-        eyebrow="Ready to join?"
-        title={REGISTRATION_OPEN ? 'How to register' : REGISTRATION_SOON.title}
+        eyebrow={REGISTRATION_OPEN ? 'Ready to join?' : REGISTRATION_NOT_OPEN.deckEyebrow}
+        title={REGISTRATION_OPEN ? 'How to register' : REGISTRATION_NOT_OPEN.title}
         subtitle={REGISTRATION_OPEN
           ? 'Registration is open. Confirm your company email; no GitHub sign-in is required.'
-          : REGISTRATION_SOON.deckSubtitle}
+          : REGISTRATION_NOT_OPEN.deckSubtitle}
       />
-      <div className={s.registerSlideGrid}>
-        <div className={s.points}>
-          {REGISTER_STEPS.map((text, i) => (
-            <div key={i} className={s.point}>
-              <span className={s.stepNum}>{i + 1}</span>
-              <Editable as="span" id={`register.step${i + 1}`}>{text}</Editable>
-            </div>
-          ))}
-        </div>
+      <div className={showSteps ? s.registerSlideGrid : `${s.registerSlideGrid} ${s.registerSlideClosed}`}>
+        {showSteps && (
+          <div className={s.points}>
+            {REGISTER_STEPS.map((text, i) => (
+              <div key={i} className={s.point}>
+                <span className={s.stepNum}>{i + 1}</span>
+                <Editable as="span" id={`register.step${i + 1}`}>{text}</Editable>
+              </div>
+            ))}
+          </div>
+        )}
         <div className={REGISTRATION_OPEN ? s.registerPrompt : `${s.registerPrompt} ${s.registerPromptSoon}`}>
           <span className={s.registerPromptMark} aria-hidden={REGISTRATION_OPEN ? undefined : true}>
-            {REGISTRATION_OPEN ? 'GH' : REGISTRATION_SOON.mark}
+            {REGISTRATION_OPEN ? 'GH' : REGISTRATION_NOT_OPEN.mark}
           </span>
           <div>
-            <strong>{REGISTRATION_OPEN ? GITHUB_ACCESS.eyebrow : REGISTRATION_SOON.heading}</strong>
+            <strong>{REGISTRATION_OPEN ? GITHUB_ACCESS.eyebrow : REGISTRATION_NOT_OPEN.heading}</strong>
             <p>{REGISTRATION_OPEN
               ? 'The organization invitation and GitHub Copilot AI credits arrive a few days before the event.'
-              : REGISTRATION_SOON.body}</p>
+              : REGISTRATION_NOT_OPEN.body}</p>
           </div>
           {REGISTRATION_OPEN
             ? <RegistrationButton initiallyOpen={openOnLoad}>Open registration</RegistrationButton>
-            : <span className={s.registerSoonBadge} role="status"><i aria-hidden="true" />{REGISTRATION_SOON.badge}</span>}
+            : <span className={s.registerSoonBadge} role="status"><i aria-hidden="true" />{REGISTRATION_NOT_OPEN.badge}</span>}
         </div>
       </div>
     </Frame>

@@ -5,7 +5,7 @@ import SetupWizard from '../setup/SetupWizard.jsx'
 import RegistrationForm from '../registration/RegistrationForm.jsx'
 import SpeakerAvatar from '../speakers/SpeakerAvatar.jsx'
 import {
-  BOOTCAMP, FAQ, PERSONAS, PILLARS, PREP, PREREQUISITES, READINESS_PATHS, REGISTRATION, REGISTRATION_SOON, SESSIONS,
+  BOOTCAMP, FAQ, PERSONAS, PILLARS, PREP, PREREQUISITES, READINESS_PATHS, REGISTRATION, REGISTRATION_NOT_OPEN, SESSIONS,
   sessionOwner,
 } from '../content.js'
 import { PREREQUISITES_STATE, REGISTRATION_OPEN } from '../siteState.js'
@@ -17,7 +17,7 @@ const NAV = [
   ['lineup', 'Lineup'],
   ['schedule', 'Schedule'],
   ['prepare', 'Get ready'],
-  REGISTRATION_OPEN ? ['join', 'Register'] : ['join', REGISTRATION_SOON.nav, REGISTRATION_SOON.cta],
+  REGISTRATION_OPEN ? ['join', 'Register'] : ['join', REGISTRATION_NOT_OPEN.nav, REGISTRATION_NOT_OPEN.cta],
   ['faq', 'FAQ'],
 ]
 
@@ -303,7 +303,7 @@ export default function Site() {
               <button type="button" className={s.btnGhost} onClick={() => go('why')}>More info</button>
               <button type="button" className={s.btnGhost} onClick={() => go('lineup')}>See the lineup</button>
               <button type="button" className={s.btnPrimary} onClick={() => go('join')}>
-                {REGISTRATION_OPEN ? 'Register now' : REGISTRATION_SOON.cta}
+                {REGISTRATION_OPEN ? 'Register now' : REGISTRATION_NOT_OPEN.cta}
               </button>
             </div>
             <Countdown
@@ -363,7 +363,7 @@ export default function Site() {
           title="Six dates. The same complete programme."
           subtitle={REGISTRATION_OPEN
             ? 'All six sessions run on every date. When you register, pick as many sessions as you like, on as many dates as you like.'
-            : REGISTRATION_SOON.scheduleSubtitle}
+            : REGISTRATION_NOT_OPEN.scheduleSubtitle}
         >
           <ScheduleBoard />
         </Section>
@@ -411,19 +411,19 @@ export default function Site() {
         <Section
           id="join"
           idx="05"
-          eyebrow={REGISTRATION_OPEN ? REGISTRATION.eyebrow : REGISTRATION_SOON.eyebrow}
-          title={REGISTRATION_OPEN ? REGISTRATION.title : REGISTRATION_SOON.title}
-          subtitle={REGISTRATION_OPEN ? REGISTRATION.subtitle : REGISTRATION_SOON.subtitle}
+          eyebrow={REGISTRATION_OPEN ? REGISTRATION.eyebrow : REGISTRATION_NOT_OPEN.eyebrow}
+          title={REGISTRATION_OPEN ? REGISTRATION.title : REGISTRATION_NOT_OPEN.title}
+          subtitle={REGISTRATION_OPEN ? REGISTRATION.subtitle : REGISTRATION_NOT_OPEN.subtitle}
         >
           {REGISTRATION_OPEN ? <RegistrationForm /> : (
             <SoonPanel
-              mark={REGISTRATION_SOON.mark}
-              label={REGISTRATION_SOON.badge}
-              heading={REGISTRATION_SOON.heading}
-              body={REGISTRATION_SOON.body}
+              mark={REGISTRATION_NOT_OPEN.mark}
+              label={REGISTRATION_NOT_OPEN.badge}
+              heading={REGISTRATION_NOT_OPEN.heading}
+              body={REGISTRATION_NOT_OPEN.body}
             >
-              <button type="button" className={s.btnGhost} onClick={() => go('lineup')}>{REGISTRATION_SOON.lineup}</button>
-              <button type="button" className={s.btnGhost} onClick={() => go('schedule')}>{REGISTRATION_SOON.schedule}</button>
+              <button type="button" className={s.btnGhost} onClick={() => go('lineup')}>{REGISTRATION_NOT_OPEN.lineup}</button>
+              <button type="button" className={s.btnGhost} onClick={() => go('schedule')}>{REGISTRATION_NOT_OPEN.schedule}</button>
             </SoonPanel>
           )}
         </Section>

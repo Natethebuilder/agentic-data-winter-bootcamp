@@ -393,6 +393,7 @@
   align-items: stretch;
   gap: 18px;
 }
+.registerSlideClosed { grid-template-columns: minmax(0, 640px); }
 .registerPrompt {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);

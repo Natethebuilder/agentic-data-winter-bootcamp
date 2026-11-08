@@ -1,6 +1,6 @@
 // Shared public content for the landing site and the deck.
 // Session topics, owners, dates and times are confirmed.
-import { PREREQUISITES_STATE, REGISTRATION_OPEN } from './siteState.js'
+import { PREREQUISITES_STATE, REGISTRATION_STATE } from './siteState.js'
 
 export const BOOTCAMP = {
   name: 'Agentic Data Engineering Winter Bootcamp',
@@ -509,9 +509,11 @@ export const FAQ = [
   },
   {
     q: 'How do I register?',
-    a: REGISTRATION_OPEN
-      ? 'Provide and confirm your company email, choose the dates and session times you plan to attend, and select your development environment. No GitHub sign-in is required on this website.'
-      : 'Registration will open soon. When it does, you provide and confirm your company email, choose the dates and session times you plan to attend, and select your development environment. No GitHub sign-in is required on this website.',
+    a: {
+      1: 'Provide and confirm your company email, choose the dates and session times you plan to attend, and select your development environment. No GitHub sign-in is required on this website.',
+      2: 'Registration will open soon. When it does, you provide and confirm your company email, choose the dates and session times you plan to attend, and select your development environment. No GitHub sign-in is required on this website.',
+      3: 'Registration is closed. If you have already registered, your registration still stands. To change it, contact the Microsoft contact who invited you.',
+    }[REGISTRATION_STATE],
   },
 ]
 
@@ -539,6 +541,8 @@ export const REGISTRATION = {
       desc: 'Only 200 cloud environments are available. Selecting this option does not guarantee a place.',
     },
   ],
+  // Changing this wording? Set api/consent-version.json to the date the new wording goes live and
+  // add the new wording to "Consent wording versions" in docs/registration-backend.md.
   consent:
     'I consent to Microsoft using my company, company email, session choices and environment preference to administer the bootcamp, send the GitHub organization invitation, provision access, communicate with me and improve the programme. Registration data is deleted after the administration period.',
 }
@@ -558,6 +562,31 @@ export const REGISTRATION_SOON = {
   scheduleSubtitle: 'All six sessions run on every date. Once registration opens, pick as many sessions as you like, on as many dates as you like.',
   agendaNote: 'Once registration opens, select any combination of dates and session times.',
   timetableSubtitle: 'Every date runs all six sessions. Once registration opens, pick as many as you like, on as many dates as you like.',
+  deckEyebrow: 'Ready to join?',
   deckSubtitle: 'When registration opens, follow these three steps. No GitHub sign-in is required.',
   mark: '📅',
 }
+
+// Shown everywhere registration appears while registration is 3 (or an unknown value) in
+// api/site-state.json. The form is not shown.
+export const REGISTRATION_CLOSED = {
+  eyebrow: 'Registration',
+  title: 'Registration is closed.',
+  subtitle: 'This website no longer accepts new registrations or changes to existing ones.',
+  badge: 'Registration closed',
+  heading: 'Registration is closed',
+  body: 'If you have already registered, your registration still stands. To change it, contact the Microsoft contact who invited you.',
+  cta: 'Registration closed',
+  nav: 'Registration',
+  lineup: 'See the lineup',
+  schedule: 'View the schedule',
+  scheduleSubtitle: 'All six sessions run on every date.',
+  agendaNote: 'Registration is closed.',
+  timetableSubtitle: 'Every date runs all six sessions.',
+  deckEyebrow: 'Registration',
+  deckSubtitle: 'This website no longer accepts new registrations or changes to existing ones.',
+  mark: '🔒',
+}
+
+// Copy for whichever not-open state the site is in.
+export const REGISTRATION_NOT_OPEN = REGISTRATION_STATE === 2 ? REGISTRATION_SOON : REGISTRATION_CLOSED
