@@ -362,11 +362,9 @@ export default function Site() {
           idx="03"
           eyebrow="Schedule"
           title="Six dates. The same complete programme."
-          subtitle={REGISTRATION_VIA_MICROSOFT_FORM
-            ? REGISTRATION_MICROSOFT_FORM.scheduleSubtitle
-            : REGISTRATION_OPEN
-              ? 'All six sessions run on every date. When you register, pick as many sessions as you like, on as many dates as you like.'
-              : REGISTRATION_NOT_OPEN.scheduleSubtitle}
+          subtitle={REGISTRATION_OPEN
+            ? 'All six sessions run on every date. When you register, pick as many sessions as you like, on as many dates as you like.'
+            : REGISTRATION_NOT_OPEN.scheduleSubtitle}
         >
           <ScheduleBoard />
         </Section>

@@ -23,25 +23,29 @@ Responses stay with the form owner in Microsoft Forms and Excel.
 
 > Explore what agentic AI means for modern data work. Six practical paths across analytics, engineering, open source, SQL, NoSQL and AI applications.
 > Winter 2026/27 · Online · Free · AI credits provided
-> Every date runs the same six sessions, so pick a date for each session you want to attend. Registration takes about two minutes.
+> Every date runs the same six sessions, so pick as many sessions as you like, on as many dates as you like. Registration takes about two minutes.
 
 ## Questions
 
-Every question is required.
+Questions 1 to 3, 10 and 11 are required. The six session questions, 4 to 9, are optional, so a visitor can skip a session.
 
 | # | Question | Type | Subtitle and options |
 | --- | --- | --- | --- |
 | 1 | Company or organisation | Text | |
 | 2 | Company email address | Text, email address | We send your GitHub organization invitation to this address. |
 | 3 | Re-enter company email address | Text, email address | Enter the same address again to confirm it. |
-| 4 | Choose a date for each session | Likert | Every date runs the same six sessions. Choose a date for each session you want to attend, or None to skip it. Rows and columns are listed below. |
-| 5 | Development environment | Choice, one answer | Install the tools locally if your setup is already ready or you will attend Foundations to complete it. Only 200 cloud environments are available, so choosing cloud does not guarantee a place. Options: I will install the tools locally; I need a cloud development environment. |
-| 6 | Data consent | Checkbox | One option with the consent wording, version `2026-10-12` from `REGISTRATION.consent` in `src/content.js`: I consent to Microsoft using my company, company email, session choices and environment preference to administer the bootcamp, send the GitHub organization invitation, provision access, communicate with me and improve the programme. Registration data is deleted after the administration period. |
+| 4 to 9 | One question per session, titled as listed below | Choice, multiple answers | Question 4 only: Every date runs the same six sessions. Tick every date you want to attend for each session, and leave a session blank to skip it. Options: `4 Dec`, `11 Dec`, `18 Dec`, `8 Jan`, `15 Jan`, `22 Jan`. |
+| 10 | Development environment | Choice, one answer | Install the tools locally if your setup is already ready or you will attend Foundations to complete it. Only 200 cloud environments are available, so choosing cloud does not guarantee a place. Options: I will install the tools locally; I need a cloud development environment. |
+| 11 | Data consent | Checkbox | One option with the consent wording, version `2026-10-12` from `REGISTRATION.consent` in `src/content.js`: I consent to Microsoft using my company, company email, session choices and environment preference to administer the bootcamp, send the GitHub organization invitation, provision access, communicate with me and improve the programme. Registration data is deleted after the administration period. |
 
-Question 4 has one row per session and one column per date, plus None:
+Questions 4 to 9 are titled, in order:
 
-- Rows: `09:00 · 01 · Agentic Data Engineering Foundations`, `10:00 · 02 · Agentic AI for Analysts: Consuming Data`, `11:00 · 03 · Agentic AI for Data Engineers: Lakehouse Design`, `12:30 · 04 · Agentic AI for Open-Source Data Engineers: DBT and Airflow`, `13:30 · 05 · Agentic AI for SQL Developers & Admins`, `14:30 · 06 · Agentic AI for NoSQL: Build Your Own ChatGPT`
-- Columns: `4 Dec`, `11 Dec`, `18 Dec`, `8 Jan`, `15 Jan`, `22 Jan`, `None`
+4. `09:00 · 01 · Agentic Data Engineering Foundations`
+5. `10:00 · 02 · Agentic AI for Analysts: Consuming Data`
+6. `11:00 · 03 · Agentic AI for Data Engineers: Lakehouse Design`
+7. `12:30 · 04 · Agentic AI for Open-Source Data Engineers: DBT and Airflow`
+8. `13:30 · 05 · Agentic AI for SQL Developers & Admins`
+9. `14:30 · 06 · Agentic AI for NoSQL: Build Your Own ChatGPT`
 
 ## Settings
 
@@ -56,9 +60,8 @@ Question 4 has one row per session and one column per date, plus None:
 
 When processing responses, keep in mind:
 
-- Each session takes one date, or None. The site's own form lets a visitor choose the same session on several dates.
 - Microsoft Forms only checks that both email entries are email addresses, not that they match, so compare them.
-- Microsoft Forms does not require at least one session, so look for responses with None for every session.
+- Microsoft Forms does not require at least one session, so look for responses with no dates ticked.
 
 ## Rebuilding the form
 
