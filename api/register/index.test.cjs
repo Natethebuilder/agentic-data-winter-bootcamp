@@ -5,6 +5,10 @@ const register = require('./index.js')
 const siteState = require('../site-state.json')
 const { consentVersion } = require('../consent-version.json')
 
+// These tests exercise the on-site registration path (state 1) whatever api/site-state.json is
+// set to. State tests switch with withRegistrationState.
+siteState.registration = 1
+
 const registrationToken = '123e4567-e89b-42d3-a456-426614174000'
 
 function request(body) {
@@ -88,13 +92,15 @@ test('accepts registrations while registration is open (state 1)', async () => {
   })
 })
 
-test('refuses registrations in every state other than open, failing closed', async () => {
+test('refuses registrations in every state other than open on this site, failing closed', async () => {
   const cases = [
     [2, 'Registration will open soon.'],
     [3, 'Registration is closed.'],
+    [4, 'Registration has moved to a new form. Refresh this page to register.'],
     [0, 'Registration is not open.'],
-    [4, 'Registration is not open.'],
+    [5, 'Registration is not open.'],
     ['1', 'Registration is not open.'],
+    ['4', 'Registration is not open.'],
     [null, 'Registration is not open.'],
     [undefined, 'Registration is not open.'],
   ]
@@ -112,6 +118,31 @@ test('refuses registrations in every state other than open, failing closed', asy
       assert.deepEqual(context.res.body, { error }, `state ${String(state)}`)
       assert.equal(called, false, `state ${String(state)}`)
     })
+  }
+})
+
+test('refuses the on-site form once registration moves to the Microsoft Form (state 4)', async () => {
+  configuredEnvironment()
+  let called = false
+  global.fetch = async () => {
+    called = true
+    return flowReply(202)
+  }
+  const original = siteState.registrationFormUrl
+  siteState.registrationFormUrl = 'https://forms.office.com/Pages/ResponsePage.aspx?id=sample'
+  try {
+    await withRegistrationState(4, async () => {
+      const context = {}
+      await register(context, request(validBody()))
+      assert.equal(context.res.status, 403)
+      assert.equal(context.res.headers['Cache-Control'], 'no-store')
+      assert.deepEqual(context.res.body, {
+        error: 'Registration has moved to a new form. Refresh this page to register.',
+      })
+      assert.equal(called, false)
+    })
+  } finally {
+    siteState.registrationFormUrl = original
   }
 })
 
