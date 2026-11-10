@@ -41,7 +41,7 @@ In state `4`, this bootcamp's own Microsoft Form captures registrations instead 
 
 - The registration section lists what the form asks for and loads the form only when the visitor chooses **Start registration**, so nothing is requested from Microsoft Forms before then. An **Open the form in a new tab** link is always shown. The deck's registration dialog shows the form straight away.
 - `/api/register` refuses submissions with HTTP `403` and asks the visitor to refresh the page, so anyone with an old copy of the page reaches the new form. The site's form, API and flow stay in place, so switching back to `1` restores them.
-- To switch to state `4`, set `"registration": 4` and `"registrationFormUrl"` to the form's response link, then commit and push to `main`. The form must accept responses from anyone. [docs/registration-backend.md](docs/registration-backend.md#registration-through-microsoft-forms) lists the link rules.
+- To switch to state `4`, set `"registration": 4` and `"registrationFormUrl"` to the form's response link, then commit and push to `main`. The form must accept responses from anyone. [docs/registration-backend.md](docs/registration-backend.md#registration-through-microsoft-forms) lists the link rules, and [docs/registration-form/README.md](docs/registration-form/README.md) records this bootcamp's form.
 
 ## Develop
 

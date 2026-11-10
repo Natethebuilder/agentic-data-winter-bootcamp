@@ -201,7 +201,7 @@ Only `1` opens this site's form and only `4` opens the Microsoft Form, so a miss
 
 ### Registration through Microsoft Forms
 
-In state `4`, the bootcamp's own Microsoft Form captures registrations. Responses stay with the form owner in Microsoft Forms and Excel, not in the SharePoint List, and the Power Automate flow is not used. The site's form, `/api/register` and the flow stay in place, so switching back to `1` restores them.
+In state `4`, the bootcamp's own Microsoft Form captures registrations. Responses stay with the form owner in Microsoft Forms and Excel, not in the SharePoint List, and the Power Automate flow is not used. The site's form, `/api/register` and the flow stay in place, so switching back to `1` restores them. [registration-form/README.md](registration-form/README.md) records the form's questions, settings and design so it can be rebuilt, and lists what Microsoft Forms does not check, such as matching email entries.
 
 To switch to state `4`, set `"registration": 4` and set `"registrationFormUrl"` to the form's response link, then commit and push to `main`. The link must:
 

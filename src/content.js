@@ -513,7 +513,7 @@ export const FAQ = [
       1: 'Provide and confirm your company email, choose the dates and session times you plan to attend, and select your development environment. No GitHub sign-in is required on this website.',
       2: 'Registration will open soon. When it does, you provide and confirm your company email, choose the dates and session times you plan to attend, and select your development environment. No GitHub sign-in is required on this website.',
       3: 'Registration is closed. If you have already registered, your registration still stands. To change it, contact the Microsoft contact who invited you.',
-      4: 'Registration runs on the bootcamp’s Microsoft Form in the Registration section. Enter your company or organisation and your company email twice, choose the dates and session times you plan to attend, and select your development environment. No GitHub sign-in is required.',
+      4: 'Registration runs on the bootcamp’s Microsoft Form in the Registration section. Enter your company or organisation and your company email twice, choose a date for each session you plan to attend, and select your development environment. No GitHub sign-in is required.',
     }[REGISTRATION_STATE],
     // Only set while registration runs on the Microsoft Form (state 4).
     link: REGISTRATION_FORM_URL ? { href: REGISTRATION_FORM_URL, label: 'Open the registration form in a new tab' } : undefined,
@@ -553,18 +553,23 @@ export const REGISTRATION = {
 // Shown while registration is 4 in api/site-state.json: registration runs on this bootcamp's
 // Microsoft Form instead of the on-site form. The registration section loads the form only after
 // the visitor chooses Start registration; the deck's registration dialog shows it straight away.
+// The form asks for one date per session (or None), and Microsoft Forms can't check that the two
+// email entries match, so the copy says so. docs/registration-form/README.md records the form.
 export const REGISTRATION_MICROSOFT_FORM = {
-  subtitle: 'Registration runs on Microsoft Forms. Confirm your company email, choose the dates and session times you want to attend, and provide the details needed for event access.',
+  subtitle: 'Registration runs on Microsoft Forms. Confirm your company email, choose a date for each session you want to attend, and provide the details needed for event access.',
+  scheduleSubtitle: 'All six sessions run on every date. When you register, choose a date for each session you want to attend.',
+  agendaNote: 'When you register, choose a date for each session you want to attend.',
+  timetableSubtitle: 'Every date runs all six sessions. When you register, choose a date for each session you want to attend.',
   access: {
     title: 'GitHub organization access',
     body: 'A few days before the event, your invitation will include the link to join the event GitHub organization. GitHub Copilot AI credits are provided in the environment.',
   },
   heading: 'What you will need',
-  intro: 'The registration form takes a few minutes and asks for:',
+  intro: 'The registration form takes about two minutes and asks for:',
   needs: [
     { title: 'Company or organisation', desc: 'The company or organisation you work for.' },
-    { title: 'Company email, entered twice', desc: 'Your GitHub organization invitation is sent to this address, so the form asks for it twice.' },
-    { title: 'Dates and session times', desc: 'Every date runs the same six sessions, so pick as many as you like, on as many dates as you like.' },
+    { title: 'Company email, entered twice', desc: 'Your GitHub organization invitation is sent to this address, so enter the same address both times.' },
+    { title: 'A date for each session', desc: 'Every date runs the same six sessions. Choose a date for each session you want to attend, or None to skip it.' },
     { title: 'Development environment', desc: 'Install the tools locally, or request a cloud development environment. Only 200 are available, so a request does not guarantee a place.' },
     { title: 'Consent', desc: 'Agree to Microsoft using your registration details to administer the bootcamp and send your invitation.' },
   ],
