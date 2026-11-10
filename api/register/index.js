@@ -29,11 +29,14 @@ function eventScopedHash(value) {
   return createHash('sha256').update(`${EVENT_ID}:${value}`).digest('hex')
 }
 
-// api/site-state.json "registration": 1 = open, 2 = will open soon, 3 = closed.
-// Only 1 accepts registrations, so a missing or unexpected value keeps registration closed.
+// api/site-state.json "registration": 1 = open on this site, 2 = will open soon, 3 = closed,
+// 4 = open through the bootcamp's Microsoft Form. Only 1 accepts registrations here, so a missing
+// or unexpected value keeps registration closed.
 function notOpenMessage(state) {
   if (state === 2) return 'Registration will open soon.'
   if (state === 3) return 'Registration is closed.'
+  // Visitors with a cached page may still submit the on-site form after the switch to state 4.
+  if (state === 4) return 'Registration has moved to a new form. Refresh this page to register.'
   return 'Registration is not open.'
 }
 

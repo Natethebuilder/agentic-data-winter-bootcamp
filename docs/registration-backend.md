@@ -1,6 +1,6 @@
 # Shared registration backend
 
-The public registration page stores submissions in Microsoft 365 through one shared Power Automate flow and a private SharePoint List per event. GitHub OAuth and GitHub identity are not used for registration.
+The public registration page stores submissions in Microsoft 365 through one shared Power Automate flow and a private SharePoint List per event. GitHub OAuth and GitHub identity are not used for registration. In site state `4`, registration moves to the bootcamp's Microsoft Form instead, and this backend receives nothing; see [Registration through Microsoft Forms](#registration-through-microsoft-forms).
 
 ## Data registration List
 
@@ -123,7 +123,7 @@ The API treats a `202` without an `outcome`, from an older flow version, as `rec
 | `202 {"ok":true,"outcome":"updated","registrationToken":"…"}` | The flow answered `updated` |
 | `409 {"error":"…","code":"registration-email-mismatch"}` | The flow answered `409`. No token is returned; the browser keeps its stored token. |
 | `400 {"error":"…"}` | The submission failed validation; the flow is not called |
-| `403 {"error":"…"}` | Registration is not open; see [Site states](#site-states). The flow is not called. |
+| `403 {"error":"…"}` | Registration is not open on this site, including state `4`, where it has moved to the Microsoft Form; see [Site states](#site-states). The flow is not called. |
 | `502 {"error":"…"}` | The flow could not be reached or answered with any other status |
 | `503 {"error":"…"}` | The flow settings are missing or invalid |
 
@@ -194,9 +194,27 @@ Hide `Title`, `RegistrationId`, and `Sessions` from the default view where pract
 | `1` | The registration form is open | Validates and forwards submissions to the flow |
 | `2` | Every register entry point says registration will open soon | Returns HTTP `403` "Registration will open soon." before validation, without calling the flow, so nothing reaches SharePoint |
 | `3` | Every register entry point says registration is closed, and the form is not shown | Returns HTTP `403` "Registration is closed." before validation, without calling the flow |
+| `4` | Every register entry point leads to the bootcamp's Microsoft Form, set in `registrationFormUrl` | Returns HTTP `403` "Registration has moved to a new form. Refresh this page to register." before validation, without calling the flow |
 | Any other value | Treated as `3`, closed | Returns HTTP `403` "Registration is not open." before validation, without calling the flow |
 
-Only `1` opens registration, so a missing or mistyped value keeps it closed. The same file sets `prerequisites` to `"ready"` (the readiness checklist and guided setup) or `"soon"` (this information will be shared soon); unknown `prerequisites` values fall back to `"ready"`. To switch, edit `api/site-state.json`, commit the change and push to `main` to deploy it.
+Only `1` opens this site's form and only `4` opens the Microsoft Form, so a missing or mistyped value keeps registration closed. State `4` without a valid `registrationFormUrl` is also treated as closed, and `npm run build` fails in that case, so it can't deploy. The same file sets `prerequisites` to `"ready"` (the readiness checklist and guided setup) or `"soon"` (this information will be shared soon); unknown `prerequisites` values fall back to `"ready"`. To switch, edit `api/site-state.json`, commit the change and push to `main` to deploy it.
+
+### Registration through Microsoft Forms
+
+In state `4`, the bootcamp's own Microsoft Form captures registrations. Responses stay with the form owner in Microsoft Forms and Excel, not in the SharePoint List, and the Power Automate flow is not used. The site's form, `/api/register` and the flow stay in place, so switching back to `1` restores them.
+
+To switch to state `4`, set `"registration": 4` and set `"registrationFormUrl"` to the form's response link, then commit and push to `main`. The link must:
+
+- use `https`;
+- be on `forms.office.com`, `forms.cloud.microsoft` or `forms.microsoft.com`;
+- use the path `/Pages/ResponsePage.aspx`;
+- include a non-empty `id` query parameter, as in `https://forms.office.com/Pages/ResponsePage.aspx?id=<form id>`.
+
+Short `/r/` share links are not accepted: open one and copy the address it leads to, or take the `src` from the form's embed code. The site adds `embed=true` for the embedded form and removes it from the new-tab link. The form must accept responses from anyone.
+
+- **Website**: the registration section lists what the form asks for and loads the form in a frame only when the visitor chooses **Start registration**, so nothing is requested from Microsoft Forms before then. An **Open the form in a new tab** link is always shown. Microsoft Forms renders inside a frame only when the frame is at least 320 pixels wide, so on the narrowest phones it shows its own button for opening the form.
+- **Deck**: the registration dialog shows the form straight away, because opening the dialog is already the visitor's choice.
+- **API**: `/api/register` refuses submissions with HTTP `403` before validation, without calling the flow. A visitor with an old copy of the page who submits the site's form is asked to refresh and reaches the Microsoft Form.
 
 ## Azure Static Web Apps
 
@@ -205,7 +223,7 @@ Only `1` opens registration, so a missing or mistyped value keeps it closed. The
 | `REGISTRATION_FLOW_URL` | Shared Power Automate HTTP trigger URL |
 | `REGISTRATION_FLOW_SHARED_SECRET` | Server-side secret checked before routing |
 
-The website, deck, and `/api/register` function share one origin. The API validates attendee input, never exposes the shared secret or email key, and the disabled GitHub login route returns `404`. Static Web Apps sends a restrictive Content Security Policy and denies framing. Fonts are self-hosted from the site's origin, so the policy allows no third-party font or style hosts, and `npm run build` fails if any output references Google Fonts.
+The website, deck, and `/api/register` function share one origin. The API validates attendee input, never exposes the shared secret or email key, and the disabled GitHub login route returns `404`. Static Web Apps sends a restrictive Content Security Policy and denies framing of the site. The only frames the site may load come from the Microsoft Forms hosts (`forms.office.com`, `forms.cloud.microsoft` and `forms.microsoft.com`), for state `4`. Fonts are self-hosted from the site's origin, so the policy allows no third-party font or style hosts, and `npm run build` fails if any output references Google Fonts.
 
 The API waits up to 30 seconds for the flow, below the 45-second Static Web Apps API request limit. The flow normally answers in 1–3 seconds, but Power Automate can occasionally take several seconds just to accept a request. A shorter wait showed attendees an error even though the flow had saved their registration.
 
@@ -217,8 +235,8 @@ Registration does not immediately add an attendee to GitHub. A few days before t
 
 1. Confirm the GitHub OAuth route returns `404`.
 2. Confirm mismatched company-email entries are rejected.
-3. Run `npm test`. It covers input validation and missing backend settings; the outcome mapping (`created`, `unchanged` and a `202` without an outcome all return the same `received` response, `updated` returns `updated`, and a flow `409` returns the email-mismatch error without a token); `consentVersion` in the payload; and the site states (`1` accepted; `2`, `3` and any other value refused with HTTP `403` without calling the flow).
-4. Run `npm run build` and confirm it succeeds; it fails if any output references Google Fonts.
+3. Run `npm test`. It covers input validation and missing backend settings; the outcome mapping (`created`, `unchanged` and a `202` without an outcome all return the same `received` response, `updated` returns `updated`, and a flow `409` returns the email-mismatch error without a token); `consentVersion` in the payload; and the site states (`1` accepted; `2`, `3`, `4` and any other value refused with HTTP `403` without calling the flow, with `4` asking the visitor to refresh for the new form). It also covers the Microsoft Form link rules and how each state resolves.
+4. Run `npm run build` and confirm it succeeds; it fails if any output references Google Fonts, or if `registration` is `4` without a valid `registrationFormUrl`.
 5. Submit a registration only with explicit approval because it creates or updates SharePoint data.
 6. Confirm the correct event branch runs, one row is created with its `ConsentVersion`, and the operational statuses initialize correctly.
 7. Repeat from the same browser with the same email and confirm the form says the registration was updated, the same row is updated, its email remains unchanged, and material company/environment changes reset only the relevant operational status.

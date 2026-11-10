@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "test": "node --test api/register/index.test.cjs",
+    "test": "node --test api/register/index.test.cjs src/registrationState.test.js",
     "build": "vite build",
     "build:swa": "vite build --base=/",
     "preview": "vite preview"

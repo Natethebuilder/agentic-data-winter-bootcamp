@@ -1,0 +1,189 @@
+/* Registration state 4: the Microsoft Form card and embed, styled like the on-site form */
+.card {
+  min-width: 0;
+  max-width: 100%;
+  padding: 24px;
+  border: 1px solid color-mix(in srgb, var(--ice) 28%, var(--border));
+  border-radius: 22px;
+  background:
+    radial-gradient(560px 240px at 100% 0%, color-mix(in srgb, var(--ice) 10%, transparent), transparent 70%),
+    color-mix(in srgb, var(--card) 92%, transparent);
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.34);
+}
+
+.notice {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.notice > span {
+  width: 48px; height: 48px; display: grid; place-items: center;
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--gold) 55%, transparent);
+  background: color-mix(in srgb, var(--gold) 12%, var(--night));
+  color: var(--gold);
+  font: 900 14px/1 ui-monospace, monospace;
+}
+.notice strong { display: block; font-size: 17px; }
+.notice p { margin-top: 5px; color: var(--muted-foreground); font-size: 13px; line-height: 1.5; }
+
+.heading { margin-top: 22px; color: var(--frost); font-size: 20px; font-weight: 700; line-height: 1.25; }
+.intro { margin-top: 5px; color: var(--muted-foreground); font-size: 14px; line-height: 1.5; }
+
+/* Two items, then three: company and email first, like the on-site form */
+.needs {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+  margin: 14px 0 0;
+  padding: 0;
+}
+.needs li {
+  grid-column: span 2;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--night) 45%, transparent);
+  transition: border-color 0.2s, transform 0.2s;
+}
+.needs li:nth-child(-n + 2) { grid-column: span 3; }
+.needs li:hover { transform: translateY(-2px); border-color: color-mix(in srgb, var(--ice) 55%, transparent); }
+.needs li > span {
+  padding: 5px 7px;
+  border-radius: 7px;
+  border: 1px solid color-mix(in srgb, var(--ice) 40%, transparent);
+  background: color-mix(in srgb, var(--ice) 8%, transparent);
+  color: var(--ice);
+  font: 800 11px/1 ui-monospace, monospace;
+}
+.needs strong { display: block; color: var(--frost); font-size: 14px; line-height: 1.3; }
+.needs small { display: block; margin-top: 4px; color: var(--muted-foreground); font-size: 12.5px; line-height: 1.45; }
+.needs strong, .needs small { overflow-wrap: anywhere; }
+
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 14px; margin-top: 22px; }
+.start, .newTab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s, background 0.2s;
+}
+.start {
+  appearance: none;
+  border: 0;
+  padding: 13px 24px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--holly), #c81e36);
+  box-shadow: 0 8px 24px rgba(255, 77, 97, 0.35);
+  font-size: 16px;
+}
+.start:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(255, 77, 97, 0.5); }
+.newTab {
+  padding: 11px 18px;
+  color: var(--frost);
+  border: 1px solid color-mix(in srgb, var(--ice) 40%, transparent);
+  background: color-mix(in srgb, var(--card) 70%, transparent);
+  font-size: 14px;
+  font-weight: 700;
+}
+.newTab:hover { transform: translateY(-2px); border-color: var(--ice); }
+.newTab span { color: var(--ice); }
+.start:focus-visible, .newTab:focus-visible { outline: 2px solid var(--ice); outline-offset: 3px; }
+
+.note { margin-top: 14px; color: var(--muted-foreground); font-size: 12.5px; line-height: 1.5; }
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+}
+.toolbar .note { margin-top: 0; }
+.toolbar .newTab { padding: 8px 15px; font-size: 13.5px; }
+
+/* The form scrolls inside the frame */
+.frameWrap {
+  position: relative;
+  margin-top: 14px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--ice) 22%, var(--border));
+  background: color-mix(in srgb, var(--night) 70%, var(--card));
+}
+.frame {
+  display: block;
+  width: 100%;
+  height: clamp(480px, calc(100vh - 190px), 1100px);
+  height: clamp(480px, calc(100svh - 190px), 1100px);
+  border: 0;
+}
+.frame:focus-visible { outline: 2px solid var(--ice); outline-offset: -2px; }
+.loading {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  color: var(--muted-foreground);
+  background: color-mix(in srgb, var(--night) 70%, var(--card));
+  font-size: 14px;
+  pointer-events: none;
+}
+
+/* Deck registration dialog: fill the dialog below its header without scrolling the dialog itself */
+.dialog { min-width: 0; }
+.dialogFrame .frame { height: max(400px, calc(100vh - 256px)); }
+
+@media (max-width: 1000px) {
+  .needs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .needs li, .needs li:nth-child(-n + 2) { grid-column: auto; }
+  .needs li:last-child { grid-column: 1 / -1; }
+}
+@media (max-width: 700px) {
+  .card { padding: 18px; }
+  .needs { grid-template-columns: 1fr; }
+  .actions { flex-direction: column; align-items: stretch; }
+  .start, .newTab { width: 100%; }
+  .toolbar .newTab { width: auto; }
+  .frame {
+    height: clamp(460px, calc(100vh - 200px), 900px);
+    height: clamp(460px, calc(100svh - 200px), 900px);
+  }
+  /* Microsoft Forms only renders inline in a frame at least 320px wide, so on phones the frame spans the card */
+  .card.started { padding: 14px 0 0; overflow: hidden; }
+  .started .toolbar { padding-inline: 16px; }
+  .started .frameWrap { margin-top: 12px; border-width: 1px 0 0; border-radius: 0; }
+}
+@media (max-width: 380px) {
+  .card.started { margin-inline: -8px; }
+}
+/* Matches the deck's compact dialog on phones and short landscape screens. The frame spans the dialog
+   so it stays at least 320px wide, and the toolbar can wrap to two lines. */
+@media (max-width: 760px), (max-height: 500px) {
+  .dialogFrame { margin: 12px -14px -14px; border-width: 1px 0 0; border-radius: 0; }
+  .dialogFrame .frame {
+    height: max(320px, calc(100vh - 208px));
+    height: max(320px, calc(100dvh - 208px));
+  }
+}
+@media (hover: none) {
+  .needs li:hover, .start:hover, .newTab:hover { transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .needs li, .start, .newTab { transition: none; }
+}

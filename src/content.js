@@ -1,6 +1,6 @@
 // Shared public content for the landing site and the deck.
 // Session topics, owners, dates and times are confirmed.
-import { PREREQUISITES_STATE, REGISTRATION_STATE } from './siteState.js'
+import { PREREQUISITES_STATE, REGISTRATION_FORM_URL, REGISTRATION_STATE } from './siteState.js'
 
 export const BOOTCAMP = {
   name: 'Agentic Data Engineering Winter Bootcamp',
@@ -513,7 +513,10 @@ export const FAQ = [
       1: 'Provide and confirm your company email, choose the dates and session times you plan to attend, and select your development environment. No GitHub sign-in is required on this website.',
       2: 'Registration will open soon. When it does, you provide and confirm your company email, choose the dates and session times you plan to attend, and select your development environment. No GitHub sign-in is required on this website.',
       3: 'Registration is closed. If you have already registered, your registration still stands. To change it, contact the Microsoft contact who invited you.',
+      4: 'Registration runs on the bootcamp’s Microsoft Form in the Registration section. Enter your company or organisation and your company email twice, choose the dates and session times you plan to attend, and select your development environment. No GitHub sign-in is required.',
     }[REGISTRATION_STATE],
+    // Only set while registration runs on the Microsoft Form (state 4).
+    link: REGISTRATION_FORM_URL ? { href: REGISTRATION_FORM_URL, label: 'Open the registration form in a new tab' } : undefined,
   },
 ]
 
@@ -545,6 +548,33 @@ export const REGISTRATION = {
   // add the new wording to "Consent wording versions" in docs/registration-backend.md.
   consent:
     'I consent to Microsoft using my company, company email, session choices and environment preference to administer the bootcamp, send the GitHub organization invitation, provision access, communicate with me and improve the programme. Registration data is deleted after the administration period.',
+}
+
+// Shown while registration is 4 in api/site-state.json: registration runs on this bootcamp's
+// Microsoft Form instead of the on-site form. The registration section loads the form only after
+// the visitor chooses Start registration; the deck's registration dialog shows it straight away.
+export const REGISTRATION_MICROSOFT_FORM = {
+  subtitle: 'Registration runs on Microsoft Forms. Confirm your company email, choose the dates and session times you want to attend, and provide the details needed for event access.',
+  access: {
+    title: 'GitHub organization access',
+    body: 'A few days before the event, your invitation will include the link to join the event GitHub organization. GitHub Copilot AI credits are provided in the environment.',
+  },
+  heading: 'What you will need',
+  intro: 'The registration form takes a few minutes and asks for:',
+  needs: [
+    { title: 'Company or organisation', desc: 'The company or organisation you work for.' },
+    { title: 'Company email, entered twice', desc: 'Your GitHub organization invitation is sent to this address, so the form asks for it twice.' },
+    { title: 'Dates and session times', desc: 'Every date runs the same six sessions, so pick as many as you like, on as many dates as you like.' },
+    { title: 'Development environment', desc: 'Install the tools locally, or request a cloud development environment. Only 200 are available, so a request does not guarantee a place.' },
+    { title: 'Consent', desc: 'Agree to Microsoft using your registration details to administer the bootcamp and send your invitation.' },
+  ],
+  start: 'Start registration',
+  newTab: 'Open the form in a new tab',
+  provider: 'The form is provided by Microsoft Forms.',
+  privacy: 'Nothing loads from Microsoft Forms until you choose Start registration.',
+  frameTitle: 'Agentic Data Engineering Winter Bootcamp registration form, provided by Microsoft Forms',
+  loading: 'Loading the form…',
+  deckSubtitle: 'Registration is open on Microsoft Forms. Confirm your company email; no GitHub sign-in is required.',
 }
 
 // Shown everywhere registration appears while registration is 2 in api/site-state.json.
