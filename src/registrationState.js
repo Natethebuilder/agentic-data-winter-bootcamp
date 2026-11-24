@@ -1,4 +1,4 @@
-// Rules for api/site-state.json "registration" and "registrationFormUrl", shared by the site
+// Rules for site-state.json "registration" and "registrationFormUrl", shared by the site
 // (src/siteState.js), the build check (vite.config.js) and the tests. Plain ESM without imports,
 // so Node can load it directly.
 
@@ -45,10 +45,11 @@ export function registrationFormEmbedUrl(value) {
   return url.href
 }
 
-// 1 open on this site, 2 opening soon, 3 closed, 4 open through the Microsoft Form. State 4 needs
-// a usable form link; without one, and for any other value, registration stays closed.
+// 2 opening soon, 3 closed, 4 open through the Microsoft Form. State 4 needs a usable form link;
+// without one, and for any other value, including 1 (the retired on-site form), registration stays
+// closed.
 export function resolveRegistrationState(registration, registrationFormUrl) {
-  if (registration === 1 || registration === 2 || registration === 3) return registration
+  if (registration === 2 || registration === 3) return registration
   if (registration === 4 && isValidRegistrationFormUrl(registrationFormUrl)) return 4
   return 3
 }
@@ -59,5 +60,5 @@ export function registrationFormConfigError(siteState) {
   if (siteState?.registration !== 4) return null
   const problem = registrationFormUrlProblem(siteState.registrationFormUrl)
   if (!problem) return null
-  return `api/site-state.json sets "registration" to 4 (register through the Microsoft Form), but "registrationFormUrl" ${problem}. Use the form's share link, such as https://forms.office.com/Pages/ResponsePage.aspx?id=<form id>, or choose another registration state.`
+  return `site-state.json sets "registration" to 4 (register through the Microsoft Form), but "registrationFormUrl" ${problem}. Use the form's share link, such as https://forms.office.com/Pages/ResponsePage.aspx?id=<form id>, or choose another registration state.`
 }

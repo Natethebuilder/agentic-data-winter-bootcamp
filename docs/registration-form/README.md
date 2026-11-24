@@ -1,6 +1,6 @@
 # Registration form
 
-This is the Microsoft Form that captures registrations while `api/site-state.json` sets `"registration": 4`; see [Registration through Microsoft Forms](../registration-backend.md#registration-through-microsoft-forms). This page records the form so it can be rebuilt.
+This is the Microsoft Form that captures registrations while `site-state.json` sets `"registration": 4`; see [Registration through Microsoft Forms](../../README.md#registration-through-microsoft-forms). This page records the form so it can be rebuilt.
 
 **Response link** (`registrationFormUrl`): https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdEa3AwZX5OnfloSBL3H3tUQTJOQldOV0RTN05RTDdLSVBRNjUwTjNFNi4u
 
@@ -47,7 +47,7 @@ Questions 1 to 4, 11 and 12 are required. The six session questions, 5 to 10, ar
 
 Each session question, 5 to 10, is titled with the session name, and its subtitle starts with the session's time range in bold. Each offers the same options: `Friday 4 December`, `Friday 11 December`, `Friday 18 December`, `Friday 8 January`, `Friday 15 January`, `Friday 22 January`. Every date falls before European summer time begins in late March, so CET (UTC+1) applies to all of them.
 
-The consent option is the site's consent wording, version `2026-10-12` from `REGISTRATION.consent` in `src/content.js`, with "name" added because the form asks for the participant's name.
+The consent option is the retired on-site form's consent wording (version `2026-10-12`) with "name" added, because this form also asks for the participant's name.
 
 ## Settings
 
@@ -58,11 +58,10 @@ The consent option is the site's consent wording, version `2026-10-12` from `REG
 
 **Thank-you message**: Thanks, we’ve received your registration. GitHub organization access details will be sent to your company email a few days before the event. To change your registration, contact the Microsoft contact who invited you.
 
-## Differences from the site's own form
+## Checking responses
 
 When processing responses, keep in mind:
 
-- The form also asks for the participant's full name, which the site's own form does not.
 - Microsoft Forms only checks that both email entries are email addresses, not that they match, so compare them.
 - Microsoft Forms does not require at least one session, so look for responses with no dates ticked.
 
