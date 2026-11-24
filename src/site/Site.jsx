@@ -2,14 +2,13 @@ import { useEffect, useRef, useState } from 'react'
 import { DataMark, Logos, Mascot } from '../winter/Decor.jsx'
 import { AgentTerminal, Countdown, ScheduleBoard } from '../data/DataViz.jsx'
 import SetupWizard from '../setup/SetupWizard.jsx'
-import RegistrationForm from '../registration/RegistrationForm.jsx'
 import MicrosoftFormRegistration from '../registration/MicrosoftFormRegistration.jsx'
 import SpeakerAvatar from '../speakers/SpeakerAvatar.jsx'
 import {
-  BOOTCAMP, FAQ, PERSONAS, PILLARS, PREP, PREREQUISITES, READINESS_PATHS, REGISTRATION, REGISTRATION_MICROSOFT_FORM,
+  BOOTCAMP, FAQ, PERSONAS, PILLARS, PREP, PREREQUISITES, READINESS_PATHS, REGISTRATION_MICROSOFT_FORM,
   REGISTRATION_NOT_OPEN, SESSIONS, sessionOwner,
 } from '../content.js'
-import { PREREQUISITES_STATE, REGISTRATION_OPEN, REGISTRATION_VIA_MICROSOFT_FORM } from '../siteState.js'
+import { PREREQUISITES_STATE, REGISTRATION_OPEN } from '../siteState.js'
 import s from './Site.module.css'
 
 // The optional third entry is a status hint shown as a pulsing dot, a tooltip and the accessible name.
@@ -412,13 +411,11 @@ export default function Site() {
         <Section
           id="join"
           idx="05"
-          eyebrow={REGISTRATION_OPEN ? REGISTRATION.eyebrow : REGISTRATION_NOT_OPEN.eyebrow}
-          title={REGISTRATION_OPEN ? REGISTRATION.title : REGISTRATION_NOT_OPEN.title}
-          subtitle={REGISTRATION_VIA_MICROSOFT_FORM
-            ? REGISTRATION_MICROSOFT_FORM.subtitle
-            : REGISTRATION_OPEN ? REGISTRATION.subtitle : REGISTRATION_NOT_OPEN.subtitle}
+          eyebrow={REGISTRATION_OPEN ? REGISTRATION_MICROSOFT_FORM.eyebrow : REGISTRATION_NOT_OPEN.eyebrow}
+          title={REGISTRATION_OPEN ? REGISTRATION_MICROSOFT_FORM.title : REGISTRATION_NOT_OPEN.title}
+          subtitle={REGISTRATION_OPEN ? REGISTRATION_MICROSOFT_FORM.subtitle : REGISTRATION_NOT_OPEN.subtitle}
         >
-          {REGISTRATION_VIA_MICROSOFT_FORM ? <MicrosoftFormRegistration /> : REGISTRATION_OPEN ? <RegistrationForm /> : (
+          {REGISTRATION_OPEN ? <MicrosoftFormRegistration /> : (
             <SoonPanel
               mark={REGISTRATION_NOT_OPEN.mark}
               label={REGISTRATION_NOT_OPEN.badge}

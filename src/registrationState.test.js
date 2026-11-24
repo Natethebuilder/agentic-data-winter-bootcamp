@@ -79,15 +79,14 @@ test('adds embed=true for the iframe and keeps the plain link for the new tab', 
   )
 })
 
-test('opens state 4 only with a usable form link and treats anything unknown as closed', () => {
-  assert.equal(resolveRegistrationState(1, ''), 1)
+test('opens state 4 only with a usable form link and treats anything unknown, and the retired state 1, as closed', () => {
   assert.equal(resolveRegistrationState(2, ''), 2)
   assert.equal(resolveRegistrationState(3, FORM_URL), 3)
   assert.equal(resolveRegistrationState(4, FORM_URL), 4)
   for (const url of ['', undefined, 'https://example.com/Pages/ResponsePage.aspx?id=AbC123', 'https://forms.office.com/r/AbC123']) {
     assert.equal(resolveRegistrationState(4, url), 3, String(url))
   }
-  for (const state of [0, 5, '1', '4', null, undefined]) {
+  for (const state of [0, 1, 5, '1', '4', null, undefined]) {
     assert.equal(resolveRegistrationState(state, FORM_URL), 3, String(state))
   }
 })
@@ -98,7 +97,7 @@ test('fails the build only when state 4 has no usable form link', () => {
   assert.equal(registrationFormConfigError({ registration: 3 }), null)
   assert.equal(
     registrationFormConfigError({ registration: 4, registrationFormUrl: '' }),
-    'api/site-state.json sets "registration" to 4 (register through the Microsoft Form), but "registrationFormUrl" is empty. Use the form\'s share link, such as https://forms.office.com/Pages/ResponsePage.aspx?id=<form id>, or choose another registration state.',
+    'site-state.json sets "registration" to 4 (register through the Microsoft Form), but "registrationFormUrl" is empty. Use the form\'s share link, such as https://forms.office.com/Pages/ResponsePage.aspx?id=<form id>, or choose another registration state.',
   )
   assert.match(
     registrationFormConfigError({ registration: 4, registrationFormUrl: 'https://forms.office.com/r/AbC123' }),

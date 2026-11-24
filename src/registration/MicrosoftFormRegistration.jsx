@@ -3,7 +3,7 @@ import { REGISTRATION_MICROSOFT_FORM as FORM } from '../content.js'
 import { REGISTRATION_FORM_EMBED_URL, REGISTRATION_FORM_URL } from '../siteState.js'
 import s from './MicrosoftFormRegistration.module.css'
 
-// Registration state 4: the bootcamp's Microsoft Form replaces the on-site form.
+// Registration state 4: registration runs on the bootcamp's Microsoft Form.
 
 function NewTabLink() {
   return (

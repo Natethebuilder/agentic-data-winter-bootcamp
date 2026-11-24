@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { BottomBar, Editable, Slide, useSlides } from '@deckio/deck-engine'
-import RegistrationForm from '../registration/RegistrationForm.jsx'
 import { MicrosoftFormFrame } from '../registration/MicrosoftFormRegistration.jsx'
 import SpeakerAvatar from '../speakers/SpeakerAvatar.jsx'
 import { ChristmasLights, Logos, Mascot } from '../winter/Decor.jsx'
@@ -9,7 +8,7 @@ import {
   BOOTCAMP, GITHUB_ACCESS, PERSONAS, PILLARS, PREP, PREREQUISITES, REGISTER_STEPS, REGISTRATION_MICROSOFT_FORM,
   REGISTRATION_NOT_OPEN, SESSION_DATES, SESSIONS, TEAM, sessionOwner,
 } from '../content.js'
-import { PREREQUISITES_STATE, REGISTRATION_OPEN, REGISTRATION_STATE, REGISTRATION_VIA_MICROSOFT_FORM } from '../siteState.js'
+import { PREREQUISITES_STATE, REGISTRATION_OPEN, REGISTRATION_STATE } from '../siteState.js'
 import s from './Slides.module.css'
 
 const LIGHTS = 34
@@ -97,7 +96,7 @@ function RegistrationDialog({ onClose }) {
           </div>
           <button type="button" aria-label="Close registration" onClick={onClose}>×</button>
         </div>
-        {REGISTRATION_VIA_MICROSOFT_FORM ? <MicrosoftFormFrame /> : <RegistrationForm />}
+        <MicrosoftFormFrame />
       </div>
     </div>,
     document.body,
@@ -455,11 +454,7 @@ export function RegisterSlide({ index }) {
         id="register"
         eyebrow={REGISTRATION_OPEN ? 'Ready to join?' : REGISTRATION_NOT_OPEN.deckEyebrow}
         title={REGISTRATION_OPEN ? 'How to register' : REGISTRATION_NOT_OPEN.title}
-        subtitle={REGISTRATION_VIA_MICROSOFT_FORM
-          ? REGISTRATION_MICROSOFT_FORM.deckSubtitle
-          : REGISTRATION_OPEN
-            ? 'Registration is open. Confirm your company email; no GitHub sign-in is required.'
-            : REGISTRATION_NOT_OPEN.deckSubtitle}
+        subtitle={REGISTRATION_OPEN ? REGISTRATION_MICROSOFT_FORM.deckSubtitle : REGISTRATION_NOT_OPEN.deckSubtitle}
       />
       <div className={showSteps ? s.registerSlideGrid : `${s.registerSlideGrid} ${s.registerSlideClosed}`}>
         {showSteps && (

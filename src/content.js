@@ -211,8 +211,6 @@ export const SESSION_DATES = [
   { id: '2027-01-22', label: 'Friday, 22 January 2027', short: '22 Jan', day: '22', month: 'JAN' },
 ]
 
-export const registrationSlotId = (dateId, session) => `${dateId}|${session.time}|${session.id}`
-
 export const PERSONAS = [
   {
     id: 'de', icon: '🛠️', label: 'Data engineers',
@@ -434,7 +432,7 @@ export const PREP = [
   { id: 'data', icon: '🔒', title: 'Sample data only', desc: 'No customer, personal or production data. Synthetic or public data only.' },
 ]
 
-// Prerequisites, by PREREQUISITES_STATE in api/site-state.json.
+// Prerequisites, by PREREQUISITES_STATE in site-state.json.
 export const PREREQUISITES = {
   ready: {
     title: 'Pre-flight checks',
@@ -510,7 +508,6 @@ export const FAQ = [
   {
     q: 'How do I register?',
     a: {
-      1: 'Provide and confirm your company email, choose the dates and session times you plan to attend, and select your development environment. No GitHub sign-in is required on this website.',
       2: 'Registration will open soon. When it does, you provide and confirm your company email, choose the dates and session times you plan to attend, and select your development environment. No GitHub sign-in is required on this website.',
       3: 'Registration is closed. If you have already registered, your registration still stands. To change it, contact the Microsoft contact who invited you.',
       4: 'Registration runs on the bootcamp’s Microsoft Form in the Registration section. Enter your company or organisation, confirm your company email, choose the dates and session times you plan to attend, and select your development environment. No GitHub sign-in is required.',
@@ -526,36 +523,14 @@ export const REGISTER_STEPS = [
   'Receive the GitHub organization invitation link a few days before the event',
 ]
 
-export const REGISTRATION = {
+// Shown wherever registration appears while registration is 4 in site-state.json, when registration
+// runs on this bootcamp's Microsoft Form. The registration section loads the form only after the
+// visitor chooses Start registration; the deck's registration dialog shows it straight away. The form
+// lets visitors tick several dates for each session, as the open-state schedule copy says.
+// docs/registration-form/README.md records the form.
+export const REGISTRATION_MICROSOFT_FORM = {
   eyebrow: 'Registration',
   title: 'Join the Agentic Data Winter Bootcamp.',
-  subtitle: 'Confirm your company email, choose the dates and session times you want to attend, and provide the details needed for event access.',
-  slotLead: 'Pick as many sessions as you like, on as many dates as you like.',
-  slotHelp: 'Every date runs the same six sessions, so you can mix and match, for example Foundations on 4 December and Lakehouse Design on 11 December. Switch dates with the tabs below; sessions you have ticked on other dates stay selected.',
-  environments: [
-    {
-      id: 'local',
-      label: 'I will install the tools locally',
-      desc: 'Choose this if your setup is already ready or you will attend Foundations to complete it.',
-    },
-    {
-      id: 'cloud',
-      label: 'I need a cloud development environment',
-      desc: 'Only 200 cloud environments are available. Selecting this option does not guarantee a place.',
-    },
-  ],
-  // Changing this wording? Set api/consent-version.json to the date the new wording goes live and
-  // add the new wording to "Consent wording versions" in docs/registration-backend.md.
-  consent:
-    'I consent to Microsoft using my company, company email, session choices and environment preference to administer the bootcamp, send the GitHub organization invitation, provision access, communicate with me and improve the programme. Registration data is deleted after the administration period.',
-}
-
-// Shown while registration is 4 in api/site-state.json: registration runs on this bootcamp's
-// Microsoft Form instead of the on-site form. The registration section loads the form only after
-// the visitor chooses Start registration; the deck's registration dialog shows it straight away.
-// Like the on-site form, the Microsoft Form lets visitors tick several dates for each session, so the
-// schedule copy is shared with state 1. docs/registration-form/README.md records the form.
-export const REGISTRATION_MICROSOFT_FORM = {
   subtitle: 'Registration runs on Microsoft Forms. Confirm your company email, choose the dates and session times you want to attend, and provide the details needed for event access.',
   access: {
     title: 'GitHub organization access',
@@ -579,7 +554,7 @@ export const REGISTRATION_MICROSOFT_FORM = {
   deckSubtitle: 'Registration is open on Microsoft Forms. Confirm your company email; no GitHub sign-in is required.',
 }
 
-// Shown everywhere registration appears while registration is 2 in api/site-state.json.
+// Shown everywhere registration appears while registration is 2 in site-state.json.
 export const REGISTRATION_SOON = {
   eyebrow: 'Registration',
   title: 'Registration will open soon.',
@@ -600,7 +575,7 @@ export const REGISTRATION_SOON = {
 }
 
 // Shown everywhere registration appears while registration is 3 (or an unknown value) in
-// api/site-state.json. The form is not shown.
+// site-state.json. The form is not shown.
 export const REGISTRATION_CLOSED = {
   eyebrow: 'Registration',
   title: 'Registration is closed.',
