@@ -19,48 +19,51 @@ Responses stay with the form owner in Microsoft Forms and Excel, and are deleted
 
 **Title**: Agentic Data Engineering Winter Bootcamp registration
 
-**Description**:
+**Description**, one line per quoted line. The first two lines give the purpose, deletion period and Privacy Statement link:
 
-> Explore what agentic AI means for modern data work. Six practical paths across analytics, engineering, open source, SQL, NoSQL and AI applications.\
-> Winter 2026/27 · Online · Free · AI credits provided\
-> **All times are Central European Time (CET, UTC+1).**\
-> Every date runs the same six sessions, so pick as many sessions as you like, on as many dates as you like. Registration takes about two minutes.
+> Please fill in the form to register to the event. Microsoft will use the information provided to administer the bootcamp, send the GitHub organization invitation, provision access and communicate event information. Responses are deleted 30 days after the final session.
+>
+> Please read the Microsoft Privacy Statement: https://go.microsoft.com/fwlink/?LinkId=521839
+>
+> Explore what agentic AI means for modern data work. Six practical paths across analytics, engineering, open source, SQL, NoSQL and AI applications.
+>
+> Winter 2026/27 · Online · Free · AI credits provided
+>
+> **All times are Central European Time (CET, UTC+1).**
+>
+> Each date runs the same six sessions. Choose one date per session, or select ‘Not attending’ to skip it. Registration takes about two minutes.
+>
+> More details can be found here: https://aka.ms/AgenticDataEngineeringBootcamp
 
 ## Questions
 
-Questions 1 to 4, 11 and 12 are required. The six session questions, 5 to 10, are optional, so a visitor can skip a session. Text questions are single line.
+Every question is required, and Microsoft Forms marks each one with an asterisk and shows that asterisks mean required. Question 4 needs an answer for each session, and "Not attending" skips a session. Text questions are single line.
 
-| # | Question | Type | Subtitle and options |
+| # | Question | Type | Subtitle |
 | --- | --- | --- | --- |
-| 1 | Participant full name | Text | Enter your first and last name so we can distinguish your registration and associate it with your company email address. |
-| 2 | Company or organisation | Text | |
-| 3 | Company email address | Text, email address | We send your formal invitation to this address. |
-| 4 | Re-enter company email address | Text, email address | Enter the same address again to confirm it. |
-| 5 | Agentic Data Engineering Foundations | Choice, multiple answers | **09:00–10:00 CET**<br>Tick each date you want to attend, or leave it blank to skip this session. |
-| 6 | Agentic AI for Analysts: Consuming Data | Choice, multiple answers | **10:00–11:00 CET** |
-| 7 | Agentic AI for Data Engineers: Lakehouse Design | Choice, multiple answers | **11:00–12:00 CET** |
-| 8 | Agentic AI for Open-Source Data Engineers: DBT and Airflow | Choice, multiple answers | **12:30–13:30 CET** |
-| 9 | Agentic AI for SQL Developers & Admins | Choice, multiple answers | **13:30–14:30 CET** |
-| 10 | Agentic AI for NoSQL: Build Your Own ChatGPT | Choice, multiple answers | **14:30–15:30 CET** |
-| 11 | Development environment | Choice, one answer | Install the tools locally if your setup is already ready or you will attend Foundations to complete it. Only 200 cloud environments are available, so choosing cloud does not guarantee a place. Options: I will install the tools locally; I need a cloud development environment. |
-| 12 | Data consent | Choice, multiple answers | One option: I consent to Microsoft using my name, company, company email, session choices and environment preference to administer the bootcamp, send the GitHub organization invitation, provision access, communicate with me and improve the programme. Registration data is deleted after the administration period. |
+| 1 | Company or organisation | Text | |
+| 2 | Company email address | Text, email address | We send your formal invitation to this address. |
+| 3 | Re-enter company email address | Text, email address | Enter the same address again to confirm it. |
+| 4 | Which date would you like to attend each session? | Likert | Select one date per session. Choose “Not attending” to skip a session. All times are CET (UTC+1). |
+| 5 | Development environment | Choice, one answer | Install the tools locally if your setup is already ready or you will attend Foundations to complete it. Only 200 cloud environments are available, so choosing cloud does not guarantee a place. Privacy: https://go.microsoft.com/fwlink/?LinkId=521839 |
 
-Each session question, 5 to 10, is titled with the session name, and its subtitle starts with the session's time range in bold. Each offers the same options: `Friday 4 December`, `Friday 11 December`, `Friday 18 December`, `Friday 8 January`, `Friday 15 January`, `Friday 22 January`. Every date falls before European summer time begins in late March, so CET (UTC+1) applies to all of them.
+Question 4's statements are the six sessions: `Session 1: Agentic Data Engineering Foundations (09:00–10:00)`, `Session 2: Agentic AI for Analysts: Consuming Data (10:00–11:00)`, `Session 3: Agentic AI for Data Engineers: Lakehouse Design (11:00–12:00)`, `Session 4: Agentic AI for Open-Source Data Engineers: DBT and Airflow (12:30–13:30)`, `Session 5: Agentic AI for SQL Developers & Admins (13:30–14:30)` and `Session 6: Agentic AI for NoSQL: Build Your Own ChatGPT (14:30–15:30)`. Its options are the six dates and "Not attending": `Friday 4 December`, `Friday 11 December`, `Friday 18 December`, `Friday 8 January`, `Friday 15 January`, `Friday 22 January`, `Not attending`. Every date falls before European summer time begins in late March, so CET (UTC+1) applies to all of them.
 
-The consent option is the retired on-site form's consent wording (version `2026-10-12`) with "name" added, because this form also asks for the participant's name.
+Question 5's options are `I will install the tools locally` and `I need a cloud development environment`. Its subtitle ends with the Privacy Statement link because it is the last question, directly above **Submit**.
+
+The form asks for no name and no consent: it collects only what registration needs, and its description says how Microsoft uses the answers.
 
 ### Changes to make in the form
 
-The form is edited in Microsoft Forms, so these changes can't be made from this repository. Make them, then update the table above.
+The live form, last changed on 22 November 2026, needs two edits to match this page. They are made in Microsoft Forms, not in this repository:
 
-1. Add the Privacy Statement link to question 12, which sits directly above **Submit**: in its subtitle, add the text `Privacy` linked to https://go.microsoft.com/fwlink/?LinkId=521839.
-2. In the consent option, replace "Registration data is deleted after the administration period." with "Registration data is deleted 30 days after the final session.", so the form states the retention period below.
-
-Microsoft Forms already marks questions 1 to 4, 11 and 12 as required with an asterisk and explains the asterisk at the top of the form, so nothing else needs to change.
+1. In the description, replace `https://aka.ms/privacy` with `https://go.microsoft.com/fwlink/?LinkId=521839`, and end the first line with "Responses are deleted 30 days after the final session."
+2. End question 5's subtitle with "Privacy: https://go.microsoft.com/fwlink/?LinkId=521839".
 
 ## Settings
 
 - Who can fill out this form: Anyone can respond. Attendees come from many organisations.
+- Accept responses: on.
 - Hide "Submit another response": on.
 - Allow receipt of responses after submission: on.
 - Saving and editing responses: off.
@@ -72,7 +75,8 @@ Microsoft Forms already marks questions 1 to 4, 11 and 12 as required with an as
 When processing responses, keep in mind:
 
 - Microsoft Forms only checks that both email entries are email addresses, not that they match, so compare them.
-- Microsoft Forms does not require at least one session, so look for responses with no dates ticked.
+- Every session can be answered "Not attending", so look for responses that attend no session.
+- Microsoft Forms does not stop the same address registering twice, so look for repeated addresses and keep the latest response.
 
 ## Data retention and deletion
 

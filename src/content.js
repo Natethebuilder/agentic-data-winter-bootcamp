@@ -519,7 +519,7 @@ export const FAQ = [
     a: {
       2: 'Registration will open soon. When it does, you provide and confirm your company email, choose the dates and session times you plan to attend, and select your development environment. No GitHub sign-in is required on this website.',
       3: 'Registration is closed. If you have already registered, your registration still stands. To change it, contact the Microsoft contact who invited you.',
-      4: 'Registration runs on the bootcamp’s Microsoft Form in the Registration section. Enter your name and your company or organisation, confirm your company email, choose the dates and session times you plan to attend, and select your development environment. No GitHub sign-in is required.',
+      4: 'Registration runs on the bootcamp’s Microsoft Form in the Registration section. Enter your company or organisation, confirm your company email, choose the dates and session times you plan to attend, and select your development environment. No GitHub sign-in is required.',
     }[REGISTRATION_STATE],
     // Only set while registration runs on the Microsoft Form (state 4).
     link: REGISTRATION_FORM_URL ? { href: REGISTRATION_FORM_URL, label: 'Open the registration form in a new tab' } : undefined,
@@ -535,8 +535,7 @@ export const REGISTER_STEPS = [
 // Shown wherever registration appears while registration is 4 in site-state.json, when registration
 // runs on this bootcamp's Microsoft Form. The registration section loads the form only after the
 // visitor chooses Start registration; the deck's registration dialog shows it straight away. The form
-// lets visitors tick several dates for each session, as the open-state schedule copy says.
-// docs/registration-form/README.md records the form.
+// takes one date per session, or "Not attending". docs/registration-form/README.md records the form.
 export const REGISTRATION_MICROSOFT_FORM = {
   eyebrow: 'Registration',
   title: 'Join the Agentic Data Winter Bootcamp.',
@@ -548,11 +547,10 @@ export const REGISTRATION_MICROSOFT_FORM = {
   heading: 'What you will need',
   intro: 'The registration form takes about two minutes and asks for:',
   needs: [
-    { title: 'Name and organisation', desc: 'Your full name and the company or organisation you work for.' },
+    { title: 'Company or organisation', desc: 'The company or organisation you work for.' },
     { title: 'Company email', desc: 'Your GitHub organization invitation is sent to this address.' },
-    { title: 'Dates and session times', desc: 'Every date runs the same six sessions, so pick as many sessions as you like, on as many dates as you like.' },
+    { title: 'Dates and session times', desc: 'Every date runs the same six sessions. For each session, choose the date you want to attend, or “Not attending” to skip it.' },
     { title: 'Development environment', desc: 'Install the tools locally, or request a cloud development environment. Only 200 are available, so a request does not guarantee a place.' },
-    { title: 'Consent', desc: 'Agree to Microsoft using your registration details to administer the bootcamp and send your invitation.' },
   ],
   start: 'Start registration',
   newTab: 'Open the form in a new tab',
