@@ -3,6 +3,7 @@ import { DataMark, Logos, Mascot } from '../winter/Decor.jsx'
 import { AgentTerminal, Countdown, ScheduleBoard } from '../data/DataViz.jsx'
 import SetupWizard from '../setup/SetupWizard.jsx'
 import MicrosoftFormRegistration from '../registration/MicrosoftFormRegistration.jsx'
+import PrivacyLinks from '../privacy/PrivacyLinks.jsx'
 import SpeakerAvatar from '../speakers/SpeakerAvatar.jsx'
 import {
   BOOTCAMP, FAQ, PERSONAS, PILLARS, PREP, PREREQUISITES, READINESS_PATHS, REGISTRATION_MICROSOFT_FORM,
@@ -21,6 +22,7 @@ const NAV = [
   ['faq', 'FAQ'],
 ]
 
+// The checklist lasts for the visit only, so the site leaves nothing on the device once the tab closes.
 const PREP_KEY = 'winter-bootcamp:prep'
 const DECK_URL = `${import.meta.env.BASE_URL}#/deck`
 
@@ -190,11 +192,14 @@ function ProgrammeReveal() {
 
 function PrepChecklist() {
   const [done, setDone] = useState(() => {
-    try { return JSON.parse(localStorage.getItem(PREP_KEY)) || {} } catch { return {} }
+    try { return JSON.parse(sessionStorage.getItem(PREP_KEY)) || {} } catch { return {} }
   })
-  useEffect(() => {
-    try { localStorage.setItem(PREP_KEY, JSON.stringify(done)) } catch { /* ignore */ }
-  }, [done])
+  // Saved only when the visitor ticks or clears a check.
+  const toggle = (id, checked) => {
+    const next = { ...done, [id]: checked }
+    setDone(next)
+    try { sessionStorage.setItem(PREP_KEY, JSON.stringify(next)) } catch { /* storage unavailable */ }
+  }
 
   const count = PREP.filter((p) => done[p.id]).length
   const pct = Math.round((count / PREP.length) * 100)
@@ -218,7 +223,7 @@ function PrepChecklist() {
               <input
                 type="checkbox"
                 checked={Boolean(done[p.id])}
-                onChange={(e) => setDone((d) => ({ ...d, [p.id]: e.target.checked }))}
+                onChange={(e) => toggle(p.id, e.target.checked)}
               />
               <span className={s.checkBox} aria-hidden="true">{done[p.id] ? '✓' : ''}</span>
               <span className={s.checkIcon} aria-hidden="true">{p.icon}</span>
@@ -455,6 +460,7 @@ export default function Site() {
             Educational workshop series delivered by Microsoft. Not a consulting engagement. Use sample or
             synthetic data only. Workshop outputs are learning artifacts.
           </p>
+          <PrivacyLinks className={s.footerPrivacy} />
           <p className={s.footerSmall}>Built with DECKIO</p>
         </footer>
       </main>

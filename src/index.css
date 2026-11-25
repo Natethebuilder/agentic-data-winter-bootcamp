@@ -314,7 +314,7 @@ html[data-export-mode="capture"] .deck-navbar { display: none; }
   .deck-home-link { padding: 6px 12px; font-size: 12px; }
   .deck-navbar { bottom: calc(12px + env(safe-area-inset-bottom, 0px)); }
   .deck-navbar-btn { padding: 0 10px; }
-  .slide > [class^="_bar_"], .slide-overflow-warn { display: none; }
+  .slide-overflow-warn { display: none; }
 }
 
 @media (max-width: 380px) {

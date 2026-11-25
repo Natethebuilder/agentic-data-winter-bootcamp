@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { REGISTRATION_MICROSOFT_FORM as FORM } from '../content.js'
+import { PRIVACY_STATEMENT_URL, REGISTRATION_MICROSOFT_FORM as FORM } from '../content.js'
 import { REGISTRATION_FORM_EMBED_URL, REGISTRATION_FORM_URL } from '../siteState.js'
 import s from './MicrosoftFormRegistration.module.css'
 
@@ -10,6 +10,19 @@ function NewTabLink() {
     <a className={s.newTab} href={REGISTRATION_FORM_URL} target="_blank" rel="noopener noreferrer">
       {FORM.newTab} <span aria-hidden="true">↗</span>
     </a>
+  )
+}
+
+// Shown wherever the form starts or appears: why it collects personal data, and the Privacy Statement
+// link. The link opens in a new tab so a half-completed form is not lost.
+function PurposeNotice() {
+  return (
+    <p className={s.purpose}>
+      {FORM.notice}{' '}
+      <a href={PRIVACY_STATEMENT_URL} target="_blank" rel="noopener noreferrer">
+        Privacy <span aria-hidden="true">↗</span>
+      </a>
+    </p>
   )
 }
 
@@ -32,7 +45,7 @@ function FormFrame({ frameRef, className = '' }) {
 function Toolbar() {
   return (
     <div className={s.toolbar}>
-      <p className={s.note}>{FORM.provider}</p>
+      <PurposeNotice />
       <NewTabLink />
     </div>
   )
@@ -81,6 +94,7 @@ export default function MicrosoftFormRegistration() {
               </li>
             ))}
           </ol>
+          <PurposeNotice />
           <div className={s.actions}>
             <button type="button" className={s.start} onClick={() => setStarted(true)}>
               {FORM.start} <span aria-hidden="true">→</span>

@@ -16,6 +16,15 @@ export const BOOTCAMP = {
   footer: 'Agentic Data Engineering Winter Bootcamp',
 }
 
+// Microsoft's privacy links, with this exact text and order, in the footer of the website and of every
+// slide. The Privacy Statement link also appears wherever the site starts the registration form.
+export const PRIVACY_STATEMENT_URL = 'https://go.microsoft.com/fwlink/?LinkId=521839'
+export const PRIVACY_LINKS = [
+  { text: 'Your Privacy Choices', href: 'https://go.microsoft.com/fwlink/?linkid=2214802', optOutIcon: true },
+  { text: 'Consumer Health Privacy', href: 'https://go.microsoft.com/fwlink/?linkid=2259814' },
+  { text: 'Privacy', href: PRIVACY_STATEMENT_URL },
+]
+
 export const SESSIONS = [
   {
     id: 'foundations',
@@ -526,8 +535,7 @@ export const REGISTER_STEPS = [
 // Shown wherever registration appears while registration is 4 in site-state.json, when registration
 // runs on this bootcamp's Microsoft Form. The registration section loads the form only after the
 // visitor chooses Start registration; the deck's registration dialog shows it straight away. The form
-// lets visitors tick several dates for each session, as the open-state schedule copy says.
-// docs/registration-form/README.md records the form.
+// takes one date per session, or "Not attending". docs/registration-form/README.md records the form.
 export const REGISTRATION_MICROSOFT_FORM = {
   eyebrow: 'Registration',
   title: 'Join the Agentic Data Winter Bootcamp.',
@@ -541,12 +549,12 @@ export const REGISTRATION_MICROSOFT_FORM = {
   needs: [
     { title: 'Company or organisation', desc: 'The company or organisation you work for.' },
     { title: 'Company email', desc: 'Your GitHub organization invitation is sent to this address.' },
-    { title: 'Dates and session times', desc: 'Every date runs the same six sessions, so pick as many sessions as you like, on as many dates as you like.' },
+    { title: 'Dates and session times', desc: 'Every date runs the same six sessions. For each session, choose the date you want to attend, or “Not attending” to skip it.' },
     { title: 'Development environment', desc: 'Install the tools locally, or request a cloud development environment. Only 200 are available, so a request does not guarantee a place.' },
-    { title: 'Consent', desc: 'Agree to Microsoft using your registration details to administer the bootcamp and send your invitation.' },
   ],
   start: 'Start registration',
   newTab: 'Open the form in a new tab',
+  notice: 'Microsoft uses the details you enter in this Microsoft Form to register you for the bootcamp and send your invitation.',
   provider: 'The form is provided by Microsoft Forms.',
   privacy: 'Nothing loads from Microsoft Forms until you choose Start registration.',
   frameTitle: 'Agentic Data Engineering Winter Bootcamp registration form, provided by Microsoft Forms',

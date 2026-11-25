@@ -11,6 +11,18 @@ import '@fontsource/inter/900.css'
 import './index.css'
 import App from './App.jsx'
 
+// The site keeps its state in sessionStorage only. Remove what earlier versions left in localStorage.
+const LEGACY_LOCAL_STORAGE_KEYS = [
+  'winter-bootcamp:prep',
+  'deck-navbar-dismissed',
+  'winter-bootcamp:snow',
+  'winter-bootcamp:snow-v2',
+  'agentic-data-winter-bootcamp:registration-token',
+]
+for (const key of LEGACY_LOCAL_STORAGE_KEYS) {
+  try { localStorage.removeItem(key) } catch { /* storage unavailable */ }
+}
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <App />
