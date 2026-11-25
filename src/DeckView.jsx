@@ -36,10 +36,12 @@ function DeckLights() {
   )
 }
 
+// Hiding the slide navigation lasts for the visit only, so the site leaves nothing on the device once
+// the tab closes.
 const NAVBAR_DISMISSED_KEY = 'deck-navbar-dismissed'
 
 function readNavbarDismissed() {
-  try { return localStorage.getItem(NAVBAR_DISMISSED_KEY) === '1' } catch { return false }
+  try { return sessionStorage.getItem(NAVBAR_DISMISSED_KEY) === '1' } catch { return false }
 }
 
 function DeckNavBar() {
@@ -47,7 +49,7 @@ function DeckNavBar() {
   const [dismissed, setDismissed] = useState(readNavbarDismissed)
   if (dismissed) return null
   const dismiss = () => {
-    try { localStorage.setItem(NAVBAR_DISMISSED_KEY, '1') } catch { /* storage unavailable */ }
+    try { sessionStorage.setItem(NAVBAR_DISMISSED_KEY, '1') } catch { /* storage unavailable */ }
     setDismissed(true)
   }
   // Pointer clicks blur the button so the engine's arrow-key handler (which ignores focused buttons) keeps working.

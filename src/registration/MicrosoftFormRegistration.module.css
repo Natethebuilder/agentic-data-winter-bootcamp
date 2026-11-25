@@ -33,7 +33,7 @@
 .heading { margin-top: 22px; color: var(--frost); font-size: 20px; font-weight: 700; line-height: 1.25; }
 .intro { margin-top: 5px; color: var(--muted-foreground); font-size: 14px; line-height: 1.5; }
 
-/* Two items, then three: company and email first */
+/* Two items, then three: name and organisation, and email first */
 .needs {
   list-style: none;
   display: grid;
@@ -106,6 +106,11 @@
 
 .note { margin-top: 14px; color: var(--muted-foreground); font-size: 12.5px; line-height: 1.5; }
 
+.purpose { margin: 20px 0 0; color: var(--foreground); font-size: 13.5px; line-height: 1.5; }
+.purpose a { color: var(--ice); font-weight: 700; text-underline-offset: 3px; white-space: nowrap; }
+.purpose a:focus-visible { outline: 2px solid var(--ice); outline-offset: 2px; border-radius: 2px; }
+.purpose + .actions { margin-top: 14px; }
+
 .toolbar {
   display: flex;
   flex-wrap: wrap;
@@ -113,7 +118,7 @@
   justify-content: space-between;
   gap: 10px 16px;
 }
-.toolbar .note { margin-top: 0; }
+.toolbar .purpose { flex: 1 1 320px; margin: 0; }
 .toolbar .newTab { padding: 8px 15px; font-size: 13.5px; }
 
 /* The form scrolls inside the frame */

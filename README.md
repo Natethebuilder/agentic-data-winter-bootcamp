@@ -50,7 +50,25 @@ Short `/r/` share links are not accepted: open one and copy the address it leads
 
 A few days before the event, the attendee receives an invitation containing the link to join the event GitHub organization. GitHub Copilot AI credits are provided in the event environment.
 
-Registrations made through the retired on-site form are in the `Agentic Data Bootcamp Registrations` SharePoint List. Its setup and the shared Power Automate flow are described in `docs/registration-backend.md` in the git history.
+Registrations made through the retired on-site form are in the `Agentic Data Bootcamp Registrations` SharePoint List, which is deleted with the form's responses; see [Data retention and deletion](docs/registration-form/README.md#data-retention-and-deletion). Its setup and the shared Power Automate flow are described in `docs/registration-backend.md` in the git history.
+
+## Privacy
+
+**Footer links.** The website footer and every slide's footer show Microsoft's privacy links, with this text and in this order: **Your Privacy Choices**, with the California Consumer Privacy Act opt-out icon (`public/ccpa-opt-out.svg`), to https://go.microsoft.com/fwlink/?linkid=2214802; **Consumer Health Privacy** to https://go.microsoft.com/fwlink/?linkid=2259814; and **Privacy** to the Microsoft Privacy Statement, https://go.microsoft.com/fwlink/?LinkId=521839. On phones, where each slide scrolls, the links close the slide's content. The links are set in `PRIVACY_LINKS` in `src/content.js`.
+
+**Cookies and browser storage.** The site sets no cookies and has no analytics, advertising, tracking pixels, social widgets or other third-party trackers, so it shares no data with third parties. It keeps these values in sessionStorage, which the browser clears when the tab closes:
+
+| Key | Purpose | Set when |
+| --- | --- | --- |
+| `slide:agentic-data-winter-bootcamp` | The deck's current slide, so a reload returns to it. Set by DECKIO. | The deck opens and each time the slide changes |
+| `deck-navbar-dismissed` | Keeps the deck's slide navigation hidden | The visitor hides the slide navigation |
+| `winter-bootcamp:prep` | The readiness checklist's ticks | The visitor ticks or clears a check |
+
+Earlier versions kept values in localStorage. When the site loads, it deletes the keys they used: `winter-bootcamp:prep`, `deck-navbar-dismissed`, `winter-bootcamp:snow`, `winter-bootcamp:snow-v2` and `agentic-data-winter-bootcamp:registration-token`.
+
+**Registration notice.** Above the website's **Start registration** button, and above the embedded form on the website and in the deck's registration dialog, the site says that Microsoft uses the details entered in the form to register the visitor for the bootcamp and send the invitation, followed by a **Privacy** link to the Privacy Statement. The link opens in a new tab, so a half-completed form is not lost.
+
+**Retention.** Registration responses and every copy of them are deleted 30 days after the final session, on 21 February 2027. See [Data retention and deletion](docs/registration-form/README.md#data-retention-and-deletion).
 
 ## Develop
 

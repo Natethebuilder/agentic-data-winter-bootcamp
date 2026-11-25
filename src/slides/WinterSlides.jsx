@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { BottomBar, Editable, Slide, useSlides } from '@deckio/deck-engine'
+import { Editable, Slide, useSlides } from '@deckio/deck-engine'
 import { MicrosoftFormFrame } from '../registration/MicrosoftFormRegistration.jsx'
+import PrivacyLinks from '../privacy/PrivacyLinks.jsx'
 import SpeakerAvatar from '../speakers/SpeakerAvatar.jsx'
 import { ChristmasLights, Logos, Mascot } from '../winter/Decor.jsx'
 import {
@@ -29,13 +30,23 @@ function SlideLights({ index }) {
   )
 }
 
+// Every slide's footer: the bootcamp name and Microsoft's privacy links.
+function SlideFooter({ id }) {
+  return (
+    <footer className={s.footer}>
+      <Editable as="span" id={`${id}.footer`} className={s.footerName}>{BOOTCAMP.footer}</Editable>
+      <PrivacyLinks className={s.footerLinks} />
+    </footer>
+  )
+}
+
 function Frame({ index, id, children, orbs = ['orbIce', 'orbPine'] }) {
   return (
     <Slide index={index} className={s.slide}>
       <SlideLights index={index} />
       {orbs.map((o) => <div key={o} className={`orb ${s[o]}`} />)}
       <div className={`${s.body} content-frame content-gutter`}>{children}</div>
-      <BottomBar text={<Editable as="span" id={`${id}.footer`}>{BOOTCAMP.footer}</Editable>} />
+      <SlideFooter id={id} />
     </Slide>
   )
 }
@@ -147,7 +158,7 @@ export function WinterTitleSlide({ index }) {
         <Mascot className={s.heroMascot} />
       </div>
       <Logos className={s.heroLogos} size="md" />
-      <BottomBar text={<Editable as="span" id="title.footer">{BOOTCAMP.footer}</Editable>} />
+      <SlideFooter id="title" />
     </Slide>
   )
 }
@@ -549,7 +560,7 @@ export function ThankYouSlide({ index }) {
         </div>
         <Logos size="sm" />
       </div>
-      <BottomBar text={<Editable as="span" id="thankYou.footer">{BOOTCAMP.footer}</Editable>} />
+      <SlideFooter id="thankYou" />
     </Slide>
   )
 }

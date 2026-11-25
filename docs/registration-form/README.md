@@ -4,7 +4,7 @@ This is the Microsoft Form that captures registrations while `site-state.json` s
 
 **Response link** (`registrationFormUrl`): https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbRxdEa3AwZX5OnfloSBL3H3tUQTJOQldOV0RTN05RTDdLSVBRNjUwTjNFNi4u
 
-Responses stay with the form owner in Microsoft Forms and Excel.
+Responses stay with the form owner in Microsoft Forms and Excel, and are deleted 30 days after the final session; see [Data retention and deletion](#data-retention-and-deletion).
 
 ## Design
 
@@ -49,6 +49,15 @@ Each session question, 5 to 10, is titled with the session name, and its subtitl
 
 The consent option is the retired on-site form's consent wording (version `2026-10-12`) with "name" added, because this form also asks for the participant's name.
 
+### Changes to make in the form
+
+The form is edited in Microsoft Forms, so these changes can't be made from this repository. Make them, then update the table above.
+
+1. Add the Privacy Statement link to question 12, which sits directly above **Submit**: in its subtitle, add the text `Privacy` linked to https://go.microsoft.com/fwlink/?LinkId=521839.
+2. In the consent option, replace "Registration data is deleted after the administration period." with "Registration data is deleted 30 days after the final session.", so the form states the retention period below.
+
+Microsoft Forms already marks questions 1 to 4, 11 and 12 as required with an asterisk and explains the asterisk at the top of the form, so nothing else needs to change.
+
 ## Settings
 
 - Who can fill out this form: Anyone can respond. Attendees come from many organisations.
@@ -64,6 +73,17 @@ When processing responses, keep in mind:
 
 - Microsoft Forms only checks that both email entries are email addresses, not that they match, so compare them.
 - Microsoft Forms does not require at least one session, so look for responses with no dates ticked.
+
+## Data retention and deletion
+
+All registration data is deleted 30 days after the final session. The final session is on Friday 22 January 2027 (`SESSION_DATES` in `src/content.js`), so the deletion date is **Sunday 21 February 2027**. If the final session moves, the deletion date moves with it.
+
+On that date, the form owner turns off **Accept responses** in the form's settings and deletes:
+
+- every response in Microsoft Forms (**Responses** > **More options** > **Delete all responses**);
+- the Excel workbook linked to the form, which keeps its rows when the responses are deleted in Microsoft Forms;
+- every export or copy of the responses, such as downloaded workbooks and the lists used to send invitations or allocate cloud environments;
+- the `Agentic Data Bootcamp Registrations` SharePoint List, which holds the registrations made through the retired on-site form.
 
 ## Rebuilding the form
 

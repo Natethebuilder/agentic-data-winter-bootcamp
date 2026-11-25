@@ -16,6 +16,15 @@ export const BOOTCAMP = {
   footer: 'Agentic Data Engineering Winter Bootcamp',
 }
 
+// Microsoft's privacy links, with this exact text and order, in the footer of the website and of every
+// slide. The Privacy Statement link also appears wherever the site starts the registration form.
+export const PRIVACY_STATEMENT_URL = 'https://go.microsoft.com/fwlink/?LinkId=521839'
+export const PRIVACY_LINKS = [
+  { text: 'Your Privacy Choices', href: 'https://go.microsoft.com/fwlink/?linkid=2214802', optOutIcon: true },
+  { text: 'Consumer Health Privacy', href: 'https://go.microsoft.com/fwlink/?linkid=2259814' },
+  { text: 'Privacy', href: PRIVACY_STATEMENT_URL },
+]
+
 export const SESSIONS = [
   {
     id: 'foundations',
@@ -510,7 +519,7 @@ export const FAQ = [
     a: {
       2: 'Registration will open soon. When it does, you provide and confirm your company email, choose the dates and session times you plan to attend, and select your development environment. No GitHub sign-in is required on this website.',
       3: 'Registration is closed. If you have already registered, your registration still stands. To change it, contact the Microsoft contact who invited you.',
-      4: 'Registration runs on the bootcamp’s Microsoft Form in the Registration section. Enter your company or organisation, confirm your company email, choose the dates and session times you plan to attend, and select your development environment. No GitHub sign-in is required.',
+      4: 'Registration runs on the bootcamp’s Microsoft Form in the Registration section. Enter your name and your company or organisation, confirm your company email, choose the dates and session times you plan to attend, and select your development environment. No GitHub sign-in is required.',
     }[REGISTRATION_STATE],
     // Only set while registration runs on the Microsoft Form (state 4).
     link: REGISTRATION_FORM_URL ? { href: REGISTRATION_FORM_URL, label: 'Open the registration form in a new tab' } : undefined,
@@ -539,7 +548,7 @@ export const REGISTRATION_MICROSOFT_FORM = {
   heading: 'What you will need',
   intro: 'The registration form takes about two minutes and asks for:',
   needs: [
-    { title: 'Company or organisation', desc: 'The company or organisation you work for.' },
+    { title: 'Name and organisation', desc: 'Your full name and the company or organisation you work for.' },
     { title: 'Company email', desc: 'Your GitHub organization invitation is sent to this address.' },
     { title: 'Dates and session times', desc: 'Every date runs the same six sessions, so pick as many sessions as you like, on as many dates as you like.' },
     { title: 'Development environment', desc: 'Install the tools locally, or request a cloud development environment. Only 200 are available, so a request does not guarantee a place.' },
@@ -547,6 +556,7 @@ export const REGISTRATION_MICROSOFT_FORM = {
   ],
   start: 'Start registration',
   newTab: 'Open the form in a new tab',
+  notice: 'Microsoft uses the details you enter in this Microsoft Form to register you for the bootcamp and send your invitation.',
   provider: 'The form is provided by Microsoft Forms.',
   privacy: 'Nothing loads from Microsoft Forms until you choose Start registration.',
   frameTitle: 'Agentic Data Engineering Winter Bootcamp registration form, provided by Microsoft Forms',
